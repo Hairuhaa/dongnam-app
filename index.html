@@ -1,0 +1,2202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>동남시스템 관리대장</title>
+<meta name="theme-color" content="#1e3a8a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="동남 관리대장">
+<meta name="application-name" content="동남 관리대장">
+<meta name="description" content="동남시스템 복사기 렌탈 관리대장 — 검침 카운터와 청구액을 사무실 PC와 아이폰에서 함께 씁니다.">
+<meta name="format-detection" content="telephone=no">
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAECklEQVR42u3dLW8UURSH8Z1hCY6PUBQVTXBgwOAAgyKhAoXFkdAPAQkOi0JAgsJQHIYacCQVrWI/Ql1DSBAQssy+zu7Mnfvye9y2STv37DP/c8/MbFuNgnD17tsRuuP0cD/Ab6kIQZRwcnAiG0sqTrCkRzlokasiFS0osoiaGXmzzdtU0UKEdJYczCgnQmpm8GPbtkKLAltMzQwRsrkczCjWj5oZ/OhsWkE51GJDeLSWgxn8qJmBRW+3PQfatBWxITzmy8EMfmgraNlWxIbwkBxomRxiAw0NJAfajLLAf3LoKZjtLJID2graU6XSU04+Psyp7rv33kV+hKeH+2kkR2ZmpLKiWh2tK1U5cjUjidVVMW848jYj/v2HaQXkADlADpAD5AA5QA6QA+QAOQBygBzogHEey/h2PIntkK7v7UgOaCsgB0AOkAOmlQxGA8kBciAPOc7PJqqAWc7PJpID2grIgY7lsO3A7IZj5K5sf7griwL2HDoLGj1FckBbwZZy6CxoaOCuLNZrK8JDbEy/HF+67JzDXxoy2JDCtAJygBwgBwbFXdm+cFcW2grIAZAD5IBpZeSurORAYIb5T03fPzxQ+rZcu/8+czlokZAi4eSgRXKK1MxIkTD1rJnBj8HkYEa6tTXKYvGGdOfm8/5++snnp0rcN7u3X0oOhKZHOcRGGPqrs+QAOUAOkAPkADkQJ1E/Cdbf5Z1CZtFsk6MQM2Jeaa1e1puSHKWZEe2qazWydtMKyAFygBwgB8gBcoAcIEdgSn7yNLa112pk1Ym1ldL8iHO9tXpZ6SLGqgbTCsgBcoAcIAfIAXKAHMidsRLEw97Xx9Mvj2+8lhyYY8bcr5CDGbH4QY54zRjcD3JEbcawfpADmU4rly5eiP8gz3/+Igctlh1qior02FZK/rx8SPx561RjY+Uxr3Ola6irYXWiUufE8vd++Xd7rbBpJWo/hr2C3rscwmNjP1aa0Xdt+/1/K//o9jnyFPccnQ8sAc66QG1FfqRYz3Hg9fgoSkKn2XiQtQVQ5NWbTyHX9eTRnfzSd5yi/j++PHPS5zCtIF3IgcVyTI4OVAGzTI4Osn3AOMAOUVsBOYC5o+zk6CDMRfSQ9HSdo5Bu9WcnKjmgrWBjOQy0aPQUyYFVG9IscZ2jyz1HQp3lyq0XyRU6lWOe1kBbwUKqxuu0Lngkce8+oZxrdI+09xwp9pck9xxmWhPsCjn4wQwbUrRvK8JDbKxODn4UbsaKtsKPks2w58BoczmER7GxsVZy8KNMM9ZtK/wo0IzR7L2V5eT3qCktOtuQipByzNhkWuFHIWa0bitaTCFabJgcIqQQM7ZKDhGSsRadyUGR/LToWA6WZONEj3KwJHUnQshBlBSFmOY3EzFSWpe0GmUAAAAASUVORK5CYII=">
+<link rel="icon" type="image/png" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAECklEQVR42u3dLW8UURSH8Z1hCY6PUBQVTXBgwOAAgyKhAoXFkdAPAQkOi0JAgsJQHIYacCQVrWI/Ql1DSBAQssy+zu7Mnfvye9y2STv37DP/c8/MbFuNgnD17tsRuuP0cD/Ab6kIQZRwcnAiG0sqTrCkRzlokasiFS0osoiaGXmzzdtU0UKEdJYczCgnQmpm8GPbtkKLAltMzQwRsrkczCjWj5oZ/OhsWkE51GJDeLSWgxn8qJmBRW+3PQfatBWxITzmy8EMfmgraNlWxIbwkBxomRxiAw0NJAfajLLAf3LoKZjtLJID2graU6XSU04+Psyp7rv33kV+hKeH+2kkR2ZmpLKiWh2tK1U5cjUjidVVMW848jYj/v2HaQXkADlADpAD5AA5QA6QA+QAOQBygBzogHEey/h2PIntkK7v7UgOaCsgB0AOkAOmlQxGA8kBciAPOc7PJqqAWc7PJpID2grIgY7lsO3A7IZj5K5sf7griwL2HDoLGj1FckBbwZZy6CxoaOCuLNZrK8JDbEy/HF+67JzDXxoy2JDCtAJygBwgBwbFXdm+cFcW2grIAZAD5IBpZeSurORAYIb5T03fPzxQ+rZcu/8+czlokZAi4eSgRXKK1MxIkTD1rJnBj8HkYEa6tTXKYvGGdOfm8/5++snnp0rcN7u3X0oOhKZHOcRGGPqrs+QAOUAOkAPkADkQJ1E/Cdbf5Z1CZtFsk6MQM2Jeaa1e1puSHKWZEe2qazWydtMKyAFygBwgB8gBcoAcIEdgSn7yNLa112pk1Ym1ldL8iHO9tXpZ6SLGqgbTCsgBcoAcIAfIAXKAHMidsRLEw97Xx9Mvj2+8lhyYY8bcr5CDGbH4QY54zRjcD3JEbcawfpADmU4rly5eiP8gz3/+Igctlh1qior02FZK/rx8SPx561RjY+Uxr3Ola6irYXWiUufE8vd++Xd7rbBpJWo/hr2C3rscwmNjP1aa0Xdt+/1/K//o9jnyFPccnQ8sAc66QG1FfqRYz3Hg9fgoSkKn2XiQtQVQ5NWbTyHX9eTRnfzSd5yi/j++PHPS5zCtIF3IgcVyTI4OVAGzTI4Osn3AOMAOUVsBOYC5o+zk6CDMRfSQ9HSdo5Bu9WcnKjmgrWBjOQy0aPQUyYFVG9IscZ2jyz1HQp3lyq0XyRU6lWOe1kBbwUKqxuu0Lngkce8+oZxrdI+09xwp9pck9xxmWhPsCjn4wQwbUrRvK8JDbKxODn4UbsaKtsKPks2w58BoczmER7GxsVZy8KNMM9ZtK/wo0IzR7L2V5eT3qCktOtuQipByzNhkWuFHIWa0bitaTCFabJgcIqQQM7ZKDhGSsRadyUGR/LToWA6WZONEj3KwJHUnQshBlBSFmOY3EzFSWpe0GmUAAAAASUVORK5CYII=">
+<link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22%EB%8F%99%EB%82%A8%EC%8B%9C%EC%8A%A4%ED%85%9C%20%EA%B4%80%EB%A6%AC%EB%8C%80%EC%9E%A5%22%2C%22short_name%22%3A%22%EA%B4%80%EB%A6%AC%EB%8C%80%EC%9E%A5%22%2C%22description%22%3A%22%EB%8F%99%EB%82%A8%EC%8B%9C%EC%8A%A4%ED%85%9C%20%EB%B3%B5%EC%82%AC%EA%B8%B0%20%EB%A0%8C%ED%83%88%20%EA%B4%80%EB%A6%AC%EB%8C%80%EC%9E%A5%20%E2%80%94%20%EA%B2%80%EC%B9%A8%EA%B3%BC%20%EC%B2%AD%EA%B5%AC%EC%95%A1%EC%9D%84%20PC%C2%B7%ED%8F%B0%EC%97%90%EC%84%9C%20%ED%95%A8%EA%BB%98%22%2C%22lang%22%3A%22ko%22%2C%22start_url%22%3A%22.%22%2C%22scope%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22orientation%22%3A%22portrait-primary%22%2C%22background_color%22%3A%22%23f8fafc%22%2C%22theme_color%22%3A%22%231e3a8a%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAECklEQVR42u3dLW8UURSH8Z1hCY6PUBQVTXBgwOAAgyKhAoXFkdAPAQkOi0JAgsJQHIYacCQVrWI%2FQl1DSBAQssy%2Bzu7Mnfvye9y2STv37DP%2Fc8%2FMbFuNgnD17tsRuuP0cD%2FAb6kIQZRwcnAiG0sqTrCkRzlokasiFS0osoiaGXmzzdtU0UKEdJYczCgnQmpm8GPbtkKLAltMzQwRsrkczCjWj5oZ%2FOhsWkE51GJDeLSWgxn8qJmBRW%2B3PQfatBWxITzmy8EMfmgraNlWxIbwkBxomRxiAw0NJAfajLLAf3LoKZjtLJID2graU6XSU04%2BPsyp7rv33kV%2BhKeH%2B2kkR2ZmpLKiWh2tK1U5cjUjidVVMW848jYj%2Fv2HaQXkADlADpAD5AA5QA6QA%2BQAOQBygBzogHEey%2Fh2PIntkK7v7UgOaCsgB0AOkAOmlQxGA8kBciAPOc7PJqqAWc7PJpID2grIgY7lsO3A7IZj5K5sf7griwL2HDoLGj1FckBbwZZy6CxoaOCuLNZrK8JDbEy%2FHF%2B67JzDXxoy2JDCtAJygBwgBwbFXdm%2BcFcW2grIAZAD5IBpZeSurORAYIb5T03fPzxQ%2BrZcu%2F8%2BczlokZAi4eSgRXKK1MxIkTD1rJnBj8HkYEa6tTXKYvGGdOfm8%2F5%2B%2Bsnnp0rcN7u3X0oOhKZHOcRGGPqrs%2BQAOUAOkAPkADkQJ1E%2FCdbf5Z1CZtFsk6MQM2Jeaa1e1puSHKWZEe2qazWydtMKyAFygBwgB8gBcoAcIEdgSn7yNLa112pk1Ym1ldL8iHO9tXpZ6SLGqgbTCsgBcoAcIAfIAXKAHMidsRLEw97Xx9Mvj2%2B8lhyYY8bcr5CDGbH4QY54zRjcD3JEbcawfpADmU4rly5eiP8gz3%2F%2BIgctlh1qior02FZK%2Frx8SPx561RjY%2BUxr3Ola6irYXWiUufE8vd%2B%2BXd7rbBpJWo%2Fhr2C3rscwmNjP1aa0Xdt%2B%2F1%2FK%2F%2Fo9jnyFPccnQ8sAc66QG1FfqRYz3Hg9fgoSkKn2XiQtQVQ5NWbTyHX9eTRnfzSd5yi%2Fj%2B%2BPHPS5zCtIF3IgcVyTI4OVAGzTI4Osn3AOMAOUVsBOYC5o%2Bzk6CDMRfSQ9HSdo5Bu9WcnKjmgrWBjOQy0aPQUyYFVG9IscZ2jyz1HQp3lyq0XyRU6lWOe1kBbwUKqxuu0Lngkce8%2BoZxrdI%2B09xwp9pck9xxmWhPsCjn4wQwbUrRvK8JDbKxODn4UbsaKtsKPks2w58BoczmER7GxsVZy8KNMM9ZtK%2Fwo0IzR7L2V5eT3qCktOtuQipByzNhkWuFHIWa0bitaTCFabJgcIqQQM7ZKDhGSsRadyUGR%2FLToWA6WZONEj3KwJHUnQshBlBSFmOY3EzFSWpe0GmUAAAAASUVORK5CYII%3D%22%2C%22sizes%22%3A%22180x180%22%2C%22type%22%3A%22image%2Fpng%22%2C%22purpose%22%3A%22any%22%7D%2C%7B%22src%22%3A%22data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAAYFBMVEX%2F%2F%2F%2F%2F%2F%2F7%2F%2Fv%2F%2B%2Fv77%2FP34%2B%2Fz4%2Bv34%2Bvz4%2Bvv4%2Bfz09%2FrW3ujJ0%2BCAtKtjebUpS6knSKclSKklSKglSKckSKgjQJMfOooeOoseOooeOokZPJ4VM4cGFUMAAAEBAAAAAABEEkuJAAAgEUlEQVR42u2di5qjOA6F2YIUgVxoQsylSCbv%2F5ZryYaQVC6EQMo2R99M72z3TDdYP0eyLNveaUQ7Ntb5uUOVJEmW7WAvWpbJgasOT4b3bfNOU9jxbIcSAAwHoDx0hnISV3lj%2Bvv8E4fWapEkKQAYAkCaJKI%2Bj%2BTx%2Fnj%2FMQC%2FED0e6qqqlRVZmgKAYQDIgSv0MMrxPBMwpiZ4Uyj%2FoSb5kgCTwfvviUCihzKrDwbmAHeUv0jOJgGQLMObr1rKA9cZyOJOLPh7ANpHkAE%2FE1VViKzjfyjAW1HgPJKZKKpKDnB9uD36BiSBB9H56luDI99B4GwNC%2BJgRBLYeYRW%2BesMAEwPQFZfxoL3YBgHgCKT%2BiSESFnz5V87djy8Pw4D6gceWBpgOdAyymbFXwLQ%2FIE66W%2FC1A5f%2FfRqsGtGW08LLj3yGQDaP1bKfs21nivph7umA6DNC2U6KEf%2FcOWSTwFwVOJfySxfUMlC2Q6unxqDXTvYPPCVCgTHzwGg%2F6jj8Zz2nXO%2BHSb8U5cHdpdZoUoJtUsGQOANzf1k5JdWplcAwD43M1BjX5IfDseh2aA3KPvnos%2BOq7xK%2BWF%2FUivkoCtB2HFxaNBswBuY%2FOvML4Xy%2F3UsSHU%2BOHA64A3J%2FU6N%2FxP9FHDHn8WCXdrMCI6nIdmgN2gCeKhT6vKA400BQX6KTRSYLgQ0yR%2BZ4MUJqL8ZcYAX30RbHX6JglcBkOJfFFWVNeEfPjAiEJAgV1VRcCCYDoBT0%2BsB35tIQdM1chodgM7kX%2Fd6pBB%2F0wJB2nSNvFYSeA2ANvlPoQCmKUDaTgfGB%2BA8%2BUfsNz8XOJcExgHgvOCo9H%2BH0o%2B5ZaHdOQr0nA54%2Fas%2F6vuH%2BpsdB5QG9K8JeX2Kv%2BeOP7T4Gi0DupG46RrsUxj2ehZ%2F6sOhSgGAHQCkFTusV1HI61f5FWlGHX%2Fo8TY%2FDFDroBBZKvrVhr3ni39Nuzen%2F%2Fj8LRABvUJ4aPw3FIBjW%2FxN25U%2FAGABAGqFMG0Lw8f3AFD7e9H2YRUGqdpb%2FA4ATdsnT%2F6x8mdbSYBXCJuSwAMEngDQ6D%2Bqf7ZVBHhtSEeBtwDA%2BQ4WTwg4ExwEAK8pUud3pfQf4m9hIBDqlCGuCt1l4CEAUv93Sv8BgJWZAC3dFLyDbAAA0P9ZRAHvYfvXXhJE%2Bo%2Fv38q5oIwCUsH3D9vEHgOglv%2Bh%2F%2FZGAVocfB2AY5MDIAS4EQJUDnDsC0C7BFgJHPFmOwBpKqpHC4PewyXAlA6nwDhaTID8K324MOjd0P%2F%2FuP%2B7SQBg9keBjDeQH%2F%2B7EQW8e0sAdZEgA3QlD0x0SfjGZPAOAOf%2BPwyiA2lA2yf4FICjPvYJ%2FX%2FuVAOaPkF9pNTxEQC6%2B1MtAQIAlwCghcHDjf0iNwFg%2FSf1wPi5EQV2u7Rz2vRjAM6XfODzd0kEmutHAAAAeA5AneD8D8eCQMYniz4BoD3%2FL89QAnKvHJTl7XmCtwFoz%2F8TpP4AwLVqQJaJ%2BveiwBUANAXA%2BU%2FORoFUHyByC4C2BCCQALibBohfxYBrAGqRAgB3AUhFfR8Aff4rvO80A82psrcBONboAne2GqD7xOvjQwCQATqfB94FoFkFwBqAswDszisClwDoHtBDnWd8ADkGy1EA0jTL1USgEYELAKqM73yB%2F10lgG%2BcyaqbAFACgC5A90WA14U7aUAXgEOKLkDXJwLcG3K4BwAUYB4KcA1A0whYYyPQLABoqoHcHuh1pgB8%2Fx8AcBwAum%2BwMxHwWv0v8PnPRwSKNgpoAI6cACTIAOeQByacBhy7ABzPAMCcVwANwHUIQAY4pzzwOgQgB5h5DnA6AYB5AXA6XecACAHzCgFNDtAcCIgq0KwAqJvjA72jvgo626EXfC4ApNLZ%2BrppBkBNATAHnNdMUE8EvDYBMLAKtN%2FtEhfMrFFNWwB0COgAsAMAkwCw3xupAE0OIENAZSQAqRy5%2Fc%2FPD%2F9go%2BmnNzIEVG0IOG8IN%2Bvz39O38%2BOC%2FaNO271xAJxMByAl8XTA%2F3vTosAlAJ0zoYwCIEn2NHZb%2B029SLLbmwPA%2BdQoT10LYForCLewy3H7t92s1%2BsN%2FWCj8YNvtg0Ae3MAkO5WFwl4J7UbxLDtQHKsGIBkE1tvq01imALoTUK0R%2BTktVOAzJwigPY%2BBYC1Z7%2BtVRDYmcNAe2jQBQDGff4%2FUv9jBwCIZRSQb2NSKngJgIFnQjX6H%2Fjet2%2B194PA84M2ChgVAhIOAcYdCsNSSfq%2FZf0P4jj6DiM7LfyO4jg4R4HElChwPjCGATBJAVj%2Fk5%2B60X%2F%2FOwh8P7DT%2BMH9JgrU5kSBVgGOJoYArf8rOXBR4EAOEETyh9WWo0BqXAgw61zIRv%2FTRv9D%2B%2F3vRxQFAhUFftLknwFR4HxypJEAkP6vOP8PfAcUwFdRYHWOAiYBYFoOkJICsP77kQOffyMCoa%2BjQGJEFOjkAOpygNQQADhHSmT%2B5zui%2F20U8CkT3G6TbL%2F%2Fl5gAQKquEPCq0qA9of9k%2Fv%2Bz266V%2Fvu%2B5wwB%2FCoUBSi%2FTUyQAN4lWlaeuhrKEP3XALD%2BR%2B64nxGII64HGAKAFoEkMRUAL45dBGBlIgBpasyxUB0AAtcUIArMUgA6L0oS4GWZQd3ATQ7wHfjBt2MAhL58J5MAoO7gLDMTgMBRAAIDATBpDbAFgEKAewAYFgKUAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwIcB8M0xAPAHAPgAACEAIQAAAAAAAADmmQMEYbgw4ETghXwKHwB8HAA%2FjlerlQlXgsiniADARwHwGYDVer0ywOgp4uapAMBnATDEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADjA7D6awr4AQDAnwAQr0yxGAB8FgC2IFxGJph8ihAtYX8AAJpCxwDAmEsjAcDnTV0bBwWYrwJIANI0tRYAbA1706TzCYAUAMwTgFQDgBAw1xBAABh5dSwA%2BIT31dWxQohMgmBGLggAPpf9kdOl872qAADzBaCovKoCAPMFoAIAAAAhYOYhAAAAAAAAAADArAFI7AQApeB3AEgAAABQAFAMQAiYXwjIhAKACDBkOQAAfHIhQPpfAlCWVWlMHggAPpoBSteXnvzRnGLgi02hyziODWgKlU%2BxDCwEQDq%2BLCwFAG3howJQWAoANoa8WQRwAQBsDRsHgCQBAHMCIEmgAFCADgDCskIQAHibAaEBoDpAyQQYIAIA4FOfP%2FmfXS8BKCUJhkQBAPBJ%2Fa8kAi0AJQCYFwDlFQA5AJgXAPkVAAgBMw8BVAoAAHMBIAEAAAAhACHgEgBhwC5RADC98Z5QcQGAMtUatssAgMsAyG88VUUgbQqAQonA3j4AjOgGsOjaOAJgrz5%2FBYFXKGMAUvlodgDgNQ0hsREXR8bWXByZ7ZIk1QCwXQCwT1KLAPD8wBzzrQEgTfYXAFStFWpJMLUGADSFDsgAeSGwOHu9A0Cl1wT%2FUAQAwPQZoJ4B%2FAKg5OZQAQBcB0CIxtsKANGaDAh2KYCPrWGDFIAc3RqfEqZMqB1CFuUAFvnflBxA7QgSZ6%2FjsOh5bg1rjU8K7RgAcB2AK4cDgLkDgBAw8xCQXRgAcB%2BAS49DAeauAAAAAAAAAAAAAAAAAAC2AYC1AAAAABACEAIAAAAAAABgfgAEsTkWAICPAqD3BeCcwJkDgJ1BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAoA6SNLCIB%2FFvYDvAhA8nAU3AVgv0uemhyfvgBEBnUERX0B2P3sn47BPzlSrirAv3EAMO6MoNfOCXzmfzcVgN5Nvv4zq3%2BcbgqV7%2FfU9h%2BkwPuU%2BCv1fw5A3QLw5RQAXy0AdS8AZKa43zsYAuRb7fmHm5Ym6Tzawu8NAP%2BCe0kgf%2Fv88SfbHrZZyZgafAfPwm5gkj192JD%2BldWmzwAkLAM8bPYDsNepf7pndd%2F0mlTLAV2Ezwd9YY49f9iQ%2Fp1epYtNQkOlJwtTBwLvM6pP6i4TAJ3ghw%2BzaV8631XjU8UfvH0YyF%2FWc0U1bnYrAH%2F%2B%2F1j8Uxa3ddwrXkZRJEcrcsnU%2B%2FRKF3Sc2Df54C7bWw0Apf71T7JZr5qS6dM9X%2B4qQJ%2FX55tQ1tuE5gv7qaPAxCEgJR0jBqT408uH%2FcpqzgLQq3gZLYgCGQh45KT3UztDwJ6uJ%2FknZUzm9ZTaM90LANBzo%2BmaBo0nBJNGgQ8AsN%2Buz8sli57x0lkCelhwXupaby0GYEfBi%2Bs67Pul4x%2F32DIRcjqwoVyQUinbQgB%2F%2Fqxf8vvv7OYHAH0B4EJosG6jwD6zSwH2CgCp%2F3HkBYGc3YcRvN8%2FUlDJQA5bHLdRYG8XAEr%2Fk%2B0mbj5%2BuPUla2RgNW0U8Cb7%2FNOz%2FgcQ%2F4GBIKAosNZR4N8U9YCpFIABIP0PvCiG%2BA8OBPHC%2B26igF1JYPovPev%2FYgFvDrDFoo0CyW6iW32vLowYyWQCQCu%2F61XAAEQAYCAAEUeBmArDu5%2F9v3%2Fju8qbKACw%2Fke%2B1H%2Bo%2F7vJ4LfnTxcFvHQCowmg7uyC%2Fr8pAjQbaJoJn%2FWTD7HpAYhCADAGAPVEAIwfVfQGn2y7Xvgepn%2Fvh4CIQwA3E%2F67vvPp%2FRxAjG5Z9iMymQJu1jKDiVD%2FebseEMnJAJWEExrYbGRvTQCAEEVdUP9HTBkgBOBtAogBngjIcR3dV141tuV5Xtf1di3nrxHqvyNFAZoLbhI5riIf2V3jA1AJAiChDJAAQAY4Rh4oAfjfRtgBQC4EAwAFGFsBGAAxNgDF2FYWUgEErQIEAGA0AIIg3mxFLQNsOa67xgYgzytyP08B5JMjBRxnIkBrgzQRkCJQ5eMCUI5rOev%2FZiXdjynAiBOBOKa54JYAEPmYDpsGAEoAAmSAo%2BaB3nkiYAEAHgCYAIDIGgB0HwA8N2IeyH0B1gCwCgMAMPZEILQIgDjwAcDICuAHK4QAhAAAAAAAAAAAAAAAAAAAAAAAAAAAcA8Akw6BHv1QaQDQ52UdNgDw3PiIFM%2Btk2L1%2Bww%2BAnEuAPA%2BiMBz12ir7JBFUgDgiIUA4HH6F1H7o0l3wYx8s0woB2bIaQmzAIC3w6szErfbjXvGnZJ0ANyADbPzAKDdCClqkSTCLZMvVIntCgA8mv4vAjogkV%2FTTaN2WZoLvPxxuA8A63%2FA%2Bu%2Bu%2F%2Bsy2a7DIaemzEQBfKX%2FdZVXLpraM6GiQAQFuPZ%2BwN%2B%2FekdX7RwFXmyadhyA9jQkrf9yqHL3TPC22VJfm%2FJaFHA%2FBLT5f12O%2B4ZGWSEoCvDR%2Ba8Oj9MAqKORV63%2Bl5WT7q9KJQKqHvD6CLkKgN73Emj9z51VgEoOTyHfsFJRwH8hDXBeATw%2FWLmu%2F8qEjgKB70MB9ASAUkCt%2F7mz%2Bq80oMrbKLCKXthA7zIA6vgDqf%2BV0%2FrfjhBVAzgKxIG%2F6D9ILgPA78Zb30U5A9OH6NAgAYD23ba5AqCqHHd%2FVRUMgAAAvxSgnocClFCAz7ybwTEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYDYdQfMAAB1BD5pCXW8JRE%2Fg3AEoNQBQgM6%2BAN%2FnaxElAmU%2Bg30BtDGArtb0sS9A7QwK5N90LeIcdgbJBKCkIdrS7erYGaQIoNejaxEL5wHgDcKV%2Bv4jGqG%2BB4XMYXewjgJ14XAUkK9WK%2F33sTv4AgB1PsB2HucDkP6%2FeLWm8yeEyGzIox2ildv7QzkBkN9%2FFOCEkJtnBOkokLt4RFCe8%2BdP%2Fg9xRtA1AQoAigLC9VPCWv2PcErY9Ulxnu%2Bfo4Bjnz%2BNTd7kfzgp9P5JoToKuHpW7HYd46TQ%2B2dFyv9MRwFXzwom%2Fad7lXFS6J3bguTwcBRwMgEQfDrYkKujZnVfwGqzddVwX0CfKBCv1q7aKlIJABTgblGQbg1w%2B86gQVcH4tIoh24NW%2BDSqEdRIIqcBiAadncoro7F1bG4OhYAzOf28CgK3bN3XgrXx8%2FcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGCXLS%2FWCJdLADBn%2F0sCAMDMLPC%2Fvnxl8h%2BCbwAwH%2FuWn%2F%2Fy66JR7Es6ePkNAOYDQOxLAr6U0T8sn0UBAOCMRcvQ%2FwriVdfi4Mv%2FftgwBABc%2BfxJ7OU3v9p0bR3weC2%2FvwHADGb037QH%2BtKejhcAcET%2FY8r%2F49V6s6mqarMR8i%2F63%2FUq%2FvoKHhwaBwBc0f%2F4S%2Bt%2FVYkzAJvNSiaDMhUMvwGA2%2FofSv1fs%2Bc7Jp5GAQDghP4vAznjU%2Fp%2FCUAbBZZ3ogAAcEX%2FvdXmnlEUiO9EAQDgxAJA%2BHVD%2F3tFAQBgv%2Fcj%2F7b%2BK9NzAe%2FLvzkXAAD2A7D0Hum%2FjgJ8hsTydxQAAA4A4Aek%2F9Vd79OvxIEf3loWAACWu38ZLMP4rv6fo8BmHYfLxe8GEQBg%2BecfB0HwTP%2F1ukAY%2BMtfIgAAbAfgy%2Ft6qP9tFFiH3hcAeFJRMdceAyAq8QSAigDwAAAUAAA8sIW59gSAJwJAv34fAN8iAFaBPw0ApLKByRbeigOjAEBZpD0KMBUAYRQuAt9cCxa3LgLrDcCjEOAHCAFS%2FL%2Bl%2Fw0%2BCFIS8P07EIwTArzYGgDWL96J1df9LLK%2B0QD4KhCMC4C%2BWG8xbwVg8bfiPFg%2FuIoDc1KAvL0XNY7CaGwAvqwA4OsuAE%2BngeImAHS3ahSru1Sq3HAAqroSyXazjuNFFEczVYDoNgDVsEJQFFM3Cd2uTKObFyYDQEGAogDdje1Fo0YBF0LAsEKQvl99fP2fEADOA8cFgHJAWwAIvhdDF4NWYRBEvwCgDFDdqJhbBsBitO%2Ff8Pz%2Fei5wIQLL5SJe9lkOlslTGC%2BX0dUUgK5QUAogLFEAGQICf0wFkADY4v47UWD55QUPJwI0BYhpp%2FDvKQDV1WwJATwRKOVEQMIc01aY0QD4sh4AtSVM3HP%2FzZYwGsGYxGObVGNPAaYBoCgIAkF3pEVBPNZEwHYFoKYg2hX8uCl0%2BeVfbxCTUymZE6y3iZDOrwoLANCX5NaDL0l0E4BQ7QsI7reF06WC4a%2BoKUdQZlPrZIoMcDoARH1oABh0SZaDAPDGEFrUX9%2BIAkJvDPm63hiyULeperYB0FEAAHAW8%2BUi%2BFrEd7aGySQhWFxvCmhuU11vbQKgyIu6Lqge7PnhYpz7fxwAoDkd4nt9qxdU6%2F%2F3df9DGHl%2BvNoQAHluCQBlXlR1TvXgaPhViY4CwNsD1xt1PoAQorM9%2FOt6ezh%2F%2FgFvJ95KUa0m8P9UABAD3Bk08K5kNwGQUwH6ySYKiE7%2Br%2FQ%2FWv7Wf5%2F0X0hFzUt7AKA0oKA0YCOjgLf4HmEu4AYALAL6iIDfR8RcnRRHV2kv6C5tLgHlEyQAkwOQyyjgqyjwblHQLQC%2BVl0C1qvgNwA8Zkr%2Fk8pCAIqyyutOFHhXAxwBgMJAyA2TFyZ%2F5nt5PWfQ00bS%2Fzovx10FnhyAsiqFWhTgKMDXJksIomkB%2BFTr51sA8EGRVyeFRhefP%2Fk%2BVFdoa%2F2XYylH1DIAVDVAyCjQXpz%2Bhg70AUA35E1vzxF4CACtC3zdPypWXZ7Nf0S03ialrgBYBgDPBYo2CnjRe%2F43SwH8dxRAUXAB1Pdv9Y8oVVD6T9O%2FfConTQkARQFVEiSLOzowyCzLAd54Uf4dVjRom%2B2k%2Bj85ALkouUdUmg4Eb9wNH9kEQBANf9EF%2Fw5rGjWVAIp8OidNCUBjQreK%2B344fDLozizgqU3ZAvhhAKoql1GAZrEyGewEggkGnP6%2BPIJ7SoubP3MKi5X4k3jW1aT6%2FwkFyHmnAPcIbZMt54OTNOHRDzJsbtbTm%2FwzVirjnOZlVpstDRZ%2FN1WR5xYrQMtAnvOEgFoFh5v%2FSHEp7vZrux3BFACPYtIbOWDMS79VrszuEND4X%2BpYwTpArYLrAQNOf3P4uPPVtQBsP%2BD%2BrerduwcAP2LMrznkVWnlj8eKRs0JAJQEcESrBc0IkleN%2FxMVPoLAdAXw%2BRFJxge%2Fqw6anxCAzwDQ6oDKB4dZvuWW2YcArE0AgB%2BRZXyoUU%2FdJ5zPAFTSPgOAVDQxHIBDzQBEC%2BMB4EeUABwGvyul%2Fh9Q%2F5J8rwAoPhUIBgJQWagAlX7uIa9bfOL7LxQAhbSy%2BlwgEIMsp0KCXQAIruEOetmPfI%2FS6eR7jxL0D0UBAGASANLphfzDPgzA0PaiykoAcpGbO6gNABxyisJoBHoDsAEAvd1PTpfO9w6HQ10IZwD4%2B0KQNQCIopbO947HQy0yAQWYmwJIp9eH49E7nQ4HBwDQi0GbDywGbR4vBlkEwOFwOjkCgEHLwdYB4EQIMKgn0K4QcFI5gHAEACN6gWwBQKgcQAJwKADAHAEoDpwEuhQCJuk1erEr3LYQQABkewBwt7Xn1Y0h1gCwzy4BqADAPQnwnEsCqwsADpX1lUD9tS6X0XK8C6CW0gJnc4BCVAc1C5AEGL4c0L8OsF6vV6tx6j38%2B6y4E9V3DAC9EEA5oJwFnI5qJmg1AOdK4Ng13%2BB%2BJ6rNAKg5oHS%2BBECa%2FQBMtRawpiufAzcBIM87B8B25GU%2FOubKfQCOUIA5KsBRA6BygMwFACbIARwFIOvkAARAlZlcDAQA45cBs6qTBEIB7t%2Ff4bICNDmAqgSUcnJYAQD3AWA%2FqypAmwOoWpCxeSBCwMgZYFMFohBAAmB6LQgKMFEV6MgtYUfjSwENAL5vyTTQ940HgIsAHQCsUIAw8K0oBPlBZL4C2AgAQsBUAOhSgNkA0JHazxaDRrehi0ErkwFoiwBnBbAGgDvnA%2Bjl4NH7wuMBy8H8iBYAYF8IWMehb0VTqB%2FGFoaAg7m7RPlgCTp1eh1HUWA0A0H4HUXxer2lg37yD%2B30f8n7vCf00A0BJ1ULIgQMFQG6fEAOpURgFcnhXRgMQCQRjVabrZBP%2FaGTVwZ8%2FlwEkm4%2FKQDaKFCZGwX4uFmVBtzPyfm4%2BLHOjNe%2F2asK4HMCkNNBP6bqf9Xq%2FzUAhbl5IANQbOJ7rdoh%2FR1Go1sY6t%2B8p6mzXumEqMrYDLC4C0CZ2aAAFGilX0LTjJ9KAyAMVoCsvAkALwcYviCYbNbt1lxDjSeia2MB4KXA80LANQCqP7w0kYFCTQT45oGVwQDI%2FG%2B74WP%2By9w4AOhcMFoH%2FA0AM8AIVHQ6uYkE5Hz2fCKoHmBwEWC9zSv5lLkcQ%2FP8T1e4VM0UQFsHAJ0HGrtLrDlmUnAgWK9Ms3Uj%2FuqsbxMTgEpcZoA3AKCNwrWBE9gOAPnWYFOn%2FJsIgAztNR8L8hgAEglzmwPlo9V8IaGxltMTGjqApACivA8AJwFysm3uyZHqnNGyNtn4Ec3U%2F4JvbVApwD0AuB5sbhpQSATeOXL%2BA0ZX5eWFmZ9%2F1laBbwDACJzaA2PMPjsWNkz%2F%2BVCYU8f9vwCgNOBQ0wHy5iJQ5CbnAIWh7qfD4en7bx39GwCdBzIBJh8gnZtspvqfzoPQWwFOXf9fANCwoc%2BNQxRwS%2F9VK%2FDF538fAM4DiwJD54JRl4%2FKAHsD8AMA3APgpx8AzYoA7R9DEHAkAJSqD%2BSqBHAXgCNfIcB5IETAic%2BfS0C%2FSgA3AGjaA5seYQDgDABtBfDS%2F9cAtDsFOQoYfpMMrF8FoFD6f7qeAT4CQLUICwDgAgBCNQL3BOCk%2F0Wje4RhrwGgdoI1zn0CQDsZPFQcAoCAze7nEKD0%2F%2Fj7838IgPknyMJ6JQA3lwAeAnCy4dQQWF%2F9v2gC7g%2FAkbcKZT8AwG4AfjLeCHQcBkCZZdwhiGqAlRUA6gLM1D6Q1wGw4ARZWN8QcHMC2CcHOFCHE7cGQANs%2B%2F51F2BZH4blAKfLDkEAYCMA5y7AVwGwYss4rFcJ6IH%2B9wHgQI3OFAVAgU2%2BV%2FqftyWAoQCcmsvFaxBgl%2F%2Fr5nrw01AAOtUAkoACc0GbZoBFq%2F%2FHB95%2FAsBRA8DtIRKCEg0CFrieU3b2l9L%2F42MCnijAOQpkKhEAABYAQMeA9NL%2FZwCc14XqQlUEMSEwP%2FVXFcCifrAC9DoAZOgTtOLz1%2F1%2Fh8MoADS7hdAnaBMAnR3Az%2Fz%2FFIBOEqH7BEvMB82d%2FZWd%2Fr9n6d8LAOh%2FUH2CJYpC5hZ%2Fyk7%2FXw%2F97wVAlwTSgBwAmAtA3un%2F62deT9ef%2BwR5ilmAAdO8XyjPtP1%2FPTF4DQC1PJhhidiw5E8v%2FWaZOPf%2FjQnARY9ApfaOQwGM03%2FR6P%2FoIeBiZeDAx6DpFUIMvRnOp9yf%2FHLoUf1%2FD4CmKKT6RECAKR8%2Fi3%2Ff4s9AAC42jeAkKaMQ4POfXvX9AACa3%2F9yhRAc%2FOHHf7HyNwCBVwFo%2FpfKgs0KIQj4Q%2FFXK3%2BVPv%2BpT%2FH3vRBwaksCdcnNggU6Rf5u%2BscrfxKBsj50XDMpABclAQ4EP03LIKTgkx%2B%2BSv1%2FWPxfnvy%2FowCndpnpeKBAQGWhEgD8BQAllX5I%2FA%2BtS14WgAEAdNeZjjIQUKtI0Rg2k0%2Fu%2FrIdbBr4sm5Ofhjg%2FLcAaFcID015WHRiARw13ZfPab8u%2Bx5eWvkbD4D2qImmU0QDUAKA6QEozwB0gv5xoCOHAtDNOOi6MS5E8rPpUAAGRva%2Bkn7%2Bynisq%2Fo88x%2F6%2BY8GgLa6ug4FUIOREr6O9Fd1M95%2FCsCN8yXVJiIAMC0AbcffcKePCMDlg5AGqDuTivYAfXSSv%2BP%2BojOQemhr3fH39rc%2FHgDn%2F9fGApHuMpKr7Ec1EsOZA%2Bp8%2FNX%2FZBRWs10qrpT%2FNLT2N0EIuA4FR64PFQUUYBwFKAqu%2BBzHlP4xAfj1YKpr5FDrcAAGhnpfyz4PZefLH5OEUZPA37GAwwFOmBgIgDjL%2Fm%2FlNyMJfKYJOGvwXQA6QzmJq6bJATo%2FJwHAWYMDAfhRt7xMofyt%2FR%2BnOUBx56xEAgAAAABJRU5ErkJggg%3D%3D%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+<style>
+  :root {
+    --primary: #1e3a8a;
+    --primary-light: #3b82f6;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --border: #e2e8f0;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --warning: #ea580c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, BlinkMacSystemFont, sans-serif; -webkit-text-size-adjust: 100%; }
+  body { background: var(--bg); color: var(--text-main); padding: 22px 26px; font-size: 15px; }
+
+  /* Header */
+  header { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid #cbd5e1; }
+  .header-title h1 { font-size: 24px; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+  .header-title p { color: var(--text-muted); font-size: 13px; margin-top: 6px; }
+  .header-title .period { color: var(--primary); font-weight: 800; font-size: 14px; background: #e0e7ff; padding: 2px 10px; border-radius: 20px; margin-left: 4px; }
+  .header-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; max-width: 100%; }
+  .header-actions button { padding: 9px 13px; font-size: 13px; }
+
+  button { cursor: pointer; border-radius: 8px; font-size: 14px; font-weight: 600; padding: 10px 18px; border: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: var(--primary); color: white; }
+  .btn-primary:hover { background: #172554; }
+  .btn-secondary { background: white; border: 1px solid #cbd5e1; color: #334155; }
+  .btn-secondary:hover { background: #f1f5f9; }
+  .btn-success { background: var(--success); color: white; }
+  .btn-danger { background: var(--danger); color: white; }
+
+  /* 동기화 상태 배지 */
+  .sync-badge { background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .sync-badge.local { background: #f1f5f9; border-color: #cbd5e1; color: #475569; }
+  .sync-badge.syncing { background: #dbeafe; border-color: #bfdbfe; color: #1d4ed8; }
+  .sync-badge.synced { background: #dcfce7; border-color: #bbf7d0; color: #15803d; }
+  .sync-badge.error { background: #fee2e2; border-color: #fecaca; color: #b91c1c; }
+  .sync-badge.conflict { background: #fef3c7; border-color: #fde68a; color: #b45309; }
+
+  /* Dashboard Cards */
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 28px; }
+  .stat-card { background: var(--card-bg); border-radius: 12px; padding: 20px; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+  .stat-card .label { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+  .stat-card .value { font-size: 26px; font-weight: 800; color: #1e293b; }
+  .stat-card.alert { border-left: 5px solid var(--danger); }
+  .stat-card.alert .value { color: var(--danger); }
+  .stat-card.warning { border-left: 5px solid var(--warning); }
+  .stat-card.warning .value { color: var(--warning); }
+
+  /* Table Container */
+  .section-card { background: var(--card-bg); border-radius: 14px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 30px; }
+  .section-header { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; background: #fafafa; }
+  .section-header h2 { font-size: 17px; font-weight: 700; color: #1e293b; }
+  .section-note { font-size: 13px; color: #64748b; }
+
+  /* Filter toolbar */
+  .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 14px 24px; border-bottom: 1px solid var(--border); background: #ffffff; }
+  .chip { background: #f1f5f9; border: 1px solid #e2e8f0; color: #475569; padding: 7px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; }
+  .chip:hover { background: #e2e8f0; }
+  .chip.active { background: var(--primary); border-color: var(--primary); color: #ffffff; }
+  .chip.active:hover { background: #172554; }
+  .search-box { display: flex; gap: 6px; margin-left: auto; }
+  .search-box input { width: 200px; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; }
+  .search-box input:focus { outline: none; border-color: var(--primary-light); }
+  .count-badge { font-size: 13px; color: #475569; font-weight: 700; background: #f1f5f9; padding: 7px 12px; border-radius: 8px; }
+  .vat-wrap { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #475569; font-weight: 700; }
+  .vat-btn { padding: 6px 12px; border-radius: 6px; background: #f1f5f9; border: 1px solid #e2e8f0; color: #475569; font-size: 12px; }
+  .vat-btn.active { background: var(--primary); border-color: var(--primary); color: #ffffff; }
+
+  .table-wrapper { overflow-x: auto; max-height: 620px; }
+  table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; white-space: nowrap; }
+  th, td { padding: 10px 9px; border-bottom: 1px solid #edf2f7; }
+  th { background: #f1f5f9; color: #475569; font-weight: 700; text-align: center; position: sticky; top: 0; z-index: 10; border-top: 1px solid #e2e8f0; }
+  th.mono-th { background: #e0e7ff; color: #1e3a8a; }
+  th.color-th { background: #fee2e2; color: #991b1b; }
+
+  tr:hover { background: #f8fafc; }
+  .text-center { text-align: center; }
+  .text-right { text-align: right; }
+  .font-bold { font-weight: 700; }
+  .cell-sub { font-size: 11px; color: #64748b; font-weight: 600; margin-top: 3px; }
+  .ip-sub { font-size: 11px; color: #94a3b8; font-weight: 600; margin-top: 2px; }
+  td.empty-row { text-align: center; color: #94a3b8; font-weight: 700; padding: 34px 0; }
+
+  /* Input in table */
+  input.table-input { width: 84px; padding: 6px 6px; border: 1px solid #cbd5e1; border-radius: 6px; text-align: right; font-size: 13px; font-weight: 600; }
+  input.table-input:focus { border-color: var(--primary-light); outline: none; background: #f0fdf4; }
+
+  /* Status Badges */
+  .badge { display: inline-block; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; user-select: none; }
+  .badge-paid { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+  .badge-unpaid { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+
+  /* Toner Bars */
+  .toner-cell { display: flex; gap: 4px; align-items: center; width: 120px; }
+  .t-bar { height: 16px; border-radius: 3px; font-size: 9px; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; position: relative; }
+  .t-k { background: #1e293b; }
+  .t-c { background: #0284c7; }
+  .t-m { background: #e11d48; }
+  .t-y { background: #eab308; color: #713f12; }
+  .t-warn { animation: blink 1s infinite alternate; box-shadow: 0 0 4px red; }
+  @keyframes blink { from { opacity: 0.6; } to { opacity: 1; } }
+
+  /* Modal */
+  .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+  .modal-overlay.active { display: flex; }
+  .modal { background: white; width: 560px; max-width: 90%; max-height: 92vh; overflow-y: auto; border-radius: 14px; padding: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .modal-header h3 { font-size: 18px; font-weight: 700; color: #1e293b; }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 4px; }
+  .form-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .hint { font-size: 11.5px; color: #94a3b8; margin-top: 5px; line-height: 1.5; }
+
+  /* 동기화 설정 창 */
+  .sync-state-line { font-size: 13px; font-weight: 700; color: #1e3a8a; background: #eef2ff; border-radius: 8px; padding: 9px 12px; margin-bottom: 14px; line-height: 1.5; }
+  .sync-btns { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 12px; }
+  .sync-btns button { font-size: 13px; padding: 9px 12px; }
+  .sync-result { font-size: 12.5px; font-weight: 700; color: #334155; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; white-space: pre-wrap; line-height: 1.55; }
+  .sync-result:empty { display: none; }
+  .sync-result.ok { background: #f0fdf4; border-color: #bbf7d0; color: #15803d; }
+  .sync-result.ng { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+  .sync-meta { font-size: 12px; color: #64748b; line-height: 1.8; margin-bottom: 12px; }
+  .sync-auto { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #475569; cursor: pointer; }
+  .sync-auto input { width: 18px; height: 18px; }
+  .sync-help { font-size: 12px; color: #64748b; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 10px 12px; margin-top: 12px; line-height: 1.6; }
+
+  /* 모바일 카드 목록 (폭 768px 이하에서 표 대신 표시) */
+  .card-list { display: none; grid-template-columns: 1fr; gap: 10px; padding: 12px; background: #fbfdff; }
+  .client-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 13px; box-shadow: 0 1px 3px rgba(15,23,42,0.05); }
+  .client-card.cc-low { border-left: 4px solid var(--danger); }
+  .cc-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+  .cc-name { font-size: 16px; font-weight: 800; color: #0f172a; line-height: 1.3; }
+  .cc-model { font-size: 12px; color: #64748b; margin-top: 2px; line-height: 1.4; }
+  .cc-bill { display: flex; justify-content: space-between; align-items: center; gap: 8px; background: #f1f5f9; border-radius: 9px; padding: 9px 11px; margin-bottom: 10px; }
+  .cc-bill-label { font-size: 11.5px; font-weight: 700; color: #475569; }
+  .cc-bill-sub { font-size: 11px; color: #64748b; margin-top: 2px; }
+  .cc-bill-value { font-size: 18px; font-weight: 800; color: #1e3a8a; white-space: nowrap; }
+  .cc-counters { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  .cc-field { display: flex; flex-direction: column; gap: 4px; font-size: 11.5px; font-weight: 700; color: #475569; }
+  .cc-field input { width: 100%; padding: 9px 8px; border: 1px solid #cbd5e1; border-radius: 8px; text-align: right; font-weight: 700; }
+  .cc-field em { font-style: normal; font-size: 11px; font-weight: 600; color: #94a3b8; }
+  .cc-toner { display: grid; gap: 5px; margin-bottom: 11px; }
+  .tg { display: grid; grid-template-columns: 14px 1fr 34px; align-items: center; gap: 7px; }
+  .tg-k { font-size: 10.5px; font-weight: 800; color: #64748b; }
+  .tg-track { height: 9px; background: #eef2f7; border-radius: 6px; overflow: hidden; }
+  .tg-fill { height: 100%; border-radius: 6px; }
+  .tg-v { font-size: 11px; font-weight: 700; color: #475569; text-align: right; }
+  .cc-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
+  .cc-actions button { width: 100%; justify-content: center; padding: 9px 4px; font-size: 12.5px; }
+  .cc-del { color: var(--danger); }
+  .cc-empty { text-align: center; color: #94a3b8; font-weight: 700; padding: 30px 0; }
+
+  /* 알림 토스트 */
+  #toastBox { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 2000; pointer-events: none; width: min(92vw, 420px); }
+  .toast { background: #0f172a; color: #fff; font-size: 13px; font-weight: 700; padding: 11px 14px; border-radius: 10px; box-shadow: 0 8px 20px rgba(15,23,42,0.25); text-align: center; line-height: 1.4; }
+
+  /* Invoice Print View */
+  @media print {
+    body * { visibility: hidden; }
+    #invoicePrintArea, #invoicePrintArea * { visibility: visible; }
+    #invoicePrintArea { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 20px; }
+    .inv-mobile-sum { display: none !important; }
+  }
+  .invoice-box { border: 2px solid #1e3a8a; padding: 24px; border-radius: 8px; background: white; margin-top: 20px; overflow-x: auto; }
+  .invoice-header { text-align: center; margin-bottom: 20px; }
+  .invoice-header h2 { font-size: 24px; color: #1e3a8a; letter-spacing: 2px; }
+  .party-table { width: 100%; margin-bottom: 20px; border: 1px solid #94a3b8; }
+  .party-table td { border: 1px solid #cbd5e1; padding: 8px 12px; }
+
+  /* 청구서 — 폰에서는 금액을 위에 접어 보여 준다 */
+  .inv-mobile-sum { display: none; }
+
+  /* ===== 아이폰·안드로이드 폰 화면 ===== */
+  @media (max-width: 768px) {
+    body { padding: 14px 12px 30px; font-size: 15px; }
+    header { flex-direction: column; align-items: stretch; gap: 12px; margin-bottom: 16px; padding-bottom: 12px; }
+    .header-title h1 { font-size: 20px; }
+    .header-title p { font-size: 12px; line-height: 1.55; }
+    .header-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; width: 100%; justify-content: stretch; }
+    .header-actions button { width: 100%; justify-content: center; padding: 10px 4px; font-size: 12.5px; gap: 4px; }
+    .header-actions .sync-badge { grid-column: 1 / -1; justify-content: center; font-size: 12.5px; }
+
+    .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+    .stat-card { padding: 14px; border-radius: 10px; }
+    .stat-card .value { font-size: 19px; }
+    .stat-card .label { font-size: 11.5px; margin-bottom: 4px; }
+
+    .section-card { border-radius: 12px; margin-bottom: 20px; }
+    .section-header { padding: 12px 14px; gap: 10px; }
+    .section-header h2 { font-size: 15px; }
+    .vat-wrap { width: 100%; flex-wrap: wrap; font-size: 12px; }
+    .vat-btn { flex: 1; text-align: center; justify-content: center; padding: 8px 6px; font-size: 12px; }
+
+    .toolbar { padding: 10px 12px; gap: 6px; }
+    .chip { padding: 7px 10px; font-size: 12px; }
+    .count-badge { font-size: 12px; padding: 6px 9px; }
+    .search-box { width: 100%; margin-left: 0; }
+    .search-box input { width: 100%; flex: 1; font-size: 16px; padding: 10px 12px; }
+    .search-box button { padding: 10px 12px; font-size: 12.5px; }
+
+    .table-wrapper { display: none; }
+    .card-list { display: grid; }
+
+    .modal-overlay.active { align-items: stretch; }
+    .modal { width: 100% !important; max-width: 100%; max-height: 100%; height: 100%; border-radius: 0; padding: 16px 14px 24px; }
+    .modal-header h3 { font-size: 16px; }
+    .form-row { grid-template-columns: 1fr; }
+    input, select, textarea { font-size: 16px; }
+    .sync-btns { display: grid; grid-template-columns: 1fr 1fr; }
+    .sync-btns button { width: 100%; justify-content: center; }
+    .invoice-box { padding: 14px; }
+    .invoice-header h2 { font-size: 19px; letter-spacing: 1px; }
+    .party-table { font-size: 12px; }
+
+    .inv-mobile-sum { display: grid; gap: 4px; margin-bottom: 12px; background: #f1f5f9; border-radius: 10px; padding: 10px 12px; }
+    .inv-mobile-sum > div { display: flex; justify-content: space-between; gap: 10px; font-size: 12.5px; color: #475569; font-weight: 700; }
+    .inv-mobile-sum .total { border-top: 1px dashed #cbd5e1; padding-top: 6px; margin-top: 2px; color: #1e3a8a; font-size: 14px; }
+    .invoice-box .party-table { table-layout: fixed; font-size: 11.5px; }
+    .invoice-box .party-table td { padding: 6px !important; word-break: break-all; }
+    #invoicePrintArea table th, #invoicePrintArea table td { padding: 5px 3px !important; font-size: 11px; }
+    #invoicePrintArea table { white-space: normal; }
+    #invoicePrintArea th, #invoicePrintArea td { word-break: keep-all; }
+  }
+  /* 아주 좁은 폰(360~380px) */
+  @media (max-width: 380px) {
+    .cc-counters { grid-template-columns: 1fr; }
+    .header-actions button { font-size: 12px; }
+    .invoice-box { padding: 8px; }
+    #invoicePrintArea table th, #invoicePrintArea table td { padding: 4px 2px !important; font-size: 10.5px; }
+    .invoice-header h2 { font-size: 17px; }
+  }
+
+  /* 1366~1600px 사무실 모니터에서도 표가 잘리지 않도록 조금 조인다 */
+  @media (min-width: 769px) and (max-width: 1640px) {
+    body { padding: 18px 16px; }
+    th, td { padding: 8px 5px; font-size: 12.5px; }
+    input.table-input { width: 70px; padding: 6px 4px; font-size: 12.5px; }
+    .toner-cell { width: 92px; gap: 3px; }
+    .toner-cell .t-bar { width: 21px !important; font-size: 8.5px; }
+    .cell-sub { font-size: 10.5px; }
+    .header-actions button { padding: 8px 10px; font-size: 12.5px; }
+  }
+</style>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+</head>
+<body>
+
+<header>
+  <div class="header-title">
+    <h1>🖨️ 동남시스템 관리대장</h1>
+    <p>사무실 PC · 아이폰 공용 · 검침 카운터 자동 계산 및 청구 대장 · 기준 <span class="period" id="periodLabel">-</span></p>
+  </div>
+  <div class="header-actions">
+    <button class="sync-badge local" id="syncBadge" onclick="openSyncModal()" title="동기화 설정을 엽니다">🔗 로컬 전용</button>
+    <button class="btn-secondary" onclick="pullNow()" title="서버에서 최신 내용을 가져옵니다">🔄 새로고침</button>
+    <button class="btn-secondary" onclick="openSyncModal()" title="PC·폰 동기화 주소를 넣습니다">⚙️ 동기화 설정</button>
+    <button class="btn-secondary" onclick="pickCsv()">📤 검침 CSV 불러오기</button>
+    <button class="btn-secondary" onclick="exportJson()">💾 백업(JSON)</button>
+    <button class="btn-secondary" onclick="pickJson()">📂 복원(JSON)</button>
+    <button class="btn-secondary" onclick="exportToCSV()">📥 엑셀(CSV) 저장</button>
+    <button class="btn-success" onclick="closeMonth()">📅 월 마감</button>
+    <button class="btn-primary" onclick="openAddModal()">➕ 신규 거래처 추가</button>
+  </div>
+</header>
+
+<input type="file" id="csvFileInput" accept=".csv,text/csv,text/plain" style="display:none" onchange="handleCsvPick(this)">
+<input type="file" id="jsonFileInput" accept=".json,application/json" style="display:none" onchange="handleJsonPick(this)">
+
+<!-- Statistics Summary -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="label">총 관리 거래처</div>
+    <div class="value" id="statTotalCount">0 곳</div>
+  </div>
+  <div class="stat-card">
+    <div class="label" id="statBillingLabel">당월 총 청구 예상액</div>
+    <div class="value" id="statTotalBilling">0 원</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">수납 완료액</div>
+    <div class="value" style="color: var(--success);" id="statPaidAmount">0 원</div>
+  </div>
+  <div class="stat-card warning">
+    <div class="label">미수금액 (미납)</div>
+    <div class="value" id="statUnpaidAmount">0 원</div>
+  </div>
+</div>
+
+<!-- Main Table Section -->
+<div class="section-card">
+  <div class="section-header">
+    <h2>📋 거래처별 검침 및 렌탈료 정산표</h2>
+    <div class="vat-wrap">
+      <span>부가세</span>
+      <button class="vat-btn" id="vatBtnExcl" onclick="setVatMode('별도')">별도 (10% 가산)</button>
+      <button class="vat-btn" id="vatBtnIncl" onclick="setVatMode('포함')">포함 (청구액에 포함)</button>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button class="chip" id="chipAll" onclick="setFilter('all')">전체</button>
+    <button class="chip" id="chipUnpaid" onclick="setFilter('unpaid')">미납 거래처</button>
+    <button class="chip" id="chipToner" onclick="setFilter('toner')">토너 부족 (20% 이하)</button>
+    <span class="count-badge" id="filterCount">표시 0 / 전체 0곳</span>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="거래처명 또는 기종 검색" oninput="onSearch(this.value)">
+      <button class="btn-secondary" style="padding:8px 12px; font-size:13px;" onclick="clearSearch()">초기화</button>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+    <table id="clientTable">
+      <thead>
+        <tr>
+          <th rowspan="2">거래처명</th>
+          <th rowspan="2">설치 기종</th>
+          <th rowspan="2">기본료</th>
+          <th colspan="4" class="mono-th">흑백 카운터 (기본 / 단가)</th>
+          <th colspan="4" class="color-th">컬러 카운터 (기본 / 단가)</th>
+          <th rowspan="2">토너 잔량 (K/C/M/Y)</th>
+          <th rowspan="2" style="background:#e2e8f0;">당월 청구액</th>
+          <th rowspan="2">수납 여부</th>
+          <th rowspan="2">관리</th>
+        </tr>
+        <tr>
+          <!-- Mono -->
+          <th class="mono-th">전월</th>
+          <th class="mono-th">당월(입력)</th>
+          <th class="mono-th">사용</th>
+          <th class="mono-th">초과금</th>
+          <!-- Color -->
+          <th class="color-th">전월</th>
+          <th class="color-th">당월(입력)</th>
+          <th class="color-th">사용</th>
+          <th class="color-th">초과금</th>
+        </tr>
+      </thead>
+      <tbody id="clientTableBody">
+        <!-- Rendered by JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 폰 화면에서는 이 카드 목록이 표를 대신한다 -->
+  <div class="card-list" id="clientCards">
+    <!-- Rendered by JS -->
+  </div>
+</div>
+
+<!-- Add Client Modal -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>➕ 신규 렌탈 거래처 등록</h3>
+      <button onclick="closeAddModal()" style="background:none; font-size:20px; border:none;">✕</button>
+    </div>
+    <div class="form-group">
+      <label>거래처명</label>
+      <input type="text" id="newName" placeholder="예: (주)대한상사">
+    </div>
+    <div class="form-group">
+      <label>설치 복합기 모델명</label>
+      <input type="text" id="newModel" placeholder="예: 신도리코 D410 / 캐논 C3525">
+    </div>
+    <div class="form-group">
+      <label>월 기본 렌탈료 (원)</label>
+      <input type="number" id="newBaseFee" value="60000">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>흑백 기본매수 / 1매 초과단가(원)</label>
+        <div style="display:flex; gap:6px;">
+          <input type="number" id="newBBase" value="3000" placeholder="기본">
+          <input type="number" id="newBRate" value="10" placeholder="단가">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>컬러 기본매수 / 1매 초과단가(원)</label>
+        <div style="display:flex; gap:6px;">
+          <input type="number" id="newCBase" value="300" placeholder="기본">
+          <input type="number" id="newCRate" value="100" placeholder="단가">
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>현재 흑백 시작 카운터</label>
+        <input type="number" id="newBInit" value="0">
+      </div>
+      <div class="form-group">
+        <label>현재 컬러 시작 카운터</label>
+        <input type="number" id="newCInit" value="0">
+      </div>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+      <button class="btn-secondary" onclick="closeAddModal()">취소</button>
+      <button class="btn-primary" onclick="saveNewClient()">거래처 등록</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Client Modal -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal" style="width: 620px;">
+    <div class="modal-header">
+      <h3>✏️ 거래처 정보 수정</h3>
+      <button onclick="closeEditModal()" style="background:none; font-size:20px; border:none;">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>거래처명</label>
+        <input type="text" id="editName">
+      </div>
+      <div class="form-group">
+        <label>설치 기종</label>
+        <input type="text" id="editModel">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>복합기 IP (검침 CSV 자동 매칭용)</label>
+        <input type="text" id="editIp" placeholder="예: 192.168.0.21">
+      </div>
+      <div class="form-group">
+        <label>월 기본 렌탈료 (원)</label>
+        <input type="number" id="editBaseFee">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>흑백 기본매수 / 초과단가(원)</label>
+        <div style="display:flex; gap:6px;">
+          <input type="number" id="editBBase">
+          <input type="number" id="editBRate">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>컬러 기본매수 / 초과단가(원)</label>
+        <div style="display:flex; gap:6px;">
+          <input type="number" id="editCBase">
+          <input type="number" id="editCRate">
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>전월 흑백 카운터</label>
+        <input type="number" id="editBPrev">
+      </div>
+      <div class="form-group">
+        <label>전월 컬러 카운터</label>
+        <input type="number" id="editCPrev">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>토너 잔량 (%) — K / C / M / Y</label>
+      <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px;">
+        <input type="number" id="editTk" min="0" max="100" placeholder="K">
+        <input type="number" id="editTc" min="0" max="100" placeholder="C">
+        <input type="number" id="editTm" min="0" max="100" placeholder="M">
+        <input type="number" id="editTy" min="0" max="100" placeholder="Y">
+      </div>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+      <button class="btn-secondary" onclick="closeEditModal()">취소</button>
+      <button class="btn-primary" onclick="saveEditClient()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- Print Modal -->
+<div class="modal-overlay" id="printModal">
+  <div class="modal" style="width: 780px;">
+    <div class="modal-header">
+      <h3>🖨️ 거래처 청구서 인쇄 미리보기</h3>
+      <button onclick="closePrintModal()" style="background:none; font-size:20px; border:none;">✕</button>
+    </div>
+    <div id="invoicePrintArea">
+      <!-- Invoice template -->
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+      <button class="btn-secondary" onclick="closePrintModal()">닫기</button>
+      <button class="btn-primary" onclick="window.print()">인쇄하기 (A4 출력)</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sync Settings Modal -->
+<div class="modal-overlay" id="syncModal">
+  <div class="modal" style="width: 600px;">
+    <div class="modal-header">
+      <h3>⚙️ PC·폰 동기화 설정</h3>
+      <button onclick="closeSyncModal()" style="background:none; font-size:20px; border:none;">✕</button>
+    </div>
+
+    <div class="sync-state-line" id="syncModalState">현재: 로컬 전용</div>
+
+    <div class="form-group">
+      <label>구글 웹앱 주소</label>
+      <input type="text" id="syncUrlInput" placeholder="https://script.google.com/macros/s/..../exec" autocomplete="off" spellcheck="false">
+      <div class="hint">설치 안내 1~3단계에서 [새 배포] 후 받은 주소를 그대로 붙여넣으세요. 구글 앱스 스크립트 안에서 열었을 때는 주소가 필요 없습니다.</div>
+    </div>
+
+    <div class="sync-btns">
+      <button class="btn-primary" onclick="saveSyncSettings()">저장하고 연결</button>
+      <button class="btn-secondary" onclick="testSyncConnection()">연결 테스트</button>
+      <button class="btn-secondary" onclick="pullFromServer()">⬇️ 지금 가져오기</button>
+      <button class="btn-secondary" onclick="pushToServer()">⬆️ 지금 올리기</button>
+      <button class="btn-secondary" onclick="clearSyncUrl()">주소 지우기</button>
+    </div>
+
+    <div class="sync-result" id="syncTestResult"></div>
+    <div class="sync-meta" id="syncMeta"></div>
+
+    <label class="sync-auto">
+      <input type="checkbox" id="syncAutoChk" onchange="setAutoSync(this.checked)">
+      30초마다 자동으로 확인 (화면이 켜져 있을 때만)
+    </label>
+
+    <div class="sync-help" id="syncHelp">
+      주소를 넣으면 사무실 PC와 아이폰이 같은 대장을 봅니다. 한쪽에서 고치면 다른 쪽은 30초 안에 바뀝니다.
+      주소를 지우면 지금처럼 이 기기에만 저장합니다.
+    </div>
+  </div>
+</div>
+
+<div id="toastBox"></div>
+
+<script>
+// ==========================================
+// 1. 저장 키 — 기존 키는 이름·구조를 바꾸지 않는다
+// ==========================================
+const STORE_CLIENTS = "copier_rental_clients";   // 기존 키 (거래처 배열)
+const STORE_PERIOD  = "copier_rental_period";    // Phase 02 키 (기준 연·월)
+const STORE_VAT     = "copier_rental_vat_mode";  // Phase 02 키 (부가세 방식)
+const STORE_SYNC    = "copier_rental_sync";      // Phase 03 키 (동기화 설정·마지막 시각·미전송 표시)
+
+const APP_ID = "dongnam-copier-ledger";
+
+const SUPPLIER = {
+  name: "동남시스템",
+  ceo: "담당자",
+  phone: "",
+  bank: ""
+};
+
+// 샘플 데이터 — 처음 열었을 때만 쓰인다. 실제 거래처는 [신규 거래처 추가]로 등록.
+const defaultClients = [
+  {
+    id: 1, name: "샘플세무법인", model: "신도리코 D410", baseFee: 60000,
+    bPrev: 48200, bCurr: 51350, bBase: 3000, bRate: 10,
+    cPrev: 5120, cCurr: 5480, cBase: 300, cRate: 100,
+    toner: { k: 75, c: 60, m: 55, y: 80 }, status: "수납완료"
+  },
+  {
+    id: 2, name: "샘플물류(주)", model: "캐논 iR ADV C3525", baseFee: 80000,
+    bPrev: 128500, bCurr: 134200, bBase: 5000, bRate: 12,
+    cPrev: 14200, cCurr: 15150, cBase: 800, cRate: 120,
+    toner: { k: 15, c: 45, m: 50, y: 40 }, status: "미수"
+  },
+  {
+    id: 3, name: "샘플에듀학원", model: "후지필름 Apeos C3070", baseFee: 75000,
+    bPrev: 89100, bCurr: 93400, bBase: 4000, bRate: 10,
+    cPrev: 8300, cCurr: 9120, cBase: 500, cRate: 110,
+    toner: { k: 85, c: 70, m: 65, y: 18 }, status: "수납완료"
+  },
+  {
+    id: 4, name: "샘플합동법률", model: "삼성 SL-X4220RX", baseFee: 55000,
+    bPrev: 31000, bCurr: 33200, bBase: 2500, bRate: 12,
+    cPrev: 2100, cCurr: 2250, cBase: 200, cRate: 120,
+    toner: { k: 90, c: 85, m: 80, y: 75 }, status: "미수"
+  },
+  {
+    id: 5, name: "샘플의원", model: "교세라 TASKalfa 2554ci", baseFee: 65000,
+    bPrev: 64200, bCurr: 67800, bBase: 3500, bRate: 10,
+    cPrev: 4500, cCurr: 4880, cBase: 400, cRate: 100,
+    toner: { k: 40, c: 35, m: 30, y: 35 }, status: "수납완료"
+  }
+];
+
+// ==========================================
+// 2. 상태 불러오기 — 기존 데이터는 그대로 살린다
+// ==========================================
+function num(v, fallback) {
+  const n = parseInt(v, 10);
+  return isNaN(n) ? (fallback || 0) : n;
+}
+
+function normalizeClient(c) {
+  const src = c || {};
+  const toner = src.toner || {};
+  return {
+    id: num(src.id, 0),
+    name: String(src.name == null ? "" : src.name),
+    model: String(src.model == null ? "" : src.model),
+    baseFee: num(src.baseFee),
+    bPrev: num(src.bPrev), bCurr: num(src.bCurr), bBase: num(src.bBase), bRate: num(src.bRate),
+    cPrev: num(src.cPrev), cCurr: num(src.cCurr), cBase: num(src.cBase), cRate: num(src.cRate),
+    toner: {
+      k: num(toner.k, 100), c: num(toner.c, 100),
+      m: num(toner.m, 100), y: num(toner.y, 100)
+    },
+    status: src.status === "수납완료" ? "수납완료" : "미수",
+    ip: src.ip ? String(src.ip) : "",
+    lastCheck: src.lastCheck ? String(src.lastCheck) : ""
+  };
+}
+
+function hasStoredClients() {
+  try { return !!localStorage.getItem(STORE_CLIENTS); } catch (e) { return false; }
+}
+
+function loadClients() {
+  let raw = null;
+  try { raw = localStorage.getItem(STORE_CLIENTS); } catch (e) { raw = null; }
+  if (!raw) return defaultClients.map(normalizeClient);
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed) && parsed.length) return parsed.map(normalizeClient);
+  } catch (e) {
+    console.warn("저장된 거래처 데이터를 읽지 못해 샘플 데이터로 시작합니다.", e);
+  }
+  return defaultClients.map(normalizeClient);
+}
+
+function currentYearMonth() {
+  const d = new Date();
+  return { year: d.getFullYear(), month: d.getMonth() + 1 };
+}
+
+function loadPeriod() {
+  try {
+    const raw = localStorage.getItem(STORE_PERIOD);
+    if (raw) {
+      const p = JSON.parse(raw);
+      if (p && p.year > 2000 && p.month >= 1 && p.month <= 12) {
+        return { year: num(p.year), month: num(p.month) };
+      }
+    }
+  } catch (e) { /* 무시하고 오늘 기준으로 시작 */ }
+  return currentYearMonth();
+}
+
+function loadVatMode() {
+  try {
+    return localStorage.getItem(STORE_VAT) === "포함" ? "포함" : "별도";
+  } catch (e) { return "별도"; }
+}
+
+let clients = loadClients();
+let localDataExisted = hasStoredClients();
+let period = loadPeriod();
+let vatMode = loadVatMode();
+let filterMode = "all";
+let searchTerm = "";
+
+// ==========================================
+// 3. 저장
+// ==========================================
+function persistClients() {
+  try {
+    localStorage.setItem(STORE_CLIENTS, JSON.stringify(clients));
+    localDataExisted = true;
+  } catch (e) {
+    if (!syncConfigured()) {
+      alert("브라우저 저장소에 저장하지 못했습니다. 디스크 공간을 확인한 뒤 다시 시도해 주세요.");
+    } else {
+      console.warn("브라우저 저장소를 쓸 수 없어 서버에만 저장합니다.", e);
+    }
+  }
+}
+
+function saveData() {
+  persistClients();
+  markDirty();
+  renderAll();
+}
+
+function savePeriod() {
+  try { localStorage.setItem(STORE_PERIOD, JSON.stringify(period)); } catch (e) { /* 무시 */ }
+}
+
+function saveVatMode() {
+  try { localStorage.setItem(STORE_VAT, vatMode); } catch (e) { /* 무시 */ }
+}
+
+// ==========================================
+// 4. 계산 공통
+// ==========================================
+function money(n) { return num(n).toLocaleString("ko-KR"); }
+
+function calcClient(c) {
+  const bUsed = Math.max(0, c.bCurr - c.bPrev);
+  const bOver = Math.max(0, bUsed - c.bBase);
+  const bOverFee = bOver * c.bRate;
+  const cUsed = Math.max(0, c.cCurr - c.cPrev);
+  const cOver = Math.max(0, cUsed - c.cBase);
+  const cOverFee = cOver * c.cRate;
+  const supply = c.baseFee + bOverFee + cOverFee;
+  return { bUsed: bUsed, bOverFee: bOverFee, cUsed: cUsed, cOverFee: cOverFee, supply: supply };
+}
+
+// 부가세 방식에 따른 공급가액 / 부가세 / 청구 합계
+function billing(supply) {
+  if (vatMode === "포함") {
+    const total = supply;
+    const vat = Math.round(total - total / 1.1);
+    return { supply: total - vat, vat: vat, total: total };
+  }
+  const vat = Math.round(supply * 0.1);
+  return { supply: supply, vat: vat, total: supply + vat };
+}
+
+function isTonerLow(c) {
+  const t = c.toner || {};
+  return [t.k, t.c, t.m, t.y].some(function (v) { return num(v, 100) <= 20; });
+}
+
+function periodText() { return period.year + "년 " + period.month + "월"; }
+function periodCode() { return "" + period.year + (period.month < 10 ? "0" + period.month : period.month); }
+
+function escapeHtml(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, function (ch) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
+  });
+}
+
+function pad2(n) { return (n < 10 ? "0" : "") + n; }
+
+function fmtTime(iso) {
+  if (!iso) return "-";
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return String(iso);
+  return d.getFullYear() + ". " + pad2(d.getMonth() + 1) + ". " + pad2(d.getDate()) + " " + pad2(d.getHours()) + ":" + pad2(d.getMinutes());
+}
+
+function clockText(date) {
+  const d = date || new Date();
+  return pad2(d.getHours()) + ":" + pad2(d.getMinutes());
+}
+
+function toast(msg) {
+  const box = document.getElementById("toastBox");
+  if (!box) return;
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.textContent = msg;
+  box.appendChild(el);
+  setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 3200);
+}
+
+// ==========================================
+// 5. 화면 그리기
+// ==========================================
+function visibleClients() {
+  const q = searchTerm.trim().toLowerCase();
+  return clients.filter(function (c) {
+    if (filterMode === "unpaid" && c.status === "수납완료") return false;
+    if (filterMode === "toner" && !isTonerLow(c)) return false;
+    if (!q) return true;
+    const hay = (c.name + " " + c.model + " " + (c.ip || "")).toLowerCase();
+    return hay.indexOf(q) >= 0;
+  });
+}
+
+function renderPeriod() {
+  document.getElementById("periodLabel").textContent = periodText();
+}
+
+function renderVatButtons() {
+  const excl = document.getElementById("vatBtnExcl");
+  const incl = document.getElementById("vatBtnIncl");
+  if (!excl || !incl) return;
+  excl.classList.toggle("active", vatMode === "별도");
+  incl.classList.toggle("active", vatMode === "포함");
+  document.getElementById("statBillingLabel").textContent =
+    "당월 총 청구 예상액 (" + (vatMode === "별도" ? "부가세 별도" : "부가세 포함") + ")";
+}
+
+function renderFilters() {
+  const ids = { all: "chipAll", unpaid: "chipUnpaid", toner: "chipToner" };
+  Object.keys(ids).forEach(function (k) {
+    const el = document.getElementById(ids[k]);
+    if (el) el.classList.toggle("active", filterMode === k);
+  });
+  const shown = visibleClients().length;
+  document.getElementById("filterCount").textContent =
+    "표시 " + shown + " / 전체 " + clients.length + "곳";
+}
+
+function renderTable() {
+  const tbody = document.getElementById("clientTableBody");
+  tbody.innerHTML = "";
+
+  const rows = visibleClients();
+
+  if (!rows.length) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = '<td class="empty-row" colspan="15">조건에 맞는 거래처가 없습니다. 검색어를 지우거나 [전체]를 눌러 주세요.</td>';
+    tbody.appendChild(tr);
+  }
+
+  rows.forEach(function (c) {
+    const calc = calcClient(c);
+    const bill = billing(calc.supply);
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td class="font-bold">${escapeHtml(c.name)}</td>
+      <td style="color:#475569;">${escapeHtml(c.model)}${c.ip ? '<div class="ip-sub">' + escapeHtml(c.ip) + '</div>' : ''}</td>
+      <td class="text-right">${money(c.baseFee)}원</td>
+
+      <!-- Mono -->
+      <td class="text-right" style="background:#f8faff;">${money(c.bPrev)}</td>
+      <td class="text-center" style="background:#f8faff;">
+        <input type="number" class="table-input" value="${c.bCurr}" onchange="updateCounter(${c.id}, 'bCurr', this.value)">
+      </td>
+      <td class="text-right" style="background:#f8faff; font-weight:600;">${money(calc.bUsed)}매</td>
+      <td class="text-right" style="background:#f8faff; color:${calc.bOverFee > 0 ? '#1e3a8a' : '#94a3b8'}; font-weight:600;">
+        ${calc.bOverFee > 0 ? '+' + money(calc.bOverFee) + '원' : '-'}
+      </td>
+
+      <!-- Color -->
+      <td class="text-right" style="background:#fffafa;">${money(c.cPrev)}</td>
+      <td class="text-center" style="background:#fffafa;">
+        <input type="number" class="table-input" value="${c.cCurr}" onchange="updateCounter(${c.id}, 'cCurr', this.value)">
+      </td>
+      <td class="text-right" style="background:#fffafa; font-weight:600;">${money(calc.cUsed)}매</td>
+      <td class="text-right" style="background:#fffafa; color:${calc.cOverFee > 0 ? '#b91c1c' : '#94a3b8'}; font-weight:600;">
+        ${calc.cOverFee > 0 ? '+' + money(calc.cOverFee) + '원' : '-'}
+      </td>
+
+      <!-- Toner -->
+      <td class="text-center">
+        <div class="toner-cell" title="K:${c.toner.k}% C:${c.toner.c}% M:${c.toner.m}% Y:${c.toner.y}%">
+          <div class="t-bar t-k ${c.toner.k <= 20 ? 't-warn' : ''}" style="width:25px;">${c.toner.k}%</div>
+          <div class="t-bar t-c ${c.toner.c <= 20 ? 't-warn' : ''}" style="width:25px;">${c.toner.c}%</div>
+          <div class="t-bar t-m ${c.toner.m <= 20 ? 't-warn' : ''}" style="width:25px;">${c.toner.m}%</div>
+          <div class="t-bar t-y ${c.toner.y <= 20 ? 't-warn' : ''}" style="width:25px;">${c.toner.y}%</div>
+        </div>
+      </td>
+
+      <!-- Total -->
+      <td class="text-right font-bold" style="background:#f1f5f9; font-size:15px; color:#1e3a8a;">
+        ${money(bill.total)}원
+        <div class="cell-sub">공급 ${money(bill.supply)} · VAT ${money(bill.vat)}</div>
+      </td>
+
+      <!-- Status -->
+      <td class="text-center">
+        <span class="badge ${c.status === '수납완료' ? 'badge-paid' : 'badge-unpaid'}" onclick="toggleStatus(${c.id})">
+          ${c.status === '수납완료' ? '✓ 수납완료' : '● 미수 (미납)'}
+        </span>
+      </td>
+
+      <!-- Actions -->
+      <td class="text-center">
+        <button class="btn-secondary" style="padding:4px 8px; font-size:12px;" onclick="showInvoice(${c.id})">📄 청구서</button>
+        <button class="btn-secondary" style="padding:4px 8px; font-size:12px;" onclick="openEditModal(${c.id})">✏️</button>
+        <button class="btn-secondary" style="padding:4px 8px; font-size:12px; color:#dc2626;" onclick="deleteClient(${c.id})">✕</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  renderCards();
+  renderStats();
+  renderFilters();
+}
+
+function tonerGridHtml(c) {
+  const t = c.toner || {};
+  const items = [["k", "K", t.k], ["c", "C", t.c], ["m", "M", t.m], ["y", "Y", t.y]];
+  return '<div class="cc-toner">' + items.map(function (it) {
+    const v = Math.max(0, Math.min(100, num(it[2], 100)));
+    return '<div class="tg">' +
+      '<span class="tg-k">' + it[1] + '</span>' +
+      '<span class="tg-track"><span class="tg-fill t-' + it[0] + (v <= 20 ? ' t-warn' : '') + '" style="display:block;width:' + Math.max(4, v) + '%"></span></span>' +
+      '<span class="tg-v">' + v + '%</span>' +
+      '</div>';
+  }).join("") + '</div>';
+}
+
+function renderCards() {
+  const wrap = document.getElementById("clientCards");
+  if (!wrap) return;
+  const rows = visibleClients();
+
+  if (!rows.length) {
+    wrap.innerHTML = '<div class="cc-empty">조건에 맞는 거래처가 없습니다.<br>검색어를 지우거나 [전체]를 눌러 주세요.</div>';
+    return;
+  }
+
+  wrap.innerHTML = rows.map(function (c) {
+    const calc = calcClient(c);
+    const bill = billing(calc.supply);
+    const paid = c.status === "수납완료";
+    return '' +
+      '<div class="client-card' + (isTonerLow(c) ? ' cc-low' : '') + '">' +
+        '<div class="cc-head">' +
+          '<div>' +
+            '<div class="cc-name">' + escapeHtml(c.name) + '</div>' +
+            '<div class="cc-model">' + escapeHtml(c.model || '기종 미등록') + (c.ip ? ' · ' + escapeHtml(c.ip) : '') + '</div>' +
+          '</div>' +
+          '<button class="badge ' + (paid ? 'badge-paid' : 'badge-unpaid') + '" onclick="toggleStatus(' + c.id + ')">' +
+            (paid ? '✓ 수납완료' : '● 미수') +
+          '</button>' +
+        '</div>' +
+        '<div class="cc-bill">' +
+          '<div>' +
+            '<div class="cc-bill-label">당월 청구액' + (vatMode === "포함" ? " (VAT 포함)" : " (VAT 별도)") + '</div>' +
+            '<div class="cc-bill-sub">공급 ' + money(bill.supply) + ' · VAT ' + money(bill.vat) + '</div>' +
+          '</div>' +
+          '<div class="cc-bill-value">' + money(bill.total) + '원</div>' +
+        '</div>' +
+        '<div class="cc-counters">' +
+          '<label class="cc-field"><span>흑백 당월 카운터</span>' +
+            '<input type="number" inputmode="numeric" value="' + c.bCurr + '" onchange="updateCounter(' + c.id + ', \'bCurr\', this.value)">' +
+            '<em>' + money(calc.bUsed) + '매 사용' + (calc.bOverFee > 0 ? ' · 초과 ' + money(calc.bOverFee) + '원' : '') + '</em>' +
+          '</label>' +
+          '<label class="cc-field"><span>컬러 당월 카운터</span>' +
+            '<input type="number" inputmode="numeric" value="' + c.cCurr + '" onchange="updateCounter(' + c.id + ', \'cCurr\', this.value)">' +
+            '<em>' + money(calc.cUsed) + '매 사용' + (calc.cOverFee > 0 ? ' · 초과 ' + money(calc.cOverFee) + '원' : '') + '</em>' +
+          '</label>' +
+        '</div>' +
+        tonerGridHtml(c) +
+        '<div class="cc-actions">' +
+          '<button class="btn-secondary" onclick="showInvoice(' + c.id + ')">📄 청구서</button>' +
+          '<button class="btn-secondary" onclick="openEditModal(' + c.id + ')">✏️ 수정</button>' +
+          '<button class="btn-secondary cc-del" onclick="deleteClient(' + c.id + ')">🗑 삭제</button>' +
+        '</div>' +
+      '</div>';
+  }).join("");
+}
+
+function renderStats() {
+  let totalBilling = 0, paidTotal = 0, unpaidTotal = 0;
+  clients.forEach(function (c) {
+    const bill = billing(calcClient(c).supply);
+    totalBilling += bill.total;
+    if (c.status === "수납완료") paidTotal += bill.total;
+    else unpaidTotal += bill.total;
+  });
+
+  document.getElementById("statTotalCount").textContent = clients.length + " 곳";
+  document.getElementById("statTotalBilling").textContent = money(totalBilling) + " 원";
+  document.getElementById("statPaidAmount").textContent = money(paidTotal) + " 원";
+  document.getElementById("statUnpaidAmount").textContent = money(unpaidTotal) + " 원";
+}
+
+function renderAll() {
+  renderPeriod();
+  renderVatButtons();
+  renderTable();
+}
+
+// ==========================================
+// 6. 입력·상태 변경
+// ==========================================
+function updateCounter(id, field, val) {
+  const c = clients.find(function (item) { return item.id === id; });
+  if (c) {
+    c[field] = num(val);
+    saveData();
+  }
+}
+
+function toggleStatus(id) {
+  const c = clients.find(function (item) { return item.id === id; });
+  if (c) {
+    c.status = c.status === "수납완료" ? "미수" : "수납완료";
+    saveData();
+  }
+}
+
+function deleteClient(id) {
+  if (confirm("정말 이 거래처를 목록에서 삭제하시겠습니까?")) {
+    clients = clients.filter(function (c) { return c.id !== id; });
+    saveData();
+  }
+}
+
+function setFilter(mode) {
+  filterMode = mode;
+  renderTable();
+}
+
+function onSearch(value) {
+  searchTerm = value || "";
+  renderTable();
+}
+
+function clearSearch() {
+  searchTerm = "";
+  const input = document.getElementById("searchInput");
+  if (input) input.value = "";
+  renderTable();
+}
+
+function setVatMode(mode) {
+  vatMode = (mode === "포함") ? "포함" : "별도";
+  saveVatMode();
+  markDirty();
+  renderAll();
+}
+
+// Modal Controls
+function openAddModal() { document.getElementById("addModal").classList.add("active"); }
+function closeAddModal() { document.getElementById("addModal").classList.remove("active"); }
+
+function saveNewClient() {
+  const name = document.getElementById("newName").value.trim();
+  const model = document.getElementById("newModel").value.trim();
+  const baseFee = num(document.getElementById("newBaseFee").value);
+  const bBase = num(document.getElementById("newBBase").value);
+  const bRate = num(document.getElementById("newBRate").value);
+  const cBase = num(document.getElementById("newCBase").value);
+  const cRate = num(document.getElementById("newCRate").value);
+  const bInit = num(document.getElementById("newBInit").value);
+  const cInit = num(document.getElementById("newCInit").value);
+
+  if (!name) { alert("거래처명을 입력해주세요."); return; }
+
+  const newId = clients.length > 0 ? Math.max.apply(null, clients.map(function (c) { return c.id; })) + 1 : 1;
+  clients.push(normalizeClient({
+    id: newId, name: name, model: model, baseFee: baseFee,
+    bPrev: bInit, bCurr: bInit, bBase: bBase, bRate: bRate,
+    cPrev: cInit, cCurr: cInit, cBase: cBase, cRate: cRate,
+    toner: { k: 100, c: 100, m: 100, y: 100 },
+    status: "미수"
+  }));
+
+  saveData();
+  closeAddModal();
+  document.getElementById("newName").value = "";
+  document.getElementById("newModel").value = "";
+}
+
+// 거래처 정보 수정
+let editId = null;
+
+function setFieldValue(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.value = value;
+}
+
+function openEditModal(id) {
+  const c = clients.find(function (item) { return item.id === id; });
+  if (!c) return;
+  editId = id;
+  setFieldValue("editName", c.name);
+  setFieldValue("editModel", c.model);
+  setFieldValue("editIp", c.ip || "");
+  setFieldValue("editBaseFee", c.baseFee);
+  setFieldValue("editBBase", c.bBase);
+  setFieldValue("editBRate", c.bRate);
+  setFieldValue("editCBase", c.cBase);
+  setFieldValue("editCRate", c.cRate);
+  setFieldValue("editBPrev", c.bPrev);
+  setFieldValue("editCPrev", c.cPrev);
+  setFieldValue("editTk", c.toner.k);
+  setFieldValue("editTc", c.toner.c);
+  setFieldValue("editTm", c.toner.m);
+  setFieldValue("editTy", c.toner.y);
+  document.getElementById("editModal").classList.add("active");
+}
+
+function closeEditModal() {
+  document.getElementById("editModal").classList.remove("active");
+  editId = null;
+}
+
+function clampPercent(v) {
+  const n = num(v, 0);
+  return Math.max(0, Math.min(100, n));
+}
+
+function saveEditClient() {
+  const c = clients.find(function (item) { return item.id === editId; });
+  if (!c) { closeEditModal(); return; }
+  const name = document.getElementById("editName").value.trim();
+  if (!name) { alert("거래처명을 입력해 주세요."); return; }
+
+  c.name = name;
+  c.model = document.getElementById("editModel").value.trim();
+  c.ip = document.getElementById("editIp").value.trim();
+  c.baseFee = num(document.getElementById("editBaseFee").value);
+  c.bBase = num(document.getElementById("editBBase").value);
+  c.bRate = num(document.getElementById("editBRate").value);
+  c.cBase = num(document.getElementById("editCBase").value);
+  c.cRate = num(document.getElementById("editCRate").value);
+  c.bPrev = num(document.getElementById("editBPrev").value);
+  c.cPrev = num(document.getElementById("editCPrev").value);
+  c.toner.k = clampPercent(document.getElementById("editTk").value);
+  c.toner.c = clampPercent(document.getElementById("editTc").value);
+  c.toner.m = clampPercent(document.getElementById("editTm").value);
+  c.toner.y = clampPercent(document.getElementById("editTy").value);
+
+  saveData();
+  closeEditModal();
+  toast("거래처 정보를 저장했습니다.");
+}
+
+// ==========================================
+// 7. 월 마감
+// ==========================================
+function nextMonth(p) {
+  if (p.month === 12) return { year: p.year + 1, month: 1 };
+  return { year: p.year, month: p.month + 1 };
+}
+
+function closeMonth() {
+  const next = nextMonth(period);
+  const msg =
+    "[" + periodText() + "] 마감하고 [" + next.year + "년 " + next.month + "월]로 넘어갑니다.\n\n" +
+    "· 거래처 " + clients.length + "곳의 당월 카운터를 전월로 이월\n" +
+    "· 수납 상태를 모두 '미수'로 초기화\n" +
+    "· 기준 월을 " + next.year + "년 " + next.month + "월로 이동\n\n" +
+    "되돌릴 수 없으니 먼저 [백업(JSON)]을 받아 두세요. 진행할까요?";
+
+  if (!confirm(msg)) return;
+
+  clients.forEach(function (c) {
+    c.bPrev = c.bCurr;
+    c.cPrev = c.cCurr;
+    c.status = "미수";
+  });
+  period = next;
+  savePeriod();
+  saveData();
+
+  alert("[" + period.year + "년 " + (period.month === 1 ? 12 : period.month - 1) + "월] 마감 완료.\n" +
+        "이제 [" + periodText() + "] 기준으로 검침값을 입력하면 됩니다.");
+}
+
+// ==========================================
+// 8. 백업(JSON) / 복원
+// ==========================================
+function downloadText(filename, text, mime) {
+  const blob = new Blob([text], { type: mime || "application/octet-stream" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+}
+
+function stamp() {
+  const d = new Date();
+  return "" + d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate()) + "-" + pad2(d.getHours()) + pad2(d.getMinutes());
+}
+
+function exportJson() {
+  const payload = {
+    app: "동남시스템 복사기 렌탈 관리 프로그램",
+    version: 3,
+    savedAt: new Date().toISOString(),
+    period: period,
+    vatMode: vatMode,
+    clients: clients
+  };
+  downloadText("복사기_렌탈_백업_" + stamp() + ".json", JSON.stringify(payload, null, 2), "application/json;charset=utf-8");
+}
+
+function pickJson() { document.getElementById("jsonFileInput").click(); }
+
+function handleJsonPick(input) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function () {
+    try {
+      const data = JSON.parse(decodeBytes(reader.result));
+      applyBackup(data);
+    } catch (e) {
+      alert("백업 파일을 읽지 못했습니다.\n원인: " + e.message + "\n이 프로그램에서 [백업(JSON)]으로 받은 파일인지 확인해 주세요.");
+    }
+    input.value = "";
+  };
+  reader.onerror = function () {
+    alert("파일을 여는 중 오류가 났습니다. 파일이 다른 프로그램에서 열려 있지 않은지 확인해 주세요.");
+    input.value = "";
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function applyBackup(data) {
+  const list = Array.isArray(data) ? data : (data && data.clients);
+  if (!Array.isArray(list)) throw new Error("거래처 목록(clients)이 없습니다.");
+
+  const when = (data && data.savedAt) ? new Date(data.savedAt).toLocaleString("ko-KR") : "알 수 없음";
+  if (!confirm("백업 파일로 되돌립니다.\n\n· 거래처 " + list.length + "곳\n· 백업 시각: " + when +
+               "\n\n지금 화면의 데이터는 덮어써집니다. 진행할까요?")) {
+    return;
+  }
+
+  clients = list.map(normalizeClient);
+  if (data && data.period && data.period.year > 2000) {
+    period = { year: num(data.period.year), month: num(data.period.month, 1) };
+    savePeriod();
+  }
+  if (data && (data.vatMode === "별도" || data.vatMode === "포함")) {
+    vatMode = data.vatMode;
+    saveVatMode();
+  }
+  saveData();
+  alert("복원 완료. 거래처 " + clients.length + "곳 · 기준 " + periodText());
+}
+
+// ==========================================
+// 9. 검침 CSV 불러오기
+// ==========================================
+function pickCsv() { document.getElementById("csvFileInput").click(); }
+
+// UTF-8 / UTF-8-SIG / EUC-KR(CP949) 자동 판별
+function decodeBytes(buffer) {
+  const bytes = new Uint8Array(buffer);
+  if (bytes.length > 2 && bytes[0] === 0xEF && bytes[1] === 0xBB && bytes[2] === 0xBF) {
+    return new TextDecoder("utf-8").decode(bytes.subarray(3));
+  }
+  try {
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } catch (e) {
+    // UTF-8이 아니면 EUC-KR(CP949)로 다시 시도
+  }
+  try {
+    return new TextDecoder("euc-kr").decode(bytes);
+  } catch (e) {
+    return new TextDecoder("utf-8").decode(bytes);
+  }
+}
+
+function parseCsvText(text) {
+  const rows = [];
+  let row = [], field = "", inQuotes = false;
+  const s = String(text).replace(/^\uFEFF/, "");
+  for (let i = 0; i < s.length; i++) {
+    const ch = s[i];
+    if (inQuotes) {
+      if (ch === '"') {
+        if (s[i + 1] === '"') { field += '"'; i++; }
+        else inQuotes = false;
+      } else field += ch;
+    } else if (ch === '"') {
+      inQuotes = true;
+    } else if (ch === ",") {
+      row.push(field); field = "";
+    } else if (ch === "\r") {
+      // 줄바꿈 처리에서 무시
+    } else if (ch === "\n") {
+      row.push(field); rows.push(row); row = []; field = "";
+    } else {
+      field += ch;
+    }
+  }
+  if (field.length || row.length) { row.push(field); rows.push(row); }
+  return rows.filter(function (r) { return r.some(function (v) { return String(v).trim() !== ""; }); });
+}
+
+const CSV_ALIASES = {
+  date:  ["검침일시", "검침 일시", "일시", "날짜"],
+  name:  ["거래처명", "거래처", "고객명"],
+  ip:    ["복합기ip", "ip", "복합기 ip", "아이피"],
+  model: ["설치모델", "모델", "기종", "모델명"],
+  mono:  ["흑백카운터", "흑백 카운터", "흑백"],
+  color: ["컬러카운터", "컬러 카운터", "컬러"],
+  k:     ["토너k", "토너 k", "k"],
+  c:     ["토너c", "토너 c", "c"],
+  m:     ["토너m", "토너 m", "m"],
+  y:     ["토너y", "토너 y", "y"],
+  status:["상태", "비고"]
+};
+
+// 헤더 줄이 있으면 이름으로, 없으면 검침기 기본 순서로 읽는다
+function csvIndexOf(headerRow) {
+  if (!headerRow) return null;
+  const map = {};
+  let hit = 0;
+  headerRow.forEach(function (cell, idx) {
+    const key = String(cell).trim().toLowerCase().replace(/\s+/g, "");
+    Object.keys(CSV_ALIASES).forEach(function (field) {
+      const alias = CSV_ALIASES[field].map(function (a) { return a.replace(/\s+/g, ""); });
+      if (alias.indexOf(key) >= 0 && map[field] === undefined) {
+        map[field] = idx; hit++;
+      }
+    });
+  });
+  if (hit < 3) return null;
+  return map;
+}
+
+function cleanNumber(v) {
+  if (v == null) return null;
+  const s = String(v).replace(/[^0-9.\-]/g, "");
+  if (s === "" || s === "-") return null;
+  const n = parseFloat(s);
+  return isNaN(n) ? null : Math.round(n);
+}
+
+function parseCheckRows(text) {
+  const rows = parseCsvText(text);
+  if (!rows.length) return [];
+
+  const fixed = { date: 0, name: 1, ip: 2, model: 3, mono: 4, color: 5, k: 7, c: 8, m: 9, y: 10, status: 11 };
+  let map = fixed;
+  let start = 0;
+
+  const looksLikeHeader = cleanNumber(rows[0][fixed.mono]) === null && String(rows[0][fixed.date] || "").indexOf("검침") >= 0;
+  const headerMap = csvIndexOf(rows[0]);
+  if (looksLikeHeader || headerMap) {
+    map = headerMap || fixed;
+    start = 1;
+  }
+
+  const records = [];
+  for (let i = start; i < rows.length; i++) {
+    const r = rows[i];
+    const get = function (field) { return map[field] === undefined ? "" : String(r[map[field]] == null ? "" : r[map[field]]).trim(); };
+    const name = get("name");
+    const ip = get("ip");
+    const mono = cleanNumber(get("mono"));
+    const color = cleanNumber(get("color"));
+    if (!name && !ip) continue;
+    if (mono === null && color === null) continue;
+    records.push({
+      date: get("date"),
+      name: name,
+      ip: ip,
+      model: get("model"),
+      mono: mono,
+      color: color,
+      toner: { k: cleanNumber(get("k")), c: cleanNumber(get("c")), m: cleanNumber(get("m")), y: cleanNumber(get("y")) },
+      status: get("status")
+    });
+  }
+  return records;
+}
+
+function normName(s) {
+  return String(s || "").toLowerCase().replace(/\s+/g, "").replace(/[()\[\]{}\-_.]/g, "");
+}
+
+function normIp(s) { return String(s || "").replace(/\s+/g, ""); }
+
+function handleCsvPick(input) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function () {
+    try {
+      const text = decodeBytes(reader.result);
+      const records = parseCheckRows(text);
+      if (!records.length) {
+        alert("CSV에서 검침 줄을 찾지 못했습니다.\n검침기에서 만든 [동남시스템_검침대장.csv]인지 확인해 주세요.");
+        return;
+      }
+      applyCheckRecords(records, file.name);
+    } catch (e) {
+      alert("CSV를 읽지 못했습니다.\n원인: " + e.message + "\n파일이 엑셀에서 열려 있으면 닫고 다시 시도해 주세요.");
+    }
+    input.value = "";
+  };
+  reader.onerror = function () {
+    alert("파일을 여는 중 오류가 났습니다. 다시 시도해 주세요.");
+    input.value = "";
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function applyCheckRecords(records, fileName) {
+  // 같은 거래처가 여러 번 찍혔으면 가장 최근 검침 1건만 사용
+  const sorted = records.slice().sort(function (a, b) { return String(a.date).localeCompare(String(b.date)); });
+  const latest = new Map();
+  sorted.forEach(function (rec) {
+    const key = normName(rec.name) + "|" + normIp(rec.ip);
+    latest.set(key, rec);
+  });
+  const recs = Array.from(latest.values());
+
+  const used = new Set();
+  const results = [];
+  const warnings = [];
+
+  clients.forEach(function (c) {
+    const cName = normName(c.name);
+    const cIp = normIp(c.ip);
+    let found = null, how = "";
+
+    found = recs.find(function (r) { return !used.has(r) && cName && normName(r.name) === cName; });
+    if (found) how = "이름";
+
+    if (!found && cIp) {
+      found = recs.find(function (r) { return !used.has(r) && normIp(r.ip) && normIp(r.ip) === cIp; });
+      if (found) how = "IP";
+    }
+    if (!found && cName && cName.length >= 2) {
+      found = recs.find(function (r) {
+        if (used.has(r)) return false;
+        const n = normName(r.name);
+        return n && (n.indexOf(cName) >= 0 || cName.indexOf(n) >= 0);
+      });
+      if (found) how = "이름 일부";
+    }
+    if (!found) return;
+
+    used.add(found);
+    const beforeB = c.bCurr, beforeC = c.cCurr;
+    if (found.mono !== null) c.bCurr = found.mono;
+    if (found.color !== null) c.cCurr = found.color;
+    const t = found.toner || {};
+    ["k", "c", "m", "y"].forEach(function (ch) {
+      if (t[ch] !== null && t[ch] !== undefined) c.toner[ch] = Math.max(0, Math.min(100, t[ch]));
+    });
+    if (found.ip) c.ip = found.ip;
+    if (!c.model && found.model) c.model = found.model;
+    if (found.date) c.lastCheck = found.date;
+
+    results.push({ name: c.name, mono: c.bCurr, color: c.cCurr, how: how });
+
+    if (c.bCurr < c.bPrev || c.cCurr < c.cPrev) {
+      warnings.push(c.name + " (전월 " + money(c.bPrev) + "/" + money(c.cPrev) + " → 당월 "
+        + money(c.bCurr) + "/" + money(c.cCurr) + ", 이전 값 " + money(beforeB) + "/" + money(beforeC) + ")");
+    }
+  });
+
+  const unmatched = recs.filter(function (r) { return !used.has(r); });
+  const unmatchedNames = Array.from(new Set(unmatched.map(function (r) { return r.name || r.ip || "(이름 없음)"; })));
+
+  if (!results.length) {
+    alert("불러온 " + recs.length + "건 중 이 관리대장의 거래처와 맞는 곳이 없습니다.\n\n" +
+          "CSV 거래처명: " + unmatchedNames.slice(0, 8).join(", ") + (unmatchedNames.length > 8 ? " 외 " + (unmatchedNames.length - 8) + "곳" : "") + "\n\n" +
+          "관리대장의 거래처명과 같게 맞추거나, [신규 거래처 추가]로 먼저 등록한 뒤 다시 불러와 주세요.");
+    return;
+  }
+
+  const ask =
+    "[" + fileName + "]에서 검침 " + recs.length + "건을 읽었습니다.\n" +
+    "거래처 " + results.length + "곳의 당월 카운터와 토너 잔량을 이 값으로 채웁니다.\n\n" +
+    (unmatchedNames.length ? "· 매칭 안 된 검침: " + unmatchedNames.length + "곳 (" + unmatchedNames.slice(0, 5).join(", ") +
+      (unmatchedNames.length > 5 ? " 외" : "") + ")\n" : "") +
+    (warnings.length ? "· 전월보다 작은 카운터: " + warnings.length + "곳\n" : "") +
+    "\n진행할까요?";
+
+  if (!confirm(ask)) return;
+
+  saveData();
+
+  let msg = "검침 CSV 반영 완료 — " + periodText() + "\n\n";
+  msg += "· 매칭 반영: " + results.length + "곳\n";
+  msg += results.slice(0, 6).map(function (r) { return "   - " + r.name + " (흑백 " + money(r.mono) + " / 컬러 " + money(r.color) + ", " + r.how + " 매칭)"; }).join("\n");
+  if (results.length > 6) msg += "\n   - 외 " + (results.length - 6) + "곳";
+  msg += "\n\n· 미매칭 검침: " + unmatchedNames.length + "곳";
+  if (unmatchedNames.length) {
+    msg += "\n   " + unmatchedNames.slice(0, 8).join(", ") + (unmatchedNames.length > 8 ? " 외 " + (unmatchedNames.length - 8) + "곳" : "");
+    msg += "\n   (미매칭 거래처는 [신규 거래처 추가]로 등록한 뒤 다시 불러오면 채워집니다.)";
+  }
+  if (warnings.length) {
+    msg += "\n\n· 확인 필요 (카운터가 전월보다 작음): " + warnings.length + "곳\n   " + warnings.join("\n   ");
+    msg += "\n   기종 교체나 카운터 초기화가 있었는지 확인해 주세요.";
+  }
+  alert(msg);
+}
+
+// ==========================================
+// 10. 청구서
+// ==========================================
+function showInvoice(id) {
+  const c = clients.find(function (item) { return item.id === id; });
+  if (!c) return;
+
+  const calc = calcClient(c);
+  const bill = billing(calc.supply);
+  const d = new Date();
+  const issue = d.getFullYear() + ". " + (d.getMonth() + 1) + ". " + d.getDate() + ".";
+
+  // 별도: 공급가액 → 부가세 → 총액 / 포함: 청구 합계 → 부가세 → 공급가액
+  const sumRows = vatMode === "별도"
+    ? [["공급가액 합계", bill.supply], ["부가가치세 (VAT 10%)", bill.vat], ["총 청구 금액 (VAT 포함)", bill.total]]
+    : [["청구 합계 (VAT 포함)", bill.total], ["부가가치세 (청구액에 포함)", bill.vat], ["공급가액 (VAT 제외)", bill.supply]];
+
+  const html = `
+    <div class="invoice-box">
+      <div class="invoice-header">
+        <h2>복합기 렌탈료 청구서</h2>
+        <p style="color:#64748b; font-size:13px; margin-top:4px;">청구월: ${periodText()}분 | 발행일: ${issue}</p>
+      </div>
+
+      <div class="inv-mobile-sum">
+        <div><span>공급가액</span><strong>${money(bill.supply)}원</strong></div>
+        <div><span>부가세</span><strong>${money(bill.vat)}원</strong></div>
+        <div class="total"><span>총 청구</span><strong>${money(bill.total)}원</strong></div>
+      </div>
+
+      <table class="party-table">
+        <tr>
+          <td style="background:#f1f5f9; font-weight:700; width:18%;">거래처명</td>
+          <td style="font-weight:700; font-size:15px;">${escapeHtml(c.name)} 귀하</td>
+          <td style="background:#f1f5f9; font-weight:700; width:18%;">공급자 상호</td>
+          <td>${SUPPLIER.name} (대표: ${SUPPLIER.ceo})</td>
+        </tr>
+        <tr>
+          <td style="background:#f1f5f9; font-weight:700;">설치 기종</td>
+          <td>${escapeHtml(c.model)}</td>
+          <td style="background:#f1f5f9; font-weight:700;">연락처</td>
+          <td>${SUPPLIER.phone}</td>
+        </tr>
+      </table>
+
+      <table style="width:100%; border-collapse:collapse; margin-bottom:20px;">
+        <thead>
+          <tr style="background:#1e3a8a; color:white;">
+            <th style="padding:10px; border:1px solid #cbd5e1;">항목</th>
+            <th style="padding:10px; border:1px solid #cbd5e1;">전월 검침</th>
+            <th style="padding:10px; border:1px solid #cbd5e1;">당월 검침</th>
+            <th style="padding:10px; border:1px solid #cbd5e1;">사용 매수</th>
+            <th style="padding:10px; border:1px solid #cbd5e1;">기본 제공</th>
+            <th style="padding:10px; border:1px solid #cbd5e1;">초과 단가</th>
+            <th style="padding:10px; border:1px solid #cbd5e1;">금액(원)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:8px; border:1px solid #cbd5e1; font-weight:700; text-align:center;">기본 렌탈료</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:center;">-</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:center;">-</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:center;">-</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:center;">-</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:center;">-</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:right;">${money(c.baseFee)}원</td>
+          </tr>
+          <tr>
+            <td style="padding:8px; border:1px solid #cbd5e1; font-weight:700; text-align:center;">흑백 출력</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:right;">${money(c.bPrev)}</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:right;">${money(c.bCurr)}</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:right;">${money(calc.bUsed)}매</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:right;">${money(c.bBase)}매</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:right;">${money(c.bRate)}원</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:right;">${money(calc.bOverFee)}원</td>
+          </tr>
+          <tr>
+            <td style="padding:8px; border:1px solid #cbd5e1; font-weight:700; text-align:center;">컬러 출력</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:right;">${money(c.cPrev)}</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:right;">${money(c.cCurr)}</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:right;">${money(calc.cUsed)}매</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:right;">${money(c.cBase)}매</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:right;">${money(c.cRate)}원</td>
+            <td style="padding:8px; border:1px solid #cbd5e1; text-align:right;">${money(calc.cOverFee)}원</td>
+          </tr>
+          ${sumRows.map(function (row, idx) {
+            const last = idx === sumRows.length - 1;
+            const pad = last ? "padding:12px;" : "padding:9px;";
+            const bg = last ? "background:#dbeafe; font-weight:800; font-size:16px;" : "background:#f8fafc; font-weight:700;";
+            const color = last ? "color:#1e3a8a;" : "";
+            return '<tr style="' + bg + '">' +
+              '<td colspan="6" style="' + pad + ' border:1px solid #cbd5e1; text-align:center; ' + color + '">' + row[0] + '</td>' +
+              '<td style="' + pad + ' border:1px solid #cbd5e1; text-align:right; ' + color + '">' + money(row[1]) + '원</td>' +
+              '</tr>';
+          }).join("")}
+        </tbody>
+      </table>
+
+      <div style="text-align:center; font-size:12px; color:#64748b; font-weight:700; margin-bottom:10px;">
+        ${vatMode === "별도" ? "부가세 별도 청구 (공급가액 + 부가세 10%)" : "부가세 포함 청구 (표시 금액에 부가세 포함)"}
+      </div>
+
+      <div style="background:#fffbeb; border:1px solid #fde68a; padding:12px; border-radius:6px; font-size:13px; text-align:center; font-weight:700;">
+        입금 계좌: ${SUPPLIER.bank} | 매월 10일까지 입금 부탁드립니다.
+      </div>
+    </div>
+  `;
+  document.getElementById("invoicePrintArea").innerHTML = html;
+  document.getElementById("printModal").classList.add("active");
+}
+function closePrintModal() { document.getElementById("printModal").classList.remove("active"); }
+
+// ==========================================
+// 11. 엑셀(CSV) 저장 — 기존 형식 유지, 파일명만 기준 월 반영
+// ==========================================
+function exportToCSV() {
+  let csv = "\uFEFF거래처명,설치기종,기본료,흑백전월,흑백당월,흑백사용량,흑백기본,흑백단가,흑백초과금,컬러전월,컬러당월,컬러사용량,컬러기본,컬러단가,컬러초과금,당월총청구액,수납상태\n";
+  clients.forEach(function (c) {
+    const calc = calcClient(c);
+    const total = c.baseFee + calc.bOverFee + calc.cOverFee;
+    csv += "\"" + c.name + "\",\"" + c.model + "\"," + c.baseFee + "," + c.bPrev + "," + c.bCurr + "," +
+      calc.bUsed + "," + c.bBase + "," + c.bRate + "," + calc.bOverFee + "," +
+      c.cPrev + "," + c.cCurr + "," + calc.cUsed + "," + c.cBase + "," + c.cRate + "," + calc.cOverFee + "," +
+      total + ",\"" + c.status + "\"\n";
+  });
+  downloadText("복사기_렌탈_정산대장_" + periodCode() + ".csv", csv, "text/csv;charset=utf-8;");
+}
+
+// ==========================================
+// 12. PC·폰 실시간 동기화
+//    - 구글 앱스 스크립트 안: google.script.run
+//    - 바깥 브라우저(파일·웹): fetch (text/plain 으로 사전요청 회피)
+// ==========================================
+const SYNC_POLL_MS = 30000;      // 자동 확인 간격
+const SYNC_DEBOUNCE_MS = 1200;   // 변경 후 올리기까지 기다리는 시간
+
+let syncCfg = loadSyncConfig();
+let syncState = { mode: "local", detail: "이 기기에만 저장", at: "" };
+let syncBusy = false;
+let syncPending = false;
+let syncDebounceTimer = null;
+let syncPollTimer = null;
+
+function loadSyncConfig() {
+  const base = { url: "", auto: true, lastServerTime: "", lastSyncAt: "", dirty: false };
+  try {
+    const raw = localStorage.getItem(STORE_SYNC);
+    if (!raw) return base;
+    const p = JSON.parse(raw) || {};
+    return {
+      url: typeof p.url === "string" ? p.url.trim() : "",
+      auto: p.auto !== false,
+      lastServerTime: typeof p.lastServerTime === "string" ? p.lastServerTime : "",
+      lastSyncAt: typeof p.lastSyncAt === "string" ? p.lastSyncAt : "",
+      dirty: !!p.dirty
+    };
+  } catch (e) { return base; }
+}
+
+function saveSyncConfig() {
+  if (!syncCfg.url && !inAppsScript()) {
+    // 로컬 전용일 때는 동기화 키를 만들지 않는다(기존 저장소 그대로)
+    return;
+  }
+  try { localStorage.setItem(STORE_SYNC, JSON.stringify(syncCfg)); } catch (e) { /* 무시 */ }
+}
+
+function inAppsScript() {
+  try {
+    return typeof google !== "undefined" && google && google.script && google.script.run ? true : false;
+  } catch (e) { return false; }
+}
+
+function syncConfigured() {
+  return inAppsScript() || !!syncCfg.url;
+}
+
+function hasFetch() { return typeof fetch === "function"; }
+
+// 앱스 스크립트의 콜백 방식을 Promise로 감싼다
+function gasRun(fnName, arg) {
+  return new Promise(function (resolve, reject) {
+    if (!inAppsScript()) { reject(new Error("구글 앱스 스크립트 환경이 아닙니다.")); return; }
+    let settled = false;
+    const runner = google.script.run
+      .withSuccessHandler(function (res) { settled = true; resolve(res); })
+      .withFailureHandler(function (err) { settled = true; reject(err instanceof Error ? err : new Error(String((err && err.message) || err))); });
+    try {
+      if (arg === undefined) runner[fnName]();
+      else runner[fnName](arg);
+    } catch (e) {
+      if (!settled) reject(e);
+    }
+  });
+}
+
+function parseLooseJson(raw) {
+  if (raw == null) return null;
+  if (typeof raw === "object") return raw;
+  const text = String(raw).replace(/^\uFEFF/, "").trim();
+  if (!text) return null;
+  try { return JSON.parse(text); } catch (e) { throw new Error("서버 응답을 읽지 못했습니다. 배포 주소가 [웹 앱]인지 확인해 주세요."); }
+}
+
+function buildSyncPayload() {
+  return {
+    app: APP_ID,
+    version: 3,
+    savedAt: new Date().toISOString(),
+    period: { year: period.year, month: period.month },
+    vatMode: vatMode,
+    clients: clients
+  };
+}
+
+function syncUrlWithAction(url, action) {
+  const base = String(url).replace(/[?&]+$/, "");
+  const sep = base.indexOf("?") >= 0 ? "&" : "?";
+  return base + sep + "action=" + action + "&t=" + Date.now();
+}
+
+function normalizeRemote(raw) {
+  const obj = parseLooseJson(raw);
+  if (!obj) throw new Error("서버가 빈 응답을 보냈습니다. 배포 주소를 다시 확인해 주세요.");
+  if (obj.ok === false) throw new Error(obj.error || "서버가 저장을 거부했습니다.");
+  if (obj.empty) return { ok: true, empty: true, savedAt: "", data: null };
+  if (obj.data && typeof obj.data === "object") {
+    return { ok: true, empty: false, savedAt: String(obj.savedAt || (obj.data.savedAt || "")), data: obj.data };
+  }
+  if (Array.isArray(obj.clients)) {
+    return { ok: true, empty: false, savedAt: String(obj.savedAt || ""), data: obj };
+  }
+  if (obj.ok === true) {
+    // 저장 응답: { ok:true, savedAt, count } 처럼 데이터 없이 성공만 알려 오는 경우
+    return { ok: true, empty: false, savedAt: String(obj.savedAt || ""), data: null, ack: true };
+  }
+  throw new Error("서버 응답에 거래처 목록이 없습니다. 배포한 스크립트가 최신인지 확인해 주세요.");
+}
+
+async function remoteGet() {
+  if (inAppsScript()) {
+    return normalizeRemote(await gasRun("getSyncData"));
+  }
+  if (!syncCfg.url) throw new Error("동기화 주소가 없습니다.");
+  if (!hasFetch()) throw new Error("이 브라우저에서는 동기화를 쓸 수 없습니다. 크롬이나 사파리에서 열어 주세요.");
+  const res = await fetch(syncUrlWithAction(syncCfg.url, "get"), { method: "GET", redirect: "follow", cache: "no-store" });
+  if (!res.ok) throw new Error("서버 응답 " + res.status);
+  return normalizeRemote(await res.text());
+}
+
+async function remoteSave(payload) {
+  const body = JSON.stringify(payload);
+  if (inAppsScript()) {
+    return normalizeRemote(await gasRun("saveSyncData", body));
+  }
+  if (!syncCfg.url) throw new Error("동기화 주소가 없습니다.");
+  if (!hasFetch()) throw new Error("이 브라우저에서는 동기화를 쓸 수 없습니다. 크롬이나 사파리에서 열어 주세요.");
+  const res = await fetch(syncCfg.url, {
+    method: "POST",
+    redirect: "follow",
+    cache: "no-store",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: body
+  });
+  if (!res.ok) throw new Error("서버 응답 " + res.status);
+  return normalizeRemote(await res.text());
+}
+
+function describeSyncError(e) {
+  const msg = String((e && e.message) || e || "");
+  if (/Failed to fetch|NetworkError|Load failed|network error|TypeError: fetch/i.test(msg)) {
+    return "서버에 연결하지 못했습니다. 주소가 맞는지, 배포 액세스가 [모든 사용자]인지 확인해 주세요.";
+  }
+  if (/\b(401|403)\b/.test(msg)) {
+    return "접근 권한이 없습니다. 앱스 스크립트 [배포 관리]에서 액세스 권한을 [모든 사용자]로 다시 배포해 주세요.";
+  }
+  if (/\b404\b/.test(msg)) {
+    return "주소를 찾지 못했습니다. [새 배포] 후 받은 [웹 앱] 주소인지 확인해 주세요.";
+  }
+  return msg || "알 수 없는 오류입니다.";
+}
+
+function syncModeText() {
+  switch (syncState.mode) {
+    case "syncing": return "🔄 동기화 중";
+    case "synced": return "✅ 동기화됨";
+    case "error": return "⚠️ 동기화 오류";
+    case "conflict": return "⚠️ 확인 필요";
+    default: return "🔗 로컬 전용";
+  }
+}
+
+function setSyncState(mode, detail, at) {
+  syncState.mode = mode;
+  syncState.detail = detail || "";
+  syncState.at = at || (mode === "synced" ? clockText() : "");
+  renderSyncBadge();
+  renderSyncModalState();
+}
+
+function renderSyncBadge() {
+  const el = document.getElementById("syncBadge");
+  if (!el) return;
+  el.className = "sync-badge " + syncState.mode;
+  el.textContent = syncModeText() + (syncState.mode === "synced" && syncState.at ? " · " + syncState.at : "");
+  el.title = syncState.detail || "동기화 설정을 엽니다";
+}
+
+function renderSyncModalState() {
+  const line = document.getElementById("syncModalState");
+  if (line) line.textContent = "현재: " + syncModeText() + (syncState.detail ? " — " + syncState.detail : "");
+
+  const meta = document.getElementById("syncMeta");
+  if (meta) {
+    const where = inAppsScript() ? "구글 앱스 스크립트 화면" : (syncCfg.url ? "이 브라우저 → 웹앱 주소" : "이 기기에만");
+    meta.innerHTML =
+      "· 저장 위치: " + escapeHtml(where) + "<br>" +
+      "· 이 기기 마지막 동기화: " + escapeHtml(syncCfg.lastSyncAt ? fmtTime(syncCfg.lastSyncAt) : "-") + "<br>" +
+      "· 서버 기준 시각: " + escapeHtml(syncCfg.lastServerTime || "-") + "<br>" +
+      "· 자동 확인: " + (syncCfg.auto ? "30초마다 켜짐" : "꺼짐") + (syncCfg.dirty ? " · <strong style='color:#b45309;'>올리지 않은 수정 있음</strong>" : "");
+  }
+
+  const chk = document.getElementById("syncAutoChk");
+  if (chk) chk.checked = !!syncCfg.auto;
+
+  const urlInput = document.getElementById("syncUrlInput");
+  if (urlInput && document.activeElement !== urlInput) urlInput.value = syncCfg.url;
+}
+
+// 같은 내용인지 비교 (서버·내 기기 덮어쓰기 판단)
+function contentFingerprint(d) {
+  const list = (d && d.clients) || [];
+  const round = function (v) { return num(v); };
+  return JSON.stringify({
+    p: d && d.period ? [round(d.period.year), round(d.period.month)] : null,
+    v: (d && d.vatMode) || null,
+    c: list.map(function (c) {
+      const t = c.toner || {};
+      return [c.id, c.name, c.model, round(c.baseFee), round(c.bPrev), round(c.bCurr), round(c.bBase), round(c.bRate),
+        round(c.cPrev), round(c.cCurr), round(c.cBase), round(c.cRate), c.status, c.ip || "", c.lastCheck || "",
+        round(t.k), round(t.c), round(t.m), round(t.y)];
+    })
+  });
+}
+
+function applyRemoteData(data) {
+  if (!data || !Array.isArray(data.clients)) return false;
+  clients = data.clients.map(normalizeClient);
+  if (data.period && num(data.period.year) > 2000 && num(data.period.month) >= 1 && num(data.period.month) <= 12) {
+    period = { year: num(data.period.year), month: num(data.period.month) };
+    savePeriod();
+  }
+  if (data.vatMode === "별도" || data.vatMode === "포함") {
+    vatMode = data.vatMode;
+    saveVatMode();
+  }
+  persistClients();
+  renderAll();
+  return true;
+}
+
+function markDirty() {
+  syncCfg.dirty = true;
+  if (!syncConfigured()) return;
+  saveSyncConfig();
+  schedulePush();
+}
+
+function schedulePush() {
+  if (!syncConfigured()) return;
+  if (syncDebounceTimer) clearTimeout(syncDebounceTimer);
+  syncDebounceTimer = setTimeout(function () {
+    syncDebounceTimer = null;
+    pushNow();
+  }, SYNC_DEBOUNCE_MS);
+}
+
+async function pushNow(opts) {
+  opts = opts || {};
+  if (!syncConfigured()) {
+    if (!opts.silent) toast("동기화 주소를 먼저 넣어 주세요. [⚙️ 동기화 설정]");
+    return { ok: false, reason: "not-configured" };
+  }
+  if (syncBusy) { syncPending = true; return { ok: false, reason: "busy" }; }
+  // 서버와 내용이 어긋난 상태에서는 사람이 고르기 전에 덮어쓰지 않는다
+  if (syncState.mode === "conflict" && !opts.force) {
+    return { ok: false, conflict: true };
+  }
+
+  syncBusy = true;
+  setSyncState("syncing", "올리는 중");
+  try {
+    const payload = buildSyncPayload();
+    const res = await remoteSave(payload);
+    syncCfg.dirty = false;
+    syncCfg.lastServerTime = res.savedAt || payload.savedAt;
+    syncCfg.lastSyncAt = new Date().toISOString();
+    saveSyncConfig();
+    setSyncState("synced", "이 기기 → 서버 저장 완료", clockText());
+    if (!opts.silent) toast("서버에 올렸습니다 · 거래처 " + clients.length + "곳");
+    return { ok: true };
+  } catch (e) {
+    syncCfg.dirty = true;
+    saveSyncConfig();
+    setSyncState("error", describeSyncError(e));
+    if (!opts.silent) toast("올리지 못했습니다. " + describeSyncError(e));
+    return { ok: false, error: e };
+  } finally {
+    syncBusy = false;
+    if (syncPending) { syncPending = false; setTimeout(function () { pushNow({ silent: true }); }, 800); }
+  }
+}
+
+async function pullNow(opts) {
+  opts = opts || {};
+  if (!syncConfigured()) {
+    if (!opts.silent) { openSyncModal(); }
+    return { ok: false, reason: "not-configured" };
+  }
+  if (syncBusy) { syncPending = true; return { ok: false, reason: "busy" }; }
+
+  syncBusy = true;
+  if (!opts.silent) setSyncState("syncing", "가져오는 중");
+  try {
+    const res = await remoteGet();
+
+    if (res.empty) {
+      setSyncState("synced", "서버가 비어 있습니다", clockText());
+      if (localDataExisted && clients.length && !opts.force && !opts.quietPush) {
+        if (!opts.silent) toast("서버가 비어 있어 이 기기 내용을 올립니다.");
+        syncBusy = false;
+        return await pushNow({ silent: true });
+      }
+      return { ok: true, empty: true };
+    }
+
+    const serverNewer = !!res.savedAt && res.savedAt !== syncCfg.lastServerTime;
+    const same = contentFingerprint(res.data) === contentFingerprint(buildSyncPayload());
+
+    if (same) {
+      syncCfg.lastServerTime = res.savedAt || syncCfg.lastServerTime;
+      syncCfg.lastSyncAt = new Date().toISOString();
+      syncCfg.dirty = false;
+      saveSyncConfig();
+      setSyncState("synced", "서버와 같은 내용", clockText());
+      return { ok: true, applied: false };
+    }
+
+    if (!localDataExisted && !opts.force) {
+      // 이 기기에 저장된 대장이 없으면(새로 설치한 폰·새 브라우저) 서버 내용을 그대로 보여 준다
+      applyRemoteData(res.data);
+      syncCfg.lastServerTime = res.savedAt || "";
+      syncCfg.lastSyncAt = new Date().toISOString();
+      syncCfg.dirty = false;
+      saveSyncConfig();
+      setSyncState("synced", "서버 내용을 가져왔습니다", clockText());
+      return { ok: true, applied: true, adopted: true };
+    }
+
+    if (!opts.force && (serverNewer || !syncCfg.lastServerTime)) {
+      if (syncCfg.dirty) {
+        // 예약된 자동 올리기가 남아 있으면 취소한다(서버 내용을 덮어쓰지 않도록)
+        if (syncDebounceTimer) { clearTimeout(syncDebounceTimer); syncDebounceTimer = null; }
+        setSyncState("conflict", "서버가 바뀌었고 이 기기에도 올리지 않은 수정이 있습니다");
+        if (!opts.silent) toast("확인 필요 — 설정 창에서 [가져오기] 또는 [올리기]를 골라 주세요.");
+        return { ok: false, conflict: true, remote: res.data, savedAt: res.savedAt };
+      }
+      // 이 기기에 올리지 않은 수정이 없으면 서버 내용을 따른다
+      if (serverNewer || !syncCfg.lastServerTime) {
+        applyRemoteData(res.data);
+        syncCfg.lastServerTime = res.savedAt || "";
+        syncCfg.lastSyncAt = new Date().toISOString();
+        saveSyncConfig();
+        setSyncState("synced", "서버 내용을 가져왔습니다", clockText());
+        if (!opts.silent) toast("서버 내용을 가져왔습니다 · 거래처 " + clients.length + "곳");
+        return { ok: true, applied: true };
+      }
+    }
+
+    if (opts.force) {
+      applyRemoteData(res.data);
+      syncCfg.lastServerTime = res.savedAt || "";
+      syncCfg.lastSyncAt = new Date().toISOString();
+      syncCfg.dirty = false;
+      saveSyncConfig();
+      setSyncState("synced", "서버 내용으로 맞췄습니다", clockText());
+      return { ok: true, applied: true };
+    }
+
+    setSyncState("synced", "서버에 새 내용 없음");
+    return { ok: true, applied: false };
+  } catch (e) {
+    setSyncState("error", describeSyncError(e));
+    if (!opts.silent) toast("가져오지 못했습니다. " + describeSyncError(e));
+    return { ok: false, error: e };
+  } finally {
+    syncBusy = false;
+    if (syncPending) { syncPending = false; }
+  }
+}
+
+// 처음 열 때: 서버와 이 기기의 상태를 맞춘다
+async function syncStart() {
+  renderSyncBadge();
+  if (!syncConfigured()) {
+    setSyncState("local", "이 기기에만 저장");
+    return;
+  }
+  try {
+    const res = await remoteGet();
+
+    if (res.empty) {
+      if (localDataExisted) {
+        setSyncState("synced", "서버가 비어 있어 올리는 중", clockText());
+        await pushNow({ silent: true, force: true });
+      } else {
+        setSyncState("synced", "서버가 아직 비어 있음", clockText());
+      }
+      return;
+    }
+
+    const same = contentFingerprint(res.data) === contentFingerprint(buildSyncPayload());
+    if (same) {
+      syncCfg.lastServerTime = res.savedAt || "";
+      syncCfg.dirty = false;
+      saveSyncConfig();
+      setSyncState("synced", "서버와 같은 내용", clockText());
+      return;
+    }
+
+    if (!localDataExisted) {
+      // 새로 설치한 폰·새 브라우저: 서버 내용을 그대로 받는다
+      applyRemoteData(res.data);
+      syncCfg.lastServerTime = res.savedAt || "";
+      syncCfg.lastSyncAt = new Date().toISOString();
+      syncCfg.dirty = false;
+      saveSyncConfig();
+      setSyncState("synced", "서버 내용을 가져왔습니다", clockText());
+      return;
+    }
+
+    if (syncCfg.dirty) {
+      if (res.savedAt && res.savedAt !== syncCfg.lastServerTime) {
+        if (syncDebounceTimer) { clearTimeout(syncDebounceTimer); syncDebounceTimer = null; }
+        setSyncState("conflict", "서버도 바뀌었고 이 기기에도 올리지 않은 수정이 있습니다");
+        return;
+      }
+      await pushNow({ silent: true });
+      return;
+    }
+
+    if (!syncCfg.lastServerTime) {
+      // 처음 연결: 내용이 다르면 사람이 고르게 한다
+      setSyncState("conflict", "이 기기와 서버 내용이 다릅니다. 설정에서 [가져오기] 또는 [올리기]를 골라 주세요");
+      return;
+    }
+
+    if (res.savedAt && res.savedAt !== syncCfg.lastServerTime) {
+      applyRemoteData(res.data);
+      syncCfg.lastServerTime = res.savedAt;
+      syncCfg.lastSyncAt = new Date().toISOString();
+      saveSyncConfig();
+      setSyncState("synced", "서버 내용을 가져왔습니다", clockText());
+      return;
+    }
+
+    setSyncState("synced", "서버에 새 내용 없음", clockText());
+  } catch (e) {
+    setSyncState("error", describeSyncError(e));
+  }
+}
+
+function startAutoSync() {
+  if (syncPollTimer) clearInterval(syncPollTimer);
+  syncPollTimer = setInterval(function () {
+    if (!syncCfg.auto || !syncConfigured() || syncBusy) return;
+    if (typeof document !== "undefined" && document.visibilityState && document.visibilityState !== "visible") return;
+    pullNow({ silent: true });
+  }, SYNC_POLL_MS);
+
+  if (typeof document !== "undefined" && document.addEventListener) {
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState !== "visible") return;
+      if (!syncCfg.auto || !syncConfigured() || syncBusy) return;
+      pullNow({ silent: true });
+    });
+  }
+
+  if (typeof window !== "undefined" && window.addEventListener) {
+    // 창을 닫기 직전에 올리지 못한 수정을 한 번 더 보낸다
+    window.addEventListener("pagehide", function () {
+      if (!syncCfg.dirty || !syncConfigured() || inAppsScript()) return;
+      if (typeof navigator === "undefined" || !navigator.sendBeacon) return;
+      try {
+        navigator.sendBeacon(syncCfg.url, new Blob([JSON.stringify(buildSyncPayload())], { type: "text/plain;charset=utf-8" }));
+      } catch (e) { /* 다음에 열 때 다시 확인한다 */ }
+    });
+  }
+}
+
+// ---------- 동기화 설정 창 ----------
+function openSyncModal() {
+  renderSyncModalState();
+  document.getElementById("syncModal").classList.add("active");
+}
+function closeSyncModal() { document.getElementById("syncModal").classList.remove("active"); }
+
+function showSyncResult(text, kind) {
+  const el = document.getElementById("syncTestResult");
+  if (!el) return;
+  el.textContent = text;
+  el.className = "sync-result" + (kind ? " " + kind : "");
+}
+
+function setAutoSync(on) {
+  syncCfg.auto = !!on;
+  saveSyncConfig();
+  renderSyncModalState();
+}
+
+function clearSyncUrl() {
+  syncCfg.url = "";
+  syncCfg.lastServerTime = "";
+  syncCfg.dirty = false;
+  try { localStorage.removeItem(STORE_SYNC); } catch (e) { /* 무시 */ }
+  setSyncState("local", "이 기기에만 저장");
+  renderSyncModalState();
+  showSyncResult("주소를 지웠습니다. 이제 이 기기에만 저장합니다.", "");
+  toast("동기화를 껐습니다. 이 기기에만 저장합니다.");
+}
+
+function saveSyncSettings() {
+  const input = document.getElementById("syncUrlInput");
+  let url = (input && input.value ? input.value : "").trim().replace(/\s+/g, "");
+  if (url && !/^https:\/\//i.test(url)) {
+    showSyncResult("웹앱 주소는 https:// 로 시작해야 합니다. 배포 후 복사한 주소를 그대로 붙여넣어 주세요.", "ng");
+    return;
+  }
+  const changed = url !== syncCfg.url;
+  syncCfg.url = url;
+  if (changed) { syncCfg.lastServerTime = ""; }
+  saveSyncConfig();
+  closeSyncModal();
+
+  if (!url && !inAppsScript()) {
+    setSyncState("local", "이 기기에만 저장");
+    toast("동기화 주소를 지웠습니다. 이 기기에만 저장합니다.");
+    return;
+  }
+  setSyncState("syncing", "서버 확인 중");
+  syncStart();
+}
+
+async function testSyncConnection() {
+  const input = document.getElementById("syncUrlInput");
+  const url = (input && input.value ? input.value : "").trim().replace(/\s+/g, "");
+  if (!url && !inAppsScript()) { showSyncResult("먼저 웹앱 주소를 붙여넣어 주세요.", "ng"); return; }
+
+  const prev = syncCfg.url;
+  if (url) syncCfg.url = url;
+  showSyncResult("연결 확인 중…", "");
+  try {
+    const res = await remoteGet();
+    if (res.empty) {
+      showSyncResult("연결 성공. 서버는 아직 비어 있습니다.\n[저장하고 연결]을 누르면 이 기기 내용이 올라갑니다.", "ok");
+    } else {
+      const n = (res.data && res.data.clients ? res.data.clients.length : 0);
+      showSyncResult("연결 성공. 서버에 거래처 " + n + "곳 · 마지막 저장 " + fmtTime(res.savedAt) + ".", "ok");
+    }
+  } catch (e) {
+    showSyncResult("연결 실패: " + describeSyncError(e), "ng");
+  } finally {
+    syncCfg.url = prev;
+    renderSyncModalState();
+  }
+}
+
+async function pullFromServer() {
+  if (!syncConfigured()) { showSyncResult("먼저 웹앱 주소를 넣어 주세요.", "ng"); return; }
+  if (!confirm("서버에 저장된 내용으로 이 기기 대장을 바꿉니다.\n이 기기에서 아직 올리지 않은 수정은 사라집니다. 진행할까요?")) return;
+  const res = await pullNow({ force: true });
+  if (res.ok) showSyncResult("서버 내용을 가져왔습니다 · 거래처 " + clients.length + "곳", "ok");
+  else if (res.error) showSyncResult("가져오지 못했습니다: " + describeSyncError(res.error), "ng");
+  renderSyncModalState();
+}
+
+async function pushToServer() {
+  if (!syncConfigured()) { showSyncResult("먼저 웹앱 주소를 넣어 주세요.", "ng"); return; }
+  if (!confirm("이 기기 대장으로 서버 내용을 덮어씁니다.\n다른 기기에서 고친 내용이 있으면 사라집니다. 진행할까요?")) return;
+  const res = await pushNow({ force: true });
+  if (res.ok) showSyncResult("이 기기 내용을 서버에 올렸습니다 · 거래처 " + clients.length + "곳", "ok");
+  else if (res.error) showSyncResult("올리지 못했습니다: " + describeSyncError(res.error), "ng");
+  renderSyncModalState();
+}
+
+// ==========================================
+// 13. 시작
+// ==========================================
+renderAll();
+renderSyncBadge();
+startAutoSync();
+if (syncConfigured()) {
+  setSyncState("syncing", "서버 확인 중");
+  syncStart();
+} else {
+  setSyncState("local", "이 기기에만 저장");
+}
+</script>
+<script>
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+}
+</script>
+</body>
+</html>
