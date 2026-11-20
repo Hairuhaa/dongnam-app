@@ -2229,7 +2229,7 @@ async function pushToServer() {
 }
 
 // ==========================================
-// 13. 사용내역서(엑셀·한글) 불러오기 — 자체 파서
+// 13-1. 사용내역서 파일 읽기 — 엑셀(.xls/.xlsx)·한글(.hwpx/.hwp) 자체 파서
 // ==========================================
 /* 사용내역서 파서 (개발·검증용 원본)
    - .xls(BIFF5/8, OLE2) / .xlsx(ZIP) / .hwpx(ZIP) / .hwp(HWP5 OLE2) 를 브라우저 안에서만 읽는다
@@ -3385,7 +3385,7 @@ var StatementParser = (function () {
 if (typeof module !== "undefined" && module.exports) module.exports = StatementParser;
 
 // ==========================================
-// 13. 사용내역서(엑셀·한글) 불러오기
+// 13-2. 사용내역서 미리보기·반영
 // ==========================================
 let stmtRows = [];
 let stmtErrors = [];
