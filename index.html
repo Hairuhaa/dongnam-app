@@ -260,6 +260,30 @@
     .cell-sub { font-size: 10.5px; }
     .header-actions button { padding: 8px 10px; font-size: 12.5px; }
   }
+
+  /* 사용내역서 미리보기 */
+  .stmt-hint { font-size: 12.5px; color: #475569; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; line-height: 1.65; }
+  .stmt-list { display: grid; gap: 12px; max-height: 58vh; overflow-y: auto; padding-right: 2px; }
+  .stmt-card { border: 1px solid #cbd5e1; border-radius: 10px; padding: 12px 14px; background: #fff; }
+  .stmt-card.is-skip { opacity: .5; }
+  .stmt-card-head { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+  .stmt-file { font-weight: 800; color: #1e3a8a; font-size: 13.5px; word-break: break-all; }
+  .stmt-kind { font-size: 11.5px; color: #64748b; font-weight: 700; margin-left: 6px; }
+  .stmt-modes { display: flex; gap: 10px; flex-wrap: wrap; font-size: 12.5px; font-weight: 700; color: #334155; }
+  .stmt-modes label { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+  .stmt-match { font-size: 12.5px; color: #334155; margin-bottom: 8px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .stmt-match select { padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; max-width: 100%; }
+  .stmt-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px 10px; }
+  .stmt-field { display: grid; gap: 3px; font-size: 11.5px; color: #64748b; font-weight: 700; }
+  .stmt-field input { padding: 7px 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; width: 100%; font-weight: 600; min-width: 0; }
+  .stmt-field input:focus { border-color: var(--primary-light); outline: none; background: #f0fdf4; }
+  .stmt-wide { grid-column: span 2; }
+  .stmt-calc { margin-top: 9px; font-size: 12px; color: #475569; font-weight: 700; display: flex; gap: 12px; flex-wrap: wrap; }
+  .stmt-warn { margin-top: 8px; font-size: 12px; color: #b45309; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 7px 9px; font-weight: 700; line-height: 1.55; }
+  .stmt-err { color: #b91c1c; background: #fef2f2; border-color: #fecaca; }
+  .stmt-extras { margin-top: 8px; font-size: 12px; color: #334155; font-weight: 700; line-height: 1.55; }
+  .stmt-check { display: inline-flex; align-items: center; gap: 5px; margin-top: 7px; font-size: 12.5px; font-weight: 700; color: #334155; }
+  .stmt-summary { margin-top: 12px; font-size: 13px; font-weight: 800; color: #1e3a8a; }
 </style>
   <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="./icon-192.png">
@@ -276,6 +300,7 @@
     <button class="btn-secondary" onclick="pullNow()" title="서버에서 최신 내용을 가져옵니다">🔄 새로고침</button>
     <button class="btn-secondary" onclick="openSyncModal()" title="PC·폰 동기화 주소를 넣습니다">⚙️ 동기화 설정</button>
     <button class="btn-secondary" onclick="pickCsv()">📤 검침 CSV 불러오기</button>
+    <button class="btn-secondary" onclick="pickStatement()" title="거래처 사용내역서(엑셀·한글)에서 기본료와 카운터를 읽어 등록합니다">📄 사용내역서 불러오기</button>
     <button class="btn-secondary" onclick="exportJson()">💾 백업(JSON)</button>
     <button class="btn-secondary" onclick="pickJson()">📂 복원(JSON)</button>
     <button class="btn-secondary" onclick="exportToCSV()">📥 엑셀(CSV) 저장</button>
@@ -286,6 +311,7 @@
 
 <input type="file" id="csvFileInput" accept=".csv,text/csv,text/plain" style="display:none" onchange="handleCsvPick(this)">
 <input type="file" id="jsonFileInput" accept=".json,application/json" style="display:none" onchange="handleJsonPick(this)">
+<input type="file" id="stmtFileInput" accept=".xls,.xlsx,.hwpx,.hwp" multiple style="display:none" onchange="handleStatementPick(this)">
 
 <!-- Statistics Summary -->
 <div class="stats-grid">
@@ -541,6 +567,28 @@
     <div class="sync-help" id="syncHelp">
       주소를 넣으면 사무실 PC와 아이폰이 같은 대장을 봅니다. 한쪽에서 고치면 다른 쪽은 30초 안에 바뀝니다.
       주소를 지우면 지금처럼 이 기기에만 저장합니다.
+    </div>
+  </div>
+</div>
+
+
+<!-- 사용내역서 미리보기 -->
+<div class="modal-overlay" id="stmtModal">
+  <div class="modal" style="width: 900px;">
+    <div class="modal-header">
+      <h3>📄 사용내역서에서 읽은 내용</h3>
+      <button onclick="closeStatementModal()" style="background:none; font-size:20px; border:none;">✕</button>
+    </div>
+    <div class="stmt-hint">
+      파일에서 읽은 값을 그대로 채웠습니다. 틀린 칸은 여기서 고쳐 주세요.
+      <strong>[반영하기]</strong>를 누르면 저장되고, 동기화를 켜 두었으면 서버에도 올라갑니다.
+      <strong>[신규 업체 추가]</strong>는 새 줄로, <strong>[제외]</strong>는 이번에 넣지 않습니다.
+    </div>
+    <div id="stmtList" class="stmt-list"></div>
+    <div class="stmt-summary" id="stmtSummary"></div>
+    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:16px;">
+      <button class="btn-secondary" onclick="closeStatementModal()">취소</button>
+      <button class="btn-primary" onclick="applyStatement()">반영하기</button>
     </div>
   </div>
 </div>
@@ -2181,7 +2229,1594 @@ async function pushToServer() {
 }
 
 // ==========================================
-// 13. 시작
+// 13. 사용내역서(엑셀·한글) 불러오기 — 자체 파서
+// ==========================================
+/* 사용내역서 파서 (개발·검증용 원본)
+   - .xls(BIFF5/8, OLE2) / .xlsx(ZIP) / .hwpx(ZIP) / .hwp(HWP5 OLE2) 를 브라우저 안에서만 읽는다
+   - HTML 안에 그대로 넣을 수 있게 전역 객체 하나로 만든다 (StatementParser)
+*/
+var StatementParser = (function () {
+  "use strict";
+
+  // ============ 공통 ============
+  function u8(buf) { return buf instanceof Uint8Array ? buf : new Uint8Array(buf); }
+
+  function decodeUtf16LE(bytes) {
+    let s = "";
+    for (let i = 0; i + 1 < bytes.length; i += 2) s += String.fromCharCode(bytes[i] | (bytes[i + 1] << 8));
+    return s;
+  }
+
+  function decodeMulti(bytes) {
+    try { return new TextDecoder("utf-8", { fatal: true }).decode(bytes); }
+    catch (e) { }
+    try { return new TextDecoder("euc-kr").decode(bytes); }
+    catch (e) { return new TextDecoder("utf-8").decode(bytes); }
+  }
+
+  async function inflateRaw(bytes) {
+    const b = u8(bytes);
+    if (typeof DecompressionStream === "undefined") {
+      throw new Error("이 브라우저에서는 압축 풀기를 지원하지 않습니다. 크롬 최신 버전이나 사파리 16.4 이상에서 열어 주세요.");
+    }
+    const stream = new Blob([b]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
+    return new Uint8Array(await new Response(stream).arrayBuffer());
+  }
+
+  // ============ ZIP ============
+  async function zipOpen(buf) {
+    const bytes = u8(buf);
+    const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+    let eocd = -1;
+    const min = Math.max(0, bytes.length - 66000);
+    for (let i = bytes.length - 22; i >= min; i--) {
+      if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+    }
+    if (eocd < 0) throw new Error("압축(ZIP) 구조를 찾지 못했습니다. 파일이 손상되지 않았는지 확인해 주세요.");
+    const count = dv.getUint16(eocd + 10, true);
+    let off = dv.getUint32(eocd + 16, true);
+    const entries = [];
+    for (let i = 0; i < count; i++) {
+      if (off + 46 > bytes.length || dv.getUint32(off, true) !== 0x02014b50) break;
+      const flags = dv.getUint16(off + 8, true);
+      const method = dv.getUint16(off + 10, true);
+      const csize = dv.getUint32(off + 20, true);
+      const nlen = dv.getUint16(off + 28, true);
+      const elen = dv.getUint16(off + 30, true);
+      const clen = dv.getUint16(off + 32, true);
+      const lho = dv.getUint32(off + 42, true);
+      let name = "";
+      try { name = new TextDecoder("utf-8").decode(bytes.subarray(off + 46, off + 46 + nlen)); } catch (e) { name = ""; }
+      entries.push({ name: name, flags: flags, method: method, csize: csize, lho: lho });
+      off += 46 + nlen + elen + clen;
+    }
+    return {
+      names: function () { return entries.map(function (e) { return e.name; }); },
+      has: function (n) { return entries.some(function (e) { return e.name === n; }); },
+      text: async function (n) {
+        const data = await this.data(n);
+        return data ? decodeMulti(data) : null;
+      },
+      data: async function (n) {
+        const e = entries.filter(function (x) { return x.name === n; })[0];
+        if (!e) return null;
+        if (e.flags & 1) throw new Error("암호가 걸린 파일입니다. 암호를 풀고 다시 저장한 뒤 올려 주세요.");
+        const nlen = dv.getUint16(e.lho + 26, true);
+        const elen = dv.getUint16(e.lho + 28, true);
+        const start = e.lho + 30 + nlen + elen;
+        const raw = bytes.subarray(start, start + e.csize);
+        if (e.method === 0) return raw;
+        if (e.method === 8) return await inflateRaw(raw);
+        throw new Error("지원하지 않는 압축 방식입니다.");
+      }
+    };
+  }
+
+  // ============ OLE2 / CFB ============
+  function cfbOpen(buf) {
+    const bytes = u8(buf);
+    const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+    if (bytes.length < 512 || dv.getUint32(0, true) !== 0xE011CFD0 || dv.getUint32(4, true) !== 0xE11AB1A1) {
+      throw new Error("구형 문서(OLE2) 형식이 아닙니다. 파일이 손상되지 않았는지 확인해 주세요.");
+    }
+    const ss = 1 << dv.getUint16(30, true);
+    const miniSS = 1 << dv.getUint16(32, true);
+    const numFat = dv.getUint32(44, true);
+    const dirStart = dv.getInt32(48, true);
+    const miniCut = dv.getUint32(56, true);
+    const miniFatStart = dv.getInt32(60, true);
+    const difatStart = dv.getInt32(68, true);
+    const secOff = function (s) { return (s + 1) * ss; };
+
+    const fatSects = [];
+    for (let i = 0; i < 109; i++) {
+      const v = dv.getInt32(76 + i * 4, true);
+      if (v >= 0) fatSects.push(v);
+    }
+    let next = difatStart, guard = 0;
+    while (next >= 0 && fatSects.length < numFat && guard++ < 1000) {
+      for (let i = 0; i < ss / 4 - 1; i++) {
+        const v = dv.getInt32(secOff(next) + i * 4, true);
+        if (v >= 0) fatSects.push(v);
+      }
+      next = dv.getInt32(secOff(next) + ss - 4, true);
+    }
+    const fat = [];
+    for (const s of fatSects) {
+      for (let i = 0; i < ss / 4; i++) fat.push(dv.getInt32(secOff(s) + i * 4, true));
+    }
+    const chain = function (start) {
+      const out = [];
+      let s = start, g = 0;
+      while (s >= 0 && s < fat.length && g++ < 200000) { out.push(s); s = fat[s]; }
+      return out;
+    };
+    const readChain = function (start, size) {
+      const parts = chain(start);
+      const total = parts.length * ss;
+      const len = (size == null) ? total : Math.min(size, total);
+      const out = new Uint8Array(len);
+      let w = 0;
+      for (const p of parts) {
+        if (w >= len) break;
+        const n = Math.min(ss, len - w);
+        out.set(bytes.subarray(secOff(p), secOff(p) + n), w);
+        w += n;
+      }
+      return out;
+    };
+
+    const dirData = readChain(dirStart);
+    const ddir = new DataView(dirData.buffer, dirData.byteOffset, dirData.byteLength);
+    const entries = [];
+    for (let off = 0; off + 128 <= dirData.length; off += 128) {
+      const nlen = ddir.getUint16(off + 64, true);
+      const type = dirData[off + 66];
+      if (!nlen || type === 0) continue;
+      const name = decodeUtf16LE(dirData.subarray(off, off + Math.max(0, nlen - 2)));
+      entries.push({
+        name: name, type: type,
+        start: ddir.getInt32(off + 116, true),
+        size: ddir.getUint32(off + 120, true)
+      });
+    }
+    const root = entries[0];
+    const miniStream = root ? readChain(root.start, root.size) : new Uint8Array(0);
+    const miniFat = [];
+    if (miniFatStart >= 0 && miniFatStart < fat.length) {
+      const mf = readChain(miniFatStart);
+      const mdv = new DataView(mf.buffer, mf.byteOffset, mf.byteLength);
+      for (let i = 0; i + 4 <= mf.length; i += 4) miniFat.push(mdv.getInt32(i, true));
+    }
+    const readMini = function (start, size) {
+      const out = new Uint8Array(size);
+      let s = start, w = 0, g = 0;
+      while (s >= 0 && w < size && g++ < 200000) {
+        const off = s * miniSS;
+        const n = Math.min(miniSS, size - w);
+        out.set(miniStream.subarray(off, off + n), w);
+        w += n;
+        s = miniFat[s];
+      }
+      return out;
+    };
+    const streams = entries.filter(function (e) { return e.type === 2; });
+    return {
+      names: function () { return streams.map(function (e) { return e.name; }); },
+      get: function (name) {
+        const seg = String(name).split("/").pop().toLowerCase();
+        const e = streams.filter(function (x) { return x.name.toLowerCase() === seg; })[0];
+        if (!e) return null;
+        return e.size < miniCut ? readMini(e.start, e.size) : readChain(e.start, e.size);
+      }
+    };
+  }
+
+  function rowsFromCells(cells) {
+    const map = cells instanceof Map ? cells : new Map(cells);
+    let maxRow = -1, maxCol = -1;
+    map.forEach(function (v, k) {
+      const p = k.split(":");
+      maxRow = Math.max(maxRow, +p[0]);
+      maxCol = Math.max(maxCol, +p[1]);
+    });
+    const rows = [];
+    for (let r = 0; r <= maxRow; r++) {
+      const row = [];
+      for (let c = 0; c <= maxCol; c++) row.push(map.has(r + ":" + c) ? String(map.get(r + ":" + c)) : "");
+      rows.push(row);
+    }
+    return pruneRows(rows);
+  }
+
+  function pruneRows(rows) {
+    return rows
+      .map(function (r) {
+        return r.map(function (v) { return v == null ? "" : String(v).replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim(); });
+      })
+      .filter(function (r) { return r.some(function (v) { return v !== ""; }); });
+  }
+
+  // ============ XLS (BIFF5 / BIFF8) ============
+  function rkNumber(rk) {
+    let v;
+    if (rk & 0x02) {
+      v = (rk | 0) >> 2;
+    } else {
+      const buf = new ArrayBuffer(8);
+      const dv = new DataView(buf);
+      dv.setUint32(4, rk & 0xFFFFFFFC, true);
+      v = dv.getFloat64(0, true);
+    }
+    if (rk & 0x01) v = v / 100;
+    return v;
+  }
+
+  function numText(v) {
+    if (v == null || isNaN(v)) return "";
+    if (Math.abs(v - Math.round(v)) < 1e-9) return String(Math.round(v));
+    return String(v);
+  }
+
+  function readXlUnicodeString(data, pos, biff8) {
+    const dv = new DataView(data.buffer, data.byteOffset, data.byteLength);
+    if (pos + 3 > data.length) return null;
+    let cch = dv.getUint16(pos, true); pos += 2;
+    if (!biff8) {
+      const raw = data.subarray(pos, pos + cch);
+      return { text: decodeMulti(raw), next: pos + cch };
+    }
+    const grbit = data[pos]; pos += 1;
+    const high = grbit & 0x01, ext = grbit & 0x04, rich = grbit & 0x08;
+    let cRun = 0, cbExt = 0;
+    if (rich) { cRun = dv.getUint16(pos, true); pos += 2; }
+    if (ext) { cbExt = dv.getInt32(pos, true); pos += 4; }
+    let s = "";
+    if (high) {
+      for (let i = 0; i < cch && pos + 1 < data.length; i++) { s += String.fromCharCode(dv.getUint16(pos, true)); pos += 2; }
+    } else {
+      for (let i = 0; i < cch && pos < data.length; i++) { s += String.fromCharCode(data[pos]); pos += 1; }
+    }
+    pos += cRun * 4 + Math.max(0, cbExt);
+    return { text: s, next: Math.min(pos, data.length) };
+  }
+
+  function parseSst(segments) {
+    const strings = [];
+    let seg = 0, pos = 0;
+    function atEnd() { return pos >= (segments[seg] ? segments[seg].length : 0); }
+    function moveSeg() { seg++; pos = 0; return seg < segments.length; }
+    function byte() { while (atEnd()) { if (!moveSeg()) return 0; } return segments[seg][pos++]; }
+    function u16() {
+      const a = byte(), b = byte();
+      return a | (b << 8);
+    }
+    function u32() {
+      const a = u16(), b = u16();
+      return (a | (b << 16)) >>> 0;
+    }
+    function skip(n) { let k = Math.min(n, 1 << 20); while (k-- > 0) byte(); }
+    const total = u32();   // cstTotal
+    const unique = u32();  // cstUnique (이 뒤부터 문자열)
+    for (let i = 0; i < unique; i++) {
+      if (seg >= segments.length) break;
+      const cch = u16();
+      let grbit = byte();
+      let high = grbit & 0x01;
+      const ext = grbit & 0x04, rich = grbit & 0x08;
+      const cRun = rich ? u16() : 0;
+      const cbExt = ext ? u32() : 0;
+      let s = "", n = 0;
+      while (n < cch) {
+        if (atEnd()) {
+          if (!moveSeg()) break;
+          grbit = segments[seg][pos++];
+          high = grbit & 0x01;
+        }
+        if (high) { s += String.fromCharCode(segments[seg][pos] | (segments[seg][pos + 1] << 8)); pos += 2; }
+        else { s += String.fromCharCode(segments[seg][pos]); pos += 1; }
+        n++;
+      }
+      skip(cRun * 4 + Math.max(0, cbExt));
+      strings.push(s);
+    }
+    return { strings: strings, total: total, unique: unique };
+  }
+
+  function readXls(buf) {
+    const cfb = cfbOpen(buf);
+    let wb = cfb.get("Workbook") || cfb.get("Book");
+    if (!wb) throw new Error("엑셀 통합문서 데이터를 찾지 못했습니다. .xls 파일이 맞는지 확인해 주세요.");
+    const dv = new DataView(wb.buffer, wb.byteOffset, wb.byteLength);
+
+    // 첫 BOF 로 BIFF 버전 확인
+    let biff8 = true;
+    if (wb.length > 8 && dv.getUint16(0, true) === 0x0809) {
+      const vers = dv.getUint16(4, true);
+      biff8 = vers >= 0x0600;
+    }
+
+    const boundsheets = [];
+    let sst = { strings: [] };
+    let encrypted = false;
+
+    // 전역 영역: BOF ~ EOF
+    let pos = 0, guard = 0;
+    while (pos + 4 <= wb.length && guard++ < 200000) {
+      const rid = dv.getUint16(pos, true), len = dv.getUint16(pos + 2, true);
+      const body = pos + 4;
+      if (body + len > wb.length) break;
+      if (rid === 0x002F) { encrypted = true; }
+      else if (rid === 0x0085) {
+        const lbPlyPos = dv.getUint32(body, true);
+        let nm = "";
+        if (biff8) {
+          const cch = dv.getUint8(body + 6);
+          const grbit = wb[body + 7];
+          if (grbit & 0x01) nm = decodeUtf16LE(wb.subarray(body + 8, body + 8 + cch * 2));
+          else { for (let i = 0; i < cch; i++) nm += String.fromCharCode(wb[body + 8 + i]); }
+        } else {
+          const cch = wb[body + 6];
+          nm = decodeMulti(wb.subarray(body + 7, body + 7 + cch));
+        }
+        boundsheets.push({ name: nm || ("시트" + (boundsheets.length + 1)), pos: lbPlyPos });
+      } else if (rid === 0x00FC) {
+        const segs = [wb.subarray(body, body + len)];
+        let p2 = body + len;
+        while (p2 + 4 <= wb.length) {
+          const r2 = dv.getUint16(p2, true), l2 = dv.getUint16(p2 + 2, true);
+          if (r2 !== 0x003C) break;
+          segs.push(wb.subarray(p2 + 4, p2 + 4 + l2));
+          p2 += 4 + l2;
+        }
+        try { sst = parseSst(segs); } catch (e) { sst = { strings: [] }; }
+      }
+      if (rid === 0x000A && pos > 0 && boundsheets.length) break; // 전역 EOF
+      pos = body + len;
+      if (boundsheets.length && pos >= wb.length) break;
+    }
+    if (encrypted) throw new Error("암호가 걸린 엑셀 파일입니다. 엑셀에서 암호를 풀고 다시 저장한 뒤 올려 주세요.");
+
+    const sheets = [];
+    boundsheets.forEach(function (bs) {
+      const cells = new Map();
+      let p = bs.pos, depth = 0, g = 0, pendingFormula = null;
+      while (p + 4 <= wb.length && g++ < 500000) {
+        const rid = dv.getUint16(p, true), len = dv.getUint16(p + 2, true);
+        const body = p + 4;
+        if (body + len > wb.length) break;
+        if (rid === 0x0809) { depth++; }
+        else if (rid === 0x000A) { depth--; if (depth <= 0) { p = body + len; break; } }
+        else if (rid === 0x00FD) { // LABELSST
+          const r = dv.getUint16(body, true), c = dv.getUint16(body + 2, true);
+          const isst = dv.getUint32(body + 6, true);
+          if (sst.strings[isst] != null) cells.set(r + ":" + c, sst.strings[isst]);
+        } else if (rid === 0x0204 || rid === 0x00D6) { // LABEL / RSTRING
+          const r = dv.getUint16(body, true), c = dv.getUint16(body + 2, true);
+          const s = readXlUnicodeString(wb.subarray(body, body + len), 6, biff8);
+          if (s) cells.set(r + ":" + c, s.text);
+        } else if (rid === 0x0203) { // NUMBER
+          const r = dv.getUint16(body, true), c = dv.getUint16(body + 2, true);
+          cells.set(r + ":" + c, numText(dv.getFloat64(body + 6, true)));
+        } else if (rid === 0x027E) { // RK
+          const r = dv.getUint16(body, true), c = dv.getUint16(body + 2, true);
+          cells.set(r + ":" + c, numText(rkNumber(dv.getInt32(body + 6, true))));
+        } else if (rid === 0x00BD) { // MULRK
+          const r = dv.getUint16(body, true);
+          let c = dv.getUint16(body + 2, true);
+          let off = 4;
+          while (off + 6 <= len - 2) {
+            cells.set(r + ":" + c, numText(rkNumber(dv.getInt32(body + off + 2, true))));
+            c++; off += 6;
+          }
+        } else if (rid === 0x0006) { // FORMULA
+          const r = dv.getUint16(body, true), c = dv.getUint16(body + 2, true);
+          const b6 = wb[body + 12], b7 = wb[body + 13];
+          if (b6 === 0xFF && b7 === 0xFF) { /* 특수값: 무시 */ }
+          else if (b6 === 0x00 && b7 === 0x00) { pendingFormula = r + ":" + c; }
+          else cells.set(r + ":" + c, numText(dv.getFloat64(body + 6, true)));
+        } else if (rid === 0x0207 && pendingFormula) { // STRING (수식 결과 문자열)
+          const s = readXlUnicodeString(wb.subarray(body, body + len), 0, biff8);
+          if (s) cells.set(pendingFormula, s.text);
+          pendingFormula = null;
+        }
+        p = body + len;
+      }
+      const rows = rowsFromCells(cells);
+      if (rows.length) sheets.push({ name: bs.name, rows: rows });
+    });
+
+    if (!sheets.length) throw new Error("엑셀 시트에서 내용을 찾지 못했습니다. 빈 파일이 아닌지 확인해 주세요.");
+    return { kind: "엑셀", sheets: sheets };
+  }
+
+  // ============ XLSX ============
+  async function readXlsx(buf) {
+    const zip = await zipOpen(buf);
+    const shared = [];
+    const ssText = await zip.text("xl/sharedStrings.xml");
+    if (ssText) {
+      const siRe = /<si\b[^>]*>([\s\S]*?)<\/si>/g;
+      let m;
+      while ((m = siRe.exec(ssText))) {
+        let s = "";
+        const tRe = /<t\b[^>]*>([\s\S]*?)<\/t>/g;
+        let t;
+        while ((t = tRe.exec(m[1]))) s += xmlUnescape(t[1]);
+        shared.push(s);
+      }
+    }
+    const wbXml = await zip.text("xl/workbook.xml");
+    const relsXml = await zip.text("xl/_rels/workbook.xml.rels");
+    const rels = {};
+    if (relsXml) {
+      const re = /<Relationship\b[^>]*>/g;
+      let m;
+      while ((m = re.exec(relsXml))) {
+        const tag = m[0];
+        const id = attr(tag, "Id"), target = attr(tag, "Target");
+        if (id && target) rels[id] = target.replace(/^\/?xl\//, "").replace(/^\.\//, "");
+      }
+    }
+    const sheetRefs = [];
+    if (wbXml) {
+      const re = /<sheet\b[^>]*>/g;
+      let m;
+      while ((m = re.exec(wbXml))) {
+        const tag = m[0];
+        const name = attr(tag, "name") || ("시트" + (sheetRefs.length + 1));
+        const rid = attr(tag, "r:id") || attr(tag, "id");
+        sheetRefs.push({ name: xmlUnescape(name), rid: rid });
+      }
+    }
+    const files = zip.names().filter(function (n) { return /^xl\/worksheets\/sheet\d+\.xml$/.test(n); })
+      .sort(function (a, b) { return (+a.match(/(\d+)\.xml$/)[1]) - (+b.match(/(\d+)\.xml$/)[1]); });
+
+    const sheets = [];
+    for (let i = 0; i < files.length; i++) {
+      const ref = sheetRefs.filter(function (r) { return rels[r.rid] === files[i].replace(/^xl\//, ""); })[0];
+      const xml = await zip.text(files[i]);
+      if (!xml) continue;
+      const rows = parseSheetXml(xml, shared);
+      if (rows.length) sheets.push({ name: (ref && ref.name) || ("시트" + (i + 1)), rows: rows });
+    }
+    if (!sheets.length) throw new Error("엑셀 시트에서 내용을 찾지 못했습니다. 빈 파일이 아닌지 확인해 주세요.");
+    return { kind: "엑셀", sheets: sheets };
+  }
+
+  function attr(tag, name) {
+    const re = new RegExp("\\b" + name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\s*=\\s*\"([^\"]*)\"");
+    const m = tag.match(re);
+    return m ? m[1] : null;
+  }
+
+  function xmlUnescape(s) {
+    return String(s == null ? "" : s)
+      .replace(/&#x([0-9a-fA-F]+);/g, function (_, h) { return String.fromCodePoint(parseInt(h, 16)); })
+      .replace(/&#(\d+);/g, function (_, d) { return String.fromCodePoint(+d); })
+      .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, "\"").replace(/&apos;/g, "'").replace(/&amp;/g, "&");
+  }
+
+  function colIndex(ref) {
+    const m = String(ref).match(/^([A-Z]+)/i);
+    if (!m) return 0;
+    let n = 0;
+    const s = m[1].toUpperCase();
+    for (let i = 0; i < s.length; i++) n = n * 26 + (s.charCodeAt(i) - 64);
+    return n - 1;
+  }
+
+  function parseSheetXml(xml, shared) {
+    const cells = new Map();
+    const rowRe = /<row\b([^>]*)>([\s\S]*?)<\/row>/g;
+    let rm, rowIdx = 0;
+    while ((rm = rowRe.exec(xml))) {
+      const rAttr = attr("<row " + rm[1] + ">", "r");
+      const r = rAttr ? (+rAttr - 1) : rowIdx;
+      rowIdx = r + 1;
+      const cellRe = /<c\b([^>]*)(?:\/>|>([\s\S]*?)<\/c>)/g;
+      let cm, autoCol = 0;
+      while ((cm = cellRe.exec(rm[2]))) {
+        const head = "<c " + cm[1] + ">";
+        const inner = cm[2] || "";
+        const ref = attr(head, "r");
+        const c = ref ? colIndex(ref) : autoCol;
+        autoCol = c + 1;
+        const type = attr(head, "t");
+        let val = "";
+        if (type === "s") {
+          const vm = inner.match(/<v[^>]*>([\s\S]*?)<\/v>/);
+          if (vm) val = shared[+vm[1]] || "";
+        } else if (type === "inlineStr") {
+          const tRe = /<t\b[^>]*>([\s\S]*?)<\/t>/g;
+          let t;
+          while ((t = tRe.exec(inner))) val += xmlUnescape(t[1]);
+        } else if (type === "str") {
+          const vm = inner.match(/<v[^>]*>([\s\S]*?)<\/v>/);
+          val = vm ? xmlUnescape(vm[1]) : "";
+        } else if (type === "b") {
+          const vm = inner.match(/<v[^>]*>([\s\S]*?)<\/v>/);
+          val = vm && vm[1] === "1" ? "TRUE" : "FALSE";
+        } else {
+          const vm = inner.match(/<v[^>]*>([\s\S]*?)<\/v>/);
+          if (vm) val = numText(parseFloat(vm[1]));
+        }
+        if (val !== "") cells.set(r + ":" + c, val);
+      }
+    }
+    return rowsFromCells(cells);
+  }
+
+  // ============ HWPX ============
+  async function readHwpx(buf) {
+    const zip = await zipOpen(buf);
+    const files = zip.names().filter(function (n) { return /^Contents\/section\d+\.xml$/i.test(n); })
+      .sort(function (a, b) {
+        return (+(a.match(/(\d+)\.xml$/) || [0, 0])[1]) - (+(b.match(/(\d+)\.xml$/) || [0, 0])[1]);
+      });
+    const rows = [];
+    for (const f of files) {
+      const xml = await zip.text(f);
+      if (!xml) continue;
+      rowsFromXml(xml, rows);
+    }
+    if (!rows.length) throw new Error("한글 문서에서 내용을 찾지 못했습니다. 빈 문서가 아닌지 확인해 주세요.");
+    return { kind: "한글", sheets: [{ name: "본문", rows: rows }] };
+  }
+
+  function xmlDoc(xml) {
+    if (typeof DOMParser === "undefined") return null;
+    try {
+      const doc = new DOMParser().parseFromString(xml, "application/xml");
+      if (!doc) return null;
+      const errs = doc.getElementsByTagName("parsererror");
+      if (errs && errs.length) return null;
+      return doc;
+    } catch (e) { return null; }
+  }
+
+  function nodeText(el, skipTables) {
+    let s = "";
+    const kids = el.childNodes || [];
+    for (let i = 0; i < kids.length; i++) {
+      const k = kids[i];
+      if (k.nodeType === 3) { s += k.nodeValue; continue; }
+      if (k.nodeType !== 1) continue;
+      if (skipTables && k.localName === "tbl") continue;
+      s += nodeText(k, skipTables);
+    }
+    return s.replace(/\s+/g, " ").trim();
+  }
+
+  function rowsFromXml(xml, out) {
+    const doc = xmlDoc(xml);
+    if (doc) {
+      walkHwpx(doc.documentElement, out);
+      return;
+    }
+    // DOMParser가 없으면 태그 기반으로 최소 추출
+    const textRe = /<[^>]*:?t\b[^>]*>([\s\S]*?)<\/[^>]*:?t>/g;
+    let m, line = [];
+    while ((m = textRe.exec(xml))) {
+      const t = xmlUnescape(m[1]).trim();
+      if (t) line.push(t);
+      if (line.length >= 6) { out.push(line); line = []; }
+    }
+    if (line.length) out.push(line);
+  }
+
+  function walkHwpx(node, out) {
+    const kids = node.children || [];
+    for (let i = 0; i < kids.length; i++) {
+      const el = kids[i];
+      const ln = el.localName;
+      if (ln === "tbl") { hwpxTable(el, out); continue; }
+      if (ln === "p") {
+        const t = nodeText(el, true);
+        if (t) out.push([t]);
+        walkHwpx(el, out); // 문단 안에 든 표
+        continue;
+      }
+      walkHwpx(el, out);
+    }
+  }
+
+  function hwpxTable(tbl, out) {
+    const trs = [];
+    const collect = function (el) {
+      const kids = el.children || [];
+      for (let i = 0; i < kids.length; i++) {
+        const k = kids[i];
+        if (k.localName === "tr") trs.push(k);
+        else if (k.localName !== "tbl") collect(k);
+      }
+    };
+    collect(tbl);
+    trs.forEach(function (tr) {
+      const row = [];
+      const tcs = [];
+      const walk = function (el) {
+        const kids = el.children || [];
+        for (let i = 0; i < kids.length; i++) {
+          const k = kids[i];
+          if (k.localName === "tc") tcs.push(k);
+          else if (k.localName !== "tbl") walk(k);
+        }
+      };
+      walk(tr);
+      tcs.forEach(function (tc) {
+        row.push(nodeText(tc, true));
+        const inner = [];
+        const tbls = tc.getElementsByTagName ? tc.getElementsByTagName("*") : [];
+        for (let i = 0; i < tbls.length; i++) if (tbls[i].localName === "tbl") inner.push(tbls[i]);
+        inner.forEach(function (t2) { hwpxTable(t2, out); });
+      });
+      if (row.some(function (v) { return v !== ""; })) out.push(row);
+    });
+  }
+
+  // ============ HWP 5.0 ============
+  async function readHwp(buf) {
+    const cfb = cfbOpen(buf);
+    const header = cfb.get("FileHeader");
+    let compressed = true;
+    if (header && header.length >= 40) {
+      const dv = new DataView(header.buffer, header.byteOffset, header.byteLength);
+      const flags = dv.getUint32(36, true);
+      if (flags & 0x02) throw new Error("암호가 걸린 한글 문서입니다. 한글에서 암호를 풀고 다시 저장한 뒤 올려 주세요.");
+      compressed = !!(flags & 0x01);
+    }
+    const names = cfb.names().filter(function (n) { return /^Section\d+$/.test(n); });
+    if (!names.length) throw new Error("한글 문서 본문(BodyText)을 찾지 못했습니다. 한글 5.0(.hwp) 파일이 맞는지 확인해 주세요.");
+    names.sort(function (a, b) { return (+a.replace(/\D/g, "")) - (+b.replace(/\D/g, "")); });
+
+    const rows = [];
+    const rows16 = [];
+    for (const n of names) {
+      let data = cfb.get(n);
+      if (!data || !data.length) continue;
+      if (compressed) {
+        try { data = await inflateRaw(data); }
+        catch (e) {
+          throw new Error("한글 문서의 압축을 풀지 못했습니다. 이 브라우저에서 열 수 없는 형식입니다.");
+        }
+      }
+      hwpParaTexts(data, 14).forEach(function (t) { if (t && t.trim()) rows.push([t.trim()]); });
+      hwpParaTexts(data, 16).forEach(function (t) { if (t && t.trim()) rows16.push([t.trim()]); });
+    }
+    if (!rows.length) throw new Error("한글 문서에서 글자를 찾지 못했습니다. 그림만 있는 문서가 아닌지 확인해 주세요.");
+    const sheets = [{ name: "본문", rows: rows }];
+    // 문서 작성기마다 문자 컨트롤 뒤 데이터 길이가 달라(14/16바이트) 두 가지로 읽고 더 잘 맞는 쪽을 쓴다
+    const t14 = rows.map(function (r) { return r[0]; }).join("\n");
+    const t16 = rows16.map(function (r) { return r[0]; }).join("\n");
+    if (t14 !== t16) sheets.push({ name: "본문(보정)", rows: rows16 });
+    return { kind: "한글", sheets: sheets };
+  }
+
+  function hwpParaTexts(data, skipBytes) {
+    const skip = skipBytes == null ? 14 : skipBytes;
+    const dv = new DataView(data.buffer, data.byteOffset, data.byteLength);
+    let pos = 0;
+    const out = [];
+    let guard = 0;
+    while (pos + 4 <= data.length && guard++ < 500000) {
+      const h = dv.getUint32(pos, true);
+      pos += 4;
+      const tag = h & 0x3FF;
+      let size = (h >>> 20) & 0xFFF;
+      if (size === 0xFFF) { if (pos + 4 > data.length) break; size = dv.getUint32(pos, true); pos += 4; }
+      if (pos + size > data.length) break;
+      if (tag === 0x43) out.push(hwpText(data.subarray(pos, pos + size), skip));
+      pos += size;
+    }
+    return out;
+  }
+
+  function hwpText(payload, skipBytes) {
+    const skip = skipBytes == null ? 14 : skipBytes;
+    const dv = new DataView(payload.buffer, payload.byteOffset, payload.byteLength);
+    let s = "", i = 0;
+    while (i + 1 < payload.length) {
+      const c = dv.getUint16(i, true);
+      i += 2;
+      if (c === 0) continue;
+      if (c === 9) { s += " "; continue; }
+      if (c === 10 || c === 13) { s += "\n"; continue; }
+      if (c < 32) {
+        // 문자 컨트롤(1~8, 11~12, 14~23)은 뒤에 데이터가 붙는다(작성기마다 14~16바이트)
+        if ((c >= 1 && c <= 8) || c === 11 || c === 12 || (c >= 14 && c <= 23)) i += skip;
+        continue;
+      }
+      s += String.fromCharCode(c);
+    }
+    return s.replace(/[ \t]+/g, " ").trim();
+  }
+
+  // ============ 문서 읽기 진입점 ============
+  async function extractDocument(fileName, buf) {
+    const name = String(fileName || "");
+    const ext = (name.match(/\.([a-z0-9]+)$/i) || [, ""])[1].toLowerCase();
+    if (ext === "xls") return await readXls(buf);
+    if (ext === "xlsx" || ext === "xlsm") return await readXlsx(buf);
+    if (ext === "hwpx") return await readHwpx(buf);
+    if (ext === "hwp") return await readHwp(buf);
+    // 확장자를 못 믿을 때: 파일 앞부분으로 판별
+    const b = u8(buf);
+    if (b.length > 8 && b[0] === 0x50 && b[1] === 0x4B) {
+      const zip = await zipOpen(buf);
+      if (zip.has("Contents/section0.xml")) return await readHwpx(buf);
+      return await readXlsx(buf);
+    }
+    if (b.length > 8 && b[0] === 0xD0 && b[1] === 0xCF) {
+      const cfb = cfbOpen(buf);
+      if (cfb.names().some(function (n) { return /^Section\d+$/.test(n); })) return await readHwp(buf);
+      return readXls(buf);
+    }
+    throw new Error("지원하지 않는 파일 형식입니다. 엑셀(.xls, .xlsx) 또는 한글(.hwp, .hwpx) 파일을 올려 주세요.");
+  }
+
+  // ============ 내용 추출 ============
+  const NUMPAT = "([0-9][0-9,\\.]*)";
+
+  function toNum(s) {
+    if (s == null) return null;
+    const t = String(s).replace(/[^0-9.]/g, "");
+    if (t === "" || t === ".") return null;
+    const n = parseFloat(t);
+    return isNaN(n) ? null : Math.round(n);
+  }
+
+  function normText(s) {
+    return String(s == null ? "" : s)
+      .replace(/[\uFF08\uFF09]/g, function (c) { return c === "\uFF08" ? "(" : ")"; })
+      .replace(/[\uFF0F]/g, "/")
+      .replace(/[\uFF1A]/g, ":")
+      .replace(/[\u2013\u2014\u2015\uFF0D\u2212]/g, "-")
+      .replace(/\u3000/g, " ")
+      .replace(/\u00a0/g, " ");
+  }
+
+  function sheetLines(rows) {
+    return rows.map(function (r) {
+      return normText(r.map(function (v) { return String(v == null ? "" : v).trim(); })
+        .filter(function (v) { return v !== ""; }).join("  "));
+    });
+  }
+
+  function sheetText(rows) {
+    return sheetLines(rows).join("\n");
+  }
+
+  function findName(rows, lines, fileName) {
+    // 1) 한 칸 안의 "... 귀하"
+    for (let r = 0; r < rows.length; r++) {
+      for (let c = 0; c < rows[r].length; c++) {
+        const cell = String(rows[r][c] == null ? "" : rows[r][c]);
+        const m = cell.match(/^(.{2,60}?)\s*귀\s*하/);
+        if (m) {
+          const n = cleanName(m[1]);
+          if (n) return { value: n, how: "귀하" };
+        }
+      }
+    }
+    // 2) 라벨 옆/아래
+    const labels = /^(거래처|거래처명|업체명|상호|상호명|고객|고객명|수신|수신처|받는곳|받는분|사용자|사용처)$/;
+    for (let r = 0; r < rows.length; r++) {
+      for (let c = 0; c < rows[r].length; c++) {
+        const label = String(rows[r][c] || "").replace(/\s+/g, "");
+        if (!labels.test(label)) continue;
+        // 오른쪽
+        for (let k = c + 1; k < Math.min(rows[r].length, c + 4); k++) {
+          const v = cleanName(rows[r][k]);
+          if (v && !/동남시스템|귀하/.test(v)) return { value: v, how: "라벨" };
+        }
+        // 아래
+        for (let rr = r + 1; rr < Math.min(rows.length, r + 3); rr++) {
+          const v = cleanName(rows[rr][c]);
+          if (v && !/동남시스템|귀하/.test(v)) return { value: v, how: "라벨" };
+        }
+      }
+    }
+    // 3) 파일명
+    const fromFile = nameFromFile(fileName);
+    if (fromFile) return { value: fromFile, how: "파일명" };
+    return { value: "", how: "" };
+  }
+
+  function cleanName(v) {
+    let s = String(v == null ? "" : v).trim();
+    if (!s) return "";
+    s = s.replace(/^(수신|받는|거래처|고객|상호|업체)\s*[:：]?\s*/, "");
+    s = s.replace(/\s*(귀하|귀중|님|앞)\s*$/, "");
+    s = s.replace(/[\(\[]\s*(?:참조|사본)\s*[\)\]]$/, "");
+    s = s.replace(/\s{2,}/g, " ").trim();
+    if (!s || s.length < 2) return "";
+    if (/^[\d\s,\-]+$/.test(s)) return "";
+    return s;
+  }
+
+  function nameFromFile(fileName) {
+    let s = String(fileName || "").replace(/\.[a-z0-9]+$/i, "");
+    s = s.replace(/^TalkFile_/i, "");
+    s = s.replace(/-[0-9a-f]{16,}$/i, "");
+    s = s.replace(/(사용\s*내역서|견적서|청구서|거래명세서|내역서)$/g, "");
+    s = s.replace(/[_\-\s]+$/, "");
+    s = s.replace(/(19|20)\d{2}\s*년?.*$/, "");
+    s = s.replace(/\d{1,2}\s*월.*$/, "");
+    s = s.replace(/[\-_]+$/, "").trim();
+    return s.length >= 2 ? s : "";
+  }
+
+  function findModel(rows) {
+    const labels = /^(기\s*종|모델|모델명|기기|기기명|품\s*명|장비|장비명)$/;
+    const headerish = /수량|단가|금액|품목|비고|합계|수\s*량|단\s*가/;
+    const looksModel = function (v) {
+      if (!v) return false;
+      if (headerish.test(v)) return false;
+      if (/^[\d,.\s]+$/.test(v)) return false;
+      if (v.length > 40) return false;
+      return /[A-Za-z]/.test(v) && /\d/.test(v) ? true : /[가-힣]/.test(v) && /\d/.test(v);
+    };
+    for (let r = 0; r < rows.length; r++) {
+      for (let c = 0; c < rows[r].length; c++) {
+        const label = String(rows[r][c] || "").replace(/\s+/g, "");
+        if (!labels.test(label)) continue;
+        for (let k = c + 1; k < Math.min(rows[r].length, c + 4); k++) {
+          if (looksModel(rows[r][k])) return { value: rows[r][k].trim(), how: "라벨" };
+        }
+        for (let rr = r + 1; rr < Math.min(rows.length, r + 4); rr++) {
+          if (looksModel(rows[rr][c])) return { value: rows[rr][c].trim(), how: "라벨" };
+        }
+      }
+    }
+    // 모델명 패턴
+    const text = sheetText(rows);
+    const re = /\b([A-Za-z]{1,6}[- ]?\d{3,5}[A-Za-z]{0,4})\b/g;
+    const deny = /^(A4|A3|VAT|FAX|TEL|TEL|http|www|202\d|20\d\d)$/i;
+    let m;
+    while ((m = re.exec(text))) {
+      const v = m[1].trim();
+      if (deny.test(v)) continue;
+      return { value: v, how: "패턴" };
+    }
+    return { value: "", how: "" };
+  }
+
+  function findTerms(text) {
+    const out = { baseFee: null, bBase: null, cBase: null, bRate: null, cRate: null };
+    const COLOR = "(?:칼라|컬러|color|Color|COLOR)";
+    let m;
+
+    m = text.match(new RegExp("흑백[^\\n]{0,6}?" + NUMPAT + "\\s*매\\s*/\\s*" + COLOR + "\\s*" + NUMPAT + "\\s*매[^\\n]{0,20}?기본\\s*" + NUMPAT + "\\s*원"));
+    if (m) { out.bBase = toNum(m[1]); out.cBase = toNum(m[2]); out.baseFee = toNum(m[3]); }
+    if (out.baseFee == null) {
+      m = text.match(new RegExp("기본\\s*" + NUMPAT + "\\s*원[^\\n]{0,30}?흑백\\s*" + NUMPAT + "\\s*매\\s*/\\s*" + COLOR + "\\s*" + NUMPAT + "\\s*매"));
+      if (m) { out.baseFee = toNum(m[1]); out.bBase = toNum(m[2]); out.cBase = toNum(m[3]); }
+    }
+    if (out.bBase == null) { m = text.match(new RegExp("흑백\\s*" + NUMPAT + "\\s*매")); if (m) out.bBase = toNum(m[1]); }
+    if (out.cBase == null) { m = text.match(new RegExp(COLOR + "\\s*" + NUMPAT + "\\s*매")); if (m) out.cBase = toNum(m[1]); }
+    if (out.baseFee == null) {
+      m = text.match(new RegExp("기본\\s*(?:료|요금|렌탈료|임대료)?\\s*[:\\(]?\\s*" + NUMPAT + "\\s*원"));
+      if (m) out.baseFee = toNum(m[1]);
+    }
+
+    m = text.match(new RegExp("(?:추가|초과)\\s*(?:요금|단가|금액)[^\\n]{0,40}?흑백\\s*" + NUMPAT + "\\s*원[^\\n]{0,25}?" + COLOR + "\\s*" + NUMPAT + "\\s*원"));
+    if (m) { out.bRate = toNum(m[1]); out.cRate = toNum(m[2]); }
+    if (out.bRate == null || out.cRate == null) {
+      const mm = text.match(new RegExp("1\\s*장당[^\\n]{0,40}?흑백\\s*" + NUMPAT + "\\s*원[^\\n]{0,25}?" + COLOR + "\\s*" + NUMPAT + "\\s*원"));
+      if (mm) { out.bRate = toNum(mm[1]); out.cRate = toNum(mm[2]); }
+    }
+    if (out.bRate == null || out.cRate == null) {
+      const mm = text.match(new RegExp("흑백\\s*" + NUMPAT + "\\s*원\\s*/\\s*" + COLOR + "\\s*" + NUMPAT + "\\s*원"));
+      if (mm) { out.bRate = toNum(mm[1]); out.cRate = toNum(mm[2]); }
+    }
+    return out;
+  }
+
+  // 표의 라벨-값 쌍 (예: 기본료 | 80,000원 / 이전 카운터 흑백 | 31000)
+  const LABEL_KEYS = [
+    { key: "baseFee", re: /^(기본\s*료|월\s*렌탈료|렌탈료|임대료|기본\s*사용료|월\s*기본료|기본\s*요금)$/ },
+    { key: "bBase", re: /(기본\s*제공\s*매수|기본\s*매수|기본\s*제공).*흑백|흑백.*(기본\s*매수|기본\s*제공)/ },
+    { key: "cBase", re: /(기본\s*제공\s*매수|기본\s*매수|기본\s*제공).*(칼라|컬러)|(칼라|컬러).*(기본\s*매수|기본\s*제공)/ },
+    { key: "bRate", re: /(초과|추가)\s*(단가|요금|금액).*흑백|흑백.*(초과|추가)\s*(단가|요금|금액)/ },
+    { key: "cRate", re: /(초과|추가)\s*(단가|요금|금액).*(칼라|컬러)|(칼라|컬러).*(초과|추가)\s*(단가|요금|금액)/ },
+    { key: "bPrev", re: /(이전|전월).*흑백|흑백.*(이전|전월)/ },
+    { key: "cPrev", re: /(이전|전월).*(칼라|컬러)|(칼라|컬러).*(이전|전월)/ },
+    { key: "bCurr", re: /(현재|당월|금월|이번\s*달?).*흑백|흑백.*(현재|당월|금월)/ },
+    { key: "cCurr", re: /(현재|당월|금월|이번\s*달?).*(칼라|컬러)|(칼라|컬러).*(현재|당월|금월)/ }
+  ];
+
+  function extractLabelValues(rows, out) {
+    for (let r = 0; r < rows.length; r++) {
+      const row = (rows[r] || []).map(function (v) { return String(v == null ? "" : v).trim(); });
+      for (let c = 0; c < row.length; c++) {
+        const label = row[c].replace(/[()\[\]]/g, " ").replace(/\s+/g, " ").trim();
+        if (!label) continue;
+        let key = null;
+        for (const k of LABEL_KEYS) { if (k.re.test(label)) { key = k.key; break; } }
+        if (!key || out[key] != null) continue;
+        let val = null;
+        for (let k2 = c + 1; k2 < Math.min(row.length, c + 4); k2++) {
+          if (row[k2] === "") continue;
+          val = toNum(row[k2]);
+          break;
+        }
+        if (val == null) {
+          for (let rr = r + 1; rr < Math.min(rows.length, r + 3); rr++) {
+            if (out[key] != null) break;
+            const v = String((rows[rr] || [])[c] == null ? "" : rows[rr][c]);
+            const n = toNum(v);
+            if (n != null) { val = n; break; }
+          }
+        }
+        if (val != null) out[key] = val;
+      }
+    }
+  }
+
+  // 표의 열 구조 (예: 구분 | 전월 | 당월 / 흑백 | 12,500 | 14,300)
+  function gridCounters(rows, out) {
+    for (let r = 0; r < rows.length; r++) {
+      const cells = (rows[r] || []).map(function (v) { return String(v == null ? "" : v).replace(/\s+/g, ""); });
+      const prevCol = cells.findIndex(function (v) { return /^(전월|전|이전|이전카운터|전월카운터|전회)$/.test(v); });
+      const currCol = cells.findIndex(function (v) { return /^(당월|현|현재|금월|이번|현재카운터|당월카운터)$/.test(v); });
+      const baseCol = cells.findIndex(function (v) { return /^(기본매수|기본제공매수|기본량|기본)$/.test(v); });
+      const rateCol = cells.findIndex(function (v) { return /^(초과단가|추가단가|초과요금|단가)$/.test(v); });
+      if (prevCol < 0 || currCol < 0) continue;
+      for (let rr = r + 1; rr < Math.min(rows.length, r + 6); rr++) {
+        const cs = (rows[rr] || []).map(function (v) { return String(v == null ? "" : v).replace(/\s+/g, ""); });
+        const ci = cs.findIndex(function (v) { return /^(흑백|흑백카운터|mono)$/i.test(v); });
+        const cj = cs.findIndex(function (v) { return /^(칼라|컬러|칼라카운터|컬러카운터|color)$/i.test(v); });
+        if (ci >= 0) {
+          const a = toNum((rows[rr] || [])[prevCol]), b = toNum((rows[rr] || [])[currCol]);
+          if (a != null && out.bPrev == null) out.bPrev = a;
+          if (b != null && out.bCurr == null) out.bCurr = b;
+          if (baseCol >= 0) { const v = toNum((rows[rr] || [])[baseCol]); if (v != null && out.bBase == null) out.bBase = v; }
+          if (rateCol >= 0) { const v = toNum((rows[rr] || [])[rateCol]); if (v != null && out.bRate == null) out.bRate = v; }
+        }
+        if (cj >= 0) {
+          const a = toNum((rows[rr] || [])[prevCol]), b = toNum((rows[rr] || [])[currCol]);
+          if (a != null && out.cPrev == null) out.cPrev = a;
+          if (b != null && out.cCurr == null) out.cCurr = b;
+          if (baseCol >= 0) { const v = toNum((rows[rr] || [])[baseCol]); if (v != null && out.cBase == null) out.cBase = v; }
+          if (rateCol >= 0) { const v = toNum((rows[rr] || [])[rateCol]); if (v != null && out.cRate == null) out.cRate = v; }
+        }
+      }
+    }
+  }
+
+  function findCounters(lines, rows) {
+    const out = { bPrev: null, bCurr: null, cPrev: null, cCurr: null, bUsed: null, cUsed: null };
+    const COLOR = "(?:칼라|컬러)";
+    const MONO = "흑백";
+
+    const pairPatterns = [
+      new RegExp("(?:^|[^가-힣])" + MONO + "[^\\n]{0,24}?\\(\\s*전\\s*\\)\\s*" + NUMPAT + "\\s*-\\s*\\(\\s*현\\s*\\)\\s*" + NUMPAT),
+      new RegExp(MONO + "[^\\n]{0,40}?전월[^\\n]{0,12}?" + NUMPAT + "[^\\n]{0,40}?당월[^\\n]{0,12}?" + NUMPAT),
+      new RegExp(MONO + "[^\\n]{0,30}?이전[^\\n]{0,12}?" + NUMPAT + "[^\\n]{0,30}?(?:현재|이번|금월)[^\\n]{0,12}?" + NUMPAT)
+    ];
+    const colorPatterns = [
+      new RegExp("(?:^|[^가-힣])" + COLOR + "[^\\n]{0,24}?\\(\\s*전\\s*\\)\\s*" + NUMPAT + "\\s*-\\s*\\(\\s*현\\s*\\)\\s*" + NUMPAT),
+      new RegExp(COLOR + "[^\\n]{0,40}?전월[^\\n]{0,12}?" + NUMPAT + "[^\\n]{0,40}?당월[^\\n]{0,12}?" + NUMPAT),
+      new RegExp(COLOR + "[^\\n]{0,30}?이전[^\\n]{0,12}?" + NUMPAT + "[^\\n]{0,30}?(?:현재|이번|금월)[^\\n]{0,12}?" + NUMPAT)
+    ];
+
+    const text = lines.join("\n");
+    for (const p of pairPatterns) {
+      const m = text.match(p);
+      if (m) { out.bPrev = toNum(m[1]); out.bCurr = toNum(m[2]); break; }
+    }
+    for (const p of colorPatterns) {
+      const m = text.match(p);
+      if (m) { out.cPrev = toNum(m[1]); out.cCurr = toNum(m[2]); break; }
+    }
+    // 사용 매수
+    let m = text.match(new RegExp(MONO + "[^\\n]{0,40}?" + NUMPAT + "\\s*매\\s*사용"));
+    if (m) out.bUsed = toNum(m[1]);
+    m = text.match(new RegExp(COLOR + "[^\\n]{0,40}?" + NUMPAT + "\\s*매\\s*사용"));
+    if (m) out.cUsed = toNum(m[1]);
+
+    // 표 구조(머리글 열)·라벨-값으로 보충
+    gridCounters(rows, out);
+    const lab = { bPrev: null, bCurr: null, cPrev: null, cCurr: null };
+    extractLabelValues(rows, lab);
+    ["bPrev", "bCurr", "cPrev", "cCurr"].forEach(function (k) {
+      if (out[k] == null && lab[k] != null) out[k] = lab[k];
+    });
+    return out;
+  }
+
+  function pickRight(nums, from, nth) {
+    let seen = 0;
+    for (let i = from + 1; i < nums.length; i++) {
+      if (nums[i] == null) continue;
+      seen++;
+      if (seen === (nth || 1)) return nums[i];
+    }
+    return null;
+  }
+
+  function findExtras(lines) {
+    const extras = [];
+    for (const line of lines) {
+      const m = line.match(/<\s*([^<>]{2,40})\s*>/);
+      if (!m) continue;
+      const label = m[1].replace(/\s+/g, " ").trim();
+      const rest = line.slice(m.index + m[0].length);
+      let amount = null;
+      const am = rest.match(new RegExp("(?:금액|단가|요금)?\\s*[:：]?\\s*" + NUMPAT + "\\s*원"));
+      if (am) amount = toNum(am[1]);
+      const free = /무\s*료/.test(rest);
+      if (amount == null && !free) continue; // 대표 기기 라벨
+      if (amount === 0 && free) amount = 0;
+      extras.push({ label: label, amount: amount, free: free });
+    }
+    return extras;
+  }
+
+  function findTotal(text) {
+    let m = text.match(new RegExp("합\\s*계[^\\n]{0,24}?\\(\\s*" + NUMPAT + "\\s*\\)"));
+    if (m) return toNum(m[1]);
+    m = text.match(new RegExp("(?:합계|총\\s*금액|총\\s*합계)\\s*(?:금\\s*액)?[^\\n]{0,14}?" + NUMPAT + "\\s*원?"));
+    if (m) return toNum(m[1]);
+    return null;
+  }
+
+  function findMonth(text, fileName) {
+    let m = text.match(/(20\d{2})\s*년\s*(\d{1,2})\s*월/);
+    if (!m) m = String(fileName || "").match(/(20\d{2})\s*년?\s*(\d{1,2})\s*월/);
+    if (m) {
+      const y = +m[1], mo = +m[2];
+      if (mo >= 1 && mo <= 12) return { year: y, month: mo };
+    }
+    return null;
+  }
+
+  // 시트 하나 해석 + 점수
+  function parseSheet(sheet, fileName) {
+    const rows = sheet.rows || [];
+    const lines = sheetLines(rows);
+    const text = lines.join("\n");
+    const res = {
+      sheetName: sheet.name || "",
+      name: "", model: "",
+      baseFee: null, bBase: null, cBase: null, bRate: null, cRate: null,
+      bPrev: null, bCurr: null, cPrev: null, cCurr: null,
+      bUsed: null, cUsed: null,
+      extras: [], total: null, month: null, warnings: []
+    };
+    const nm = findName(rows, lines, fileName);
+    res.name = nm.value; res.nameHow = nm.how;
+    const md = findModel(rows);
+    res.model = md.value; res.modelHow = md.how;
+    const terms = findTerms(text);
+    res.baseFee = terms.baseFee; res.bBase = terms.bBase; res.cBase = terms.cBase;
+    res.bRate = terms.bRate; res.cRate = terms.cRate;
+    // 표의 라벨-값 (예: 기본료 | 80,000원 / 초과단가 흑백 | 10원)
+    const lab = {};
+    extractLabelValues(rows, lab);
+    ["baseFee", "bBase", "cBase", "bRate", "cRate"].forEach(function (k) {
+      if (res[k] == null && lab[k] != null) res[k] = lab[k];
+    });
+    const cnt = findCounters(lines, rows);
+    res.bPrev = cnt.bPrev; res.bCurr = cnt.bCurr; res.cPrev = cnt.cPrev; res.cCurr = cnt.cCurr;
+    res.bUsed = cnt.bUsed; res.cUsed = cnt.cUsed;
+    ["bBase", "cBase", "bRate", "cRate"].forEach(function (k) {
+      if (res[k] == null && cnt[k] != null) res[k] = cnt[k];
+    });
+    res.extras = findExtras(lines);
+    res.total = findTotal(text);
+    res.month = findMonth(text, fileName);
+
+    // 표에서 기본료를 못 찾았으면 임대/렌탈 행의 큰 금액을 기본료로
+    if (res.baseFee == null) {
+      for (let r = 0; r < rows.length; r++) {
+        if (!rows[r].some(function (v) { return /임대|렌탈|임차/.test(String(v)); })) continue;
+        const nums = rows[r].map(toNum).filter(function (n) { return n != null && n >= 1000; });
+        if (nums.length) { res.baseFee = Math.max.apply(null, nums); break; }
+      }
+    }
+    // 기종 칸에 금액이 들어간 경우 방지
+    if (res.model && /^[\d,]+$/.test(res.model.replace(/\s/g, ""))) res.model = "";
+
+    let score = 0;
+    if (res.name) score += 2;
+    if (res.baseFee) score += 2;
+    if (res.bPrev != null && res.bCurr != null) score += 3;
+    if (res.cPrev != null && res.cCurr != null) score += 2;
+    if (res.model) score += 1;
+    if (res.bBase != null) score += 1;
+    res.score = score;
+    return res;
+  }
+
+  function parseDocument(doc, fileName) {
+    const sheets = (doc && doc.sheets) || [];
+    let best = null;
+    sheets.forEach(function (sh) {
+      const r = parseSheet(sh, fileName);
+      if (!best || r.score > best.score) best = r;
+    });
+    if (!best) throw new Error("문서에서 내용을 읽지 못했습니다.");
+    best.kind = doc.kind || "";
+    best.sheetCount = sheets.length;
+    // 경고
+    if (!best.name) best.warnings.push("거래처명을 찾지 못했습니다. 미리보기에서 직접 입력해 주세요.");
+    if (best.bPrev != null && best.bCurr != null && best.bCurr < best.bPrev) best.warnings.push("흑백 당월 카운터가 전월보다 작습니다(카운터 초기화·기기 교체 여부 확인).");
+    if (best.cPrev != null && best.cCurr != null && best.cCurr < best.cPrev) best.warnings.push("컬러 당월 카운터가 전월보다 작습니다(카운터 초기화·기기 교체 여부 확인).");
+    if (best.baseFee == null) best.warnings.push("기본료를 찾지 못했습니다. 미리보기에서 입력해 주세요.");
+    if ((best.bPrev == null || best.bCurr == null) && (best.cPrev == null || best.cCurr == null)) {
+      best.warnings.push("카운터(전월/당월)를 찾지 못했습니다. 미리보기에서 입력해 주세요.");
+    }
+    // 내역서 총액과 대장 계산액 비교
+    const calc = supplyOf(best);
+    best.calcSupply = calc;
+    if (best.total != null) {
+      const diff = best.total - calc;
+      best.totalDiff = diff;
+    }
+    return best;
+  }
+
+  function supplyOf(r) {
+    const bUsed = (r.bPrev != null && r.bCurr != null) ? Math.max(0, r.bCurr - r.bPrev) : 0;
+    const cUsed = (r.cPrev != null && r.cCurr != null) ? Math.max(0, r.cCurr - r.cPrev) : 0;
+    const bOver = Math.max(0, bUsed - (r.bBase || 0));
+    const cOver = Math.max(0, cUsed - (r.cBase || 0));
+    return (r.baseFee || 0) + bOver * (r.bRate || 0) + cOver * (r.cRate || 0);
+  }
+
+  return {
+    extractDocument: extractDocument,
+    parseDocument: parseDocument,
+    parseSheet: parseSheet,
+    supplyOf: supplyOf,
+    // 테스트용 내부
+    _zipOpen: zipOpen,
+    _cfbOpen: cfbOpen,
+    _readXls: readXls,
+    _readXlsx: readXlsx,
+    _readHwpx: readHwpx,
+    _readHwp: readHwp,
+    _hwpText: hwpText
+  };
+})();
+
+if (typeof module !== "undefined" && module.exports) module.exports = StatementParser;
+
+// ==========================================
+// 13. 사용내역서(엑셀·한글) 불러오기
+// ==========================================
+let stmtRows = [];
+let stmtErrors = [];
+let sheetJsLoading = null;
+
+function pickStatement() { document.getElementById("stmtFileInput").click(); }
+
+function readFileBuffer(file) {
+  return new Promise(function (resolve, reject) {
+    const reader = new FileReader();
+    reader.onload = function () { resolve(reader.result); };
+    reader.onerror = function () {
+      reject(new Error("파일을 열지 못했습니다. 다른 프로그램에서 열려 있지 않은지 확인해 주세요."));
+    };
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+// 자체 파서가 읽지 못한 엑셀 파일은 SheetJS를 그때만 받아 한 번 더 시도한다(인터넷 필요).
+function loadSheetJs() {
+  if (typeof XLSX !== "undefined" && XLSX && XLSX.read) return Promise.resolve(XLSX);
+  if (sheetJsLoading) return sheetJsLoading;
+  sheetJsLoading = new Promise(function (resolve, reject) {
+    if (typeof navigator !== "undefined" && navigator.onLine === false) {
+      reject(new Error("인터넷이 없어 엑셀 보조 도구를 받지 못했습니다."));
+      return;
+    }
+    if (typeof document === "undefined") { reject(new Error("보조 도구를 쓸 수 없습니다.")); return; }
+    const urls = [
+      "https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js",
+      "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"
+    ];
+    let idx = 0, done = false;
+    const finish = function (ok) {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
+      if (ok && typeof XLSX !== "undefined" && XLSX && XLSX.read) { resolve(XLSX); return; }
+      sheetJsLoading = null;
+      reject(new Error(idx >= urls.length ? "엑셀 보조 도구를 불러오지 못했습니다." : "엑셀 보조 도구를 불러오지 못했습니다(시간 초과)."));
+    };
+    const timer = setTimeout(function () { finish(false); }, 8000);
+    const next = function () {
+      if (done) return;
+      if (idx >= urls.length) { finish(false); return; }
+      const s = document.createElement("script");
+      s.src = urls[idx++];
+      s.async = true;
+      s.onload = function () { finish(true); };
+      s.onerror = function () { next(); };
+      document.head.appendChild(s);
+    };
+    next();
+  });
+  return sheetJsLoading;
+}
+
+async function extractWithSheetJs(buf) {
+  const XLSX = await loadSheetJs();
+  const wb = XLSX.read(new Uint8Array(buf), { type: "array" });
+  const sheets = [];
+  (wb.SheetNames || []).forEach(function (nm) {
+    const rows = XLSX.utils.sheet_to_json(wb.Sheets[nm], { header: 1, raw: false, defval: "" })
+      .map(function (r) { return r.map(function (v) { return v == null ? "" : String(v); }); });
+    if (rows.length) sheets.push({ name: nm, rows: rows });
+  });
+  if (!sheets.length) throw new Error("시트에서 내용을 찾지 못했습니다.");
+  return { kind: "엑셀", sheets: sheets };
+}
+
+async function extractStatementDoc(fileName, buf) {
+  try {
+    return await StatementParser.extractDocument(fileName, buf);
+  } catch (e) {
+    const ext = (String(fileName).match(/\.([a-z0-9]+)$/i) || [, ""])[1].toLowerCase();
+    const isExcel = ext === "xls" || ext === "xlsx" || ext === "xlsm";
+    if (isExcel && !/암호/.test(String(e && e.message))) {
+      toast("엑셀 파일을 보조 도구로 다시 읽는 중…");
+      try {
+        const doc = await extractWithSheetJs(buf);
+        doc.fallback = true;
+        return doc;
+      } catch (e2) {
+        throw new Error(e.message + "\n보조 도구로도 읽지 못했습니다: " + e2.message);
+      }
+    }
+    throw e;
+  }
+}
+
+function matchStatementClient(name) {
+  const n = normName(name);
+  if (!n) return null;
+  const exact = clients.filter(function (c) { return normName(c.name) === n; })[0];
+  if (exact) return { id: exact.id, how: "이름" };
+  if (n.length < 2) return null;
+  const part = clients.filter(function (c) {
+    const m = normName(c.name);
+    return m.length >= 2 && (n.indexOf(m) >= 0 || m.indexOf(n) >= 0);
+  })[0];
+  return part ? { id: part.id, how: "이름 일부" } : null;
+}
+
+function stmtNum(v) {
+  if (v === "" || v == null) return null;
+  const n = parseInt(String(v).replace(/[^0-9-]/g, ""), 10);
+  return isNaN(n) ? null : n;
+}
+
+function makeStmtRow(file, parsed) {
+  const matched = matchStatementClient(parsed.name);
+  const paid = (parsed.extras || []).filter(function (e) { return !e.free && e.amount > 0; });
+  return {
+    fileName: file.name,
+    kind: parsed.kind || "",
+    sheetName: parsed.sheetName || "",
+    fallback: !!parsed.fallback,
+    originalName: parsed.name || "",
+    name: parsed.name || "",
+    model: parsed.model || "",
+    baseFee: parsed.baseFee, bBase: parsed.bBase, bRate: parsed.bRate, cBase: parsed.cBase, cRate: parsed.cRate,
+    bPrev: parsed.bPrev, bCurr: parsed.bCurr, cPrev: parsed.cPrev, cCurr: parsed.cCurr,
+    extras: parsed.extras || [],
+    includeExtras: paid.length > 0,
+    mode: matched ? "update" : "new",
+    matchId: matched ? matched.id : null,
+    total: parsed.total, month: parsed.month || null,
+    warnings: (parsed.warnings || []).slice()
+  };
+}
+
+async function handleStatementPick(input) {
+  const files = Array.prototype.slice.call((input && input.files) || []);
+  if (!files.length) return;
+  stmtRows = [];
+  stmtErrors = [];
+  toast("사용내역서 " + files.length + "개를 읽는 중…");
+  for (const f of files) {
+    try {
+      const buf = await readFileBuffer(f);
+      const doc = await extractStatementDoc(f.name, buf);
+      const parsed = StatementParser.parseDocument(doc, f.name);
+      parsed.fallback = !!doc.fallback;
+      stmtRows.push(makeStmtRow(f, parsed));
+    } catch (e) {
+      stmtErrors.push(f.name + " — " + (e && e.message ? e.message : String(e)));
+    }
+  }
+  if (input) input.value = "";
+  // 같은 거래처 이름이 한 번에 두 번 들어오면 뒤엣것은 [제외]로 두고 알린다(같은 내역서를 두 형식으로 올린 경우)
+  const seen = {};
+  stmtRows.forEach(function (r) {
+    const k = normName(r.name);
+    if (!k) return;
+    if (seen[k]) {
+      r.mode = "skip";
+      r.warnings.push("같은 거래처 이름의 파일이 앞에 있습니다(" + seen[k].fileName + "). 이 파일도 반영하려면 [신규 업체 추가]나 [기존 업체 업데이트]를 골라 주세요.");
+    } else {
+      seen[k] = r;
+    }
+  });
+  if (!stmtRows.length) {
+    alert("사용내역서를 읽지 못했습니다.\n\n" + stmtErrors.join("\n") +
+          "\n\n엑셀(.xls, .xlsx) 또는 한글(.hwp, .hwpx) 파일인지 확인해 주세요.");
+    return;
+  }
+  openStatementModal();
+}
+
+function openStatementModal() {
+  const box = document.getElementById("toastBox");
+  if (box) box.innerHTML = "";
+  renderStatementModal();
+  document.getElementById("stmtModal").classList.add("active");
+}
+function closeStatementModal() {
+  document.getElementById("stmtModal").classList.remove("active");
+  stmtRows = [];
+  stmtErrors = [];
+}
+
+function stmtFieldHtml(i, field, label, isText, wide) {
+  const r = stmtRows[i];
+  const v = r[field] == null ? "" : r[field];
+  return '<label class="stmt-field' + (wide ? " stmt-wide" : "") + '"><span>' + label + '</span>' +
+    '<input type="' + (isText ? "text" : "number") + '" value="' + escapeHtml(v) + '"' +
+    (isText ? "" : ' inputmode="numeric"') +
+    ' oninput="setStmtField(' + i + ', \'' + field + '\', this.value)"></label>';
+}
+
+function renderStatementModal() {
+  const list = document.getElementById("stmtList");
+  if (!list) return;
+  const parts = [];
+  stmtRows.forEach(function (r, i) {
+    const modes = [["update", "기존 업체 업데이트"], ["new", "신규 업체 추가"], ["skip", "제외"]]
+      .map(function (m) {
+        return '<label><input type="radio" name="stmtMode' + i + '" value="' + m[0] + '"' +
+          (r.mode === m[0] ? " checked" : "") + ' onchange="setStmtMode(' + i + ', \'' + m[0] + '\')">' + m[1] + '</label>';
+      }).join("");
+
+    let matchHtml = "";
+    if (r.mode === "update") {
+      const opts = clients.map(function (c) {
+        return '<option value="' + c.id + '"' + (c.id === r.matchId ? " selected" : "") + '>' + escapeHtml(c.name) + "</option>";
+      }).join("");
+      matchHtml = '<div class="stmt-match"><span>기존 거래처</span>' +
+        '<select onchange="setStmtMatch(' + i + ', this.value)">' + opts + "</select>" +
+        '<span style="color:#94a3b8;">이름은 기존 그대로 두고 수치만 바꿉니다</span></div>';
+    }
+
+    const fields =
+      stmtFieldHtml(i, "name", "거래처명", true, true) +
+      stmtFieldHtml(i, "model", "기종", true, true) +
+      stmtFieldHtml(i, "baseFee", "기본료(원)", false) +
+      stmtFieldHtml(i, "bBase", "흑백 기본매수", false) +
+      stmtFieldHtml(i, "bRate", "흑백 초과단가(원)", false) +
+      stmtFieldHtml(i, "bPrev", "흑백 전월", false) +
+      stmtFieldHtml(i, "bCurr", "흑백 당월", false) +
+      stmtFieldHtml(i, "cBase", "칼라 기본매수", false) +
+      stmtFieldHtml(i, "cRate", "칼라 초과단가(원)", false) +
+      stmtFieldHtml(i, "cPrev", "칼라 전월", false) +
+      stmtFieldHtml(i, "cCurr", "칼라 당월", false);
+
+    const paid = (r.extras || []).filter(function (e) { return !e.free && e.amount > 0; });
+    let extrasHtml = "";
+    if (r.extras && r.extras.length) {
+      const txt = r.extras.map(function (e) {
+        return escapeHtml(e.label) + (e.free ? " 무료" : (e.amount ? " " + money(e.amount) + "원" : ""));
+      }).join(" · ");
+      extrasHtml = '<div class="stmt-extras">추가 기기: ' + txt + "</div>";
+      if (paid.length) {
+        extrasHtml += '<label class="stmt-check"><input type="checkbox"' + (r.includeExtras ? " checked" : "") +
+          ' onchange="setStmtExtras(' + i + ', this.checked)">추가 기기도 각각 거래처로 등록 (' +
+          paid.map(function (e) { return escapeHtml(e.label) + " " + money(e.amount) + "원"; }).join(", ") + ")</label>";
+      }
+    }
+
+    let warnHtml = "";
+    if (r.warnings && r.warnings.length) {
+      warnHtml = '<div class="stmt-warn">' + r.warnings.map(escapeHtml).join("<br>") + "</div>";
+    }
+    if (r.month && (r.month.year !== period.year || r.month.month !== period.month)) {
+      warnHtml += '<div class="stmt-warn">내역서 기준 ' + r.month.year + "년 " + r.month.month + "월 · 대장 기준 " +
+        periodText() + " — 기준 월은 바꾸지 않습니다.</div>";
+    }
+
+    parts.push('<div class="stmt-card' + (r.mode === "skip" ? " is-skip" : "") + '">' +
+      '<div class="stmt-card-head"><div><span class="stmt-file">' + escapeHtml(r.fileName) + "</span>" +
+      '<span class="stmt-kind">' + escapeHtml(r.kind + (r.sheetName ? " · " + r.sheetName : "")) + (r.fallback ? " · 보조 도구" : "") + "</span></div>" +
+      '<div class="stmt-modes">' + modes + "</div></div>" +
+      matchHtml +
+      '<div class="stmt-grid">' + fields + "</div>" +
+      '<div class="stmt-calc" id="stmtCalc' + i + '"></div>' +
+      extrasHtml + warnHtml +
+      "</div>");
+  });
+
+  if (stmtErrors.length) {
+    parts.push('<div class="stmt-warn stmt-err"><strong>읽지 못한 파일</strong><br>' +
+      stmtErrors.map(escapeHtml).join("<br>") + "</div>");
+  }
+  list.innerHTML = parts.join("");
+  stmtRows.forEach(function (r, i) { updateStmtCalc(i); });
+  renderStatementSummary();
+}
+
+function updateStmtCalc(i) {
+  const el = document.getElementById("stmtCalc" + i);
+  const r = stmtRows[i];
+  if (!el || !r) return;
+  const calc = StatementParser.supplyOf(r);
+  const bUsed = (r.bPrev != null && r.bCurr != null) ? Math.max(0, r.bCurr - r.bPrev) : null;
+  const cUsed = (r.cPrev != null && r.cCurr != null) ? Math.max(0, r.cCurr - r.cPrev) : null;
+  let html = "대장 계산 공급가 <strong>" + money(calc) + "원</strong>";
+  if (bUsed != null) html += " · 흑백 " + money(bUsed) + "매 사용";
+  if (cUsed != null) html += " · 칼라 " + money(cUsed) + "매 사용";
+  if (r.total != null) {
+    const diff = r.total - calc;
+    html += " · 내역서 합계 " + money(r.total) + "원" +
+      (diff === 0 ? ' <span style="color:#15803d;">(일치)</span>'
+        : ' <span style="color:#b45309;">(차액 ' + money(diff) + "원)</span>");
+  }
+  el.innerHTML = html;
+}
+
+function renderStatementSummary() {
+  const el = document.getElementById("stmtSummary");
+  if (!el) return;
+  const use = stmtRows.filter(function (r) { return r.mode !== "skip"; });
+  const upd = use.filter(function (r) { return r.mode === "update" && r.matchId != null; }).length;
+  const neu = use.length - upd;
+  const extra = use.reduce(function (n, r) {
+    if (!r.includeExtras) return n;
+    return n + (r.extras || []).filter(function (e) { return !e.free && e.amount > 0; }).length;
+  }, 0);
+  const missName = use.filter(function (r) { return !String(r.name || "").trim(); }).length;
+  let txt = "반영 예정 — 기존 거래처 갱신 " + upd + "곳 · 신규 추가 " + neu + "곳";
+  if (extra) txt += " · 추가 기기 " + extra + "대";
+  if (missName) txt += ' <span style="color:#b91c1c;">· 거래처명이 빈 파일 ' + missName + "개</span>";
+  el.innerHTML = txt;
+}
+
+function setStmtField(i, field, value) {
+  const r = stmtRows[i];
+  if (!r) return;
+  if (field === "name" || field === "model") r[field] = String(value);
+  else r[field] = stmtNum(value);
+  updateStmtCalc(i);
+  renderStatementSummary();
+}
+
+function setStmtMode(i, mode) {
+  const r = stmtRows[i];
+  if (!r) return;
+  r.mode = mode;
+  if (mode === "update" && r.matchId == null) {
+    const m = matchStatementClient(r.name);
+    r.matchId = m ? m.id : (clients.length ? clients[0].id : null);
+  }
+  renderStatementModal();
+}
+
+function setStmtMatch(i, id) {
+  const r = stmtRows[i];
+  if (r) r.matchId = stmtNum(id);
+  renderStatementSummary();
+}
+
+function setStmtExtras(i, on) {
+  const r = stmtRows[i];
+  if (r) r.includeExtras = !!on;
+  renderStatementSummary();
+}
+
+function nextClientId() {
+  return clients.length ? Math.max.apply(null, clients.map(function (c) { return c.id; })) + 1 : 1;
+}
+
+function applyStatement() {
+  const items = stmtRows.filter(function (r) { return r.mode !== "skip"; });
+  if (!items.length) {
+    alert("반영할 내역이 없습니다. [기존 업체 업데이트]나 [신규 업체 추가]를 골라 주세요.");
+    return;
+  }
+  const noName = items.filter(function (r) { return !String(r.name || "").trim(); });
+  if (noName.length) {
+    alert("거래처명이 비어 있는 파일이 " + noName.length + "개 있습니다.\n미리보기에서 거래처명을 채운 뒤 다시 눌러 주세요.");
+    return;
+  }
+
+  let upd = 0, neu = 0, extraCount = 0;
+  const lines = items.map(function (r) {
+    const target = (r.mode === "update" && r.matchId != null)
+      ? (clients.filter(function (c) { return c.id === r.matchId; })[0] || null)
+      : null;
+    if (target) upd++; else neu++;
+    return "· " + (target ? "갱신 " : "신규 ") + r.name +
+      " (기본 " + money(r.baseFee) + "원, 흑백 " + money(r.bPrev) + "→" + money(r.bCurr) +
+      ", 칼라 " + money(r.cPrev) + "→" + money(r.cCurr) + ")";
+  });
+
+  const ask = "[사용내역서 반영]\n\n" + lines.join("\n") +
+    "\n\n· 기존 거래처 갱신: " + upd + "곳\n· 신규 거래처 추가: " + neu + "곳" +
+    (items.some(function (r) { return r.includeExtras; }) ? "\n· 추가 기기도 별도 거래처로 등록" : "") +
+    "\n\n반영하면 저장되고(동기화 설정 시 서버에도 올라갑니다) 되돌리려면 [복원(JSON)] 백업이 필요합니다. 진행할까요?";
+  if (!confirm(ask)) return;
+
+  items.forEach(function (r) {
+    const target = (r.mode === "update" && r.matchId != null)
+      ? (clients.filter(function (c) { return c.id === r.matchId; })[0] || null)
+      : null;
+
+    if (target) {
+      if (r.model) target.model = r.model;
+      if (r.baseFee != null) target.baseFee = r.baseFee;
+      if (r.bBase != null) target.bBase = r.bBase;
+      if (r.bRate != null) target.bRate = r.bRate;
+      if (r.cBase != null) target.cBase = r.cBase;
+      if (r.cRate != null) target.cRate = r.cRate;
+      if (r.bPrev != null) target.bPrev = r.bPrev;
+      if (r.bCurr != null) target.bCurr = r.bCurr;
+      if (r.cPrev != null) target.cPrev = r.cPrev;
+      if (r.cCurr != null) target.cCurr = r.cCurr;
+    } else {
+      let bPrev = r.bPrev, bCurr = r.bCurr, cPrev = r.cPrev, cCurr = r.cCurr;
+      // 당월만 읽힌 경우: 사용량을 0으로 두어 엉뚱한 초과금이 붙지 않게 한다
+      if (bPrev == null && bCurr != null) bPrev = bCurr;
+      if (cPrev == null && cCurr != null) cPrev = cCurr;
+      clients.push(normalizeClient({
+        id: nextClientId(),
+        name: r.name.trim(),
+        model: r.model || "",
+        baseFee: r.baseFee || 0,
+        bPrev: bPrev || 0, bCurr: bCurr || 0, bBase: r.bBase || 0, bRate: r.bRate || 0,
+        cPrev: cPrev || 0, cCurr: cCurr || 0, cBase: r.cBase || 0, cRate: r.cRate || 0,
+        toner: { k: 100, c: 100, m: 100, y: 100 },
+        status: "미수"
+      }));
+    }
+
+    if (r.includeExtras) {
+      (r.extras || []).forEach(function (e) {
+        if (e.free || !e.amount || e.amount <= 0) return;
+        const nm = (r.name.trim() + " · " + e.label).slice(0, 80);
+        const found = clients.filter(function (c) { return normName(c.name) === normName(nm); })[0];
+        if (found) {
+          found.baseFee = e.amount;
+        } else {
+          clients.push(normalizeClient({
+            id: nextClientId(), name: nm, model: r.model || "", baseFee: e.amount,
+            bPrev: 0, bCurr: 0, bBase: 0, bRate: 0, cPrev: 0, cCurr: 0, cBase: 0, cRate: 0,
+            toner: { k: 100, c: 100, m: 100, y: 100 }, status: "미수"
+          }));
+        }
+        extraCount++;
+      });
+    }
+  });
+
+  saveData();
+  closeStatementModal();
+
+  let msg = "사용내역서 반영 완료\n\n· 거래처 갱신 " + upd + "곳\n· 신규 추가 " + neu + "곳";
+  if (extraCount) msg += "\n· 추가 기기 " + extraCount + "대";
+  msg += "\n\n" + (syncConfigured() ? "서버에도 곧 올라갑니다." : "이 기기에 저장했습니다.");
+  alert(msg);
+}
+
+// ==========================================
+// 14. 시작
 // ==========================================
 renderAll();
 renderSyncBadge();
