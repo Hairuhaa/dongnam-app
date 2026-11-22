@@ -172,6 +172,26 @@
   .cc-del { color: var(--danger); }
   .cc-empty { text-align: center; color: #94a3b8; font-weight: 700; padding: 30px 0; }
 
+  /* ===== 거래처 묶기(접기·펼치기) — 부서가 많은 거래처 ===== */
+  .stat-card .stat-sub { font-size: 12px; font-weight: 700; color: #64748b; margin-top: 4px; }
+  .stat-card .stat-sub:empty { display: none; }
+  tr.group-row td { background: #eef2ff; border-bottom: 1px solid #c7d2fe; }
+  tr.group-row:hover td { background: #e0e7ff; }
+  .grp-btn { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; padding: 0; margin-right: 6px; border-radius: 6px; border: 1px solid #a5b4fc; background: #ffffff; color: #1e3a8a; font-size: 11px; font-weight: 800; vertical-align: middle; }
+  .grp-btn:hover { background: #1e3a8a; border-color: #1e3a8a; color: #ffffff; }
+  .grp-name { font-weight: 800; color: #1e3a8a; vertical-align: middle; }
+  .grp-count { display: inline-block; vertical-align: middle; margin-left: 6px; padding: 2px 8px; border-radius: 999px; background: #1e3a8a; color: #ffffff; font-size: 11px; font-weight: 800; }
+  .grp-sub { margin-top: 3px; font-size: 11px; font-weight: 700; color: #475569; }
+  tr.child-row td { background: #fbfdff; }
+  tr.child-row td:first-child { padding-left: 26px; }
+  tr.child-row .grp-branch { color: #94a3b8; font-weight: 800; margin-right: 4px; }
+  tr.child-row .grp-child-name { font-weight: 700; color: #334155; }
+  .group-card { background: #f5f7ff; border-color: #c7d2fe; }
+  .group-card .cc-head { cursor: pointer; }
+  .group-card .cc-name { color: #1e3a8a; }
+  .cc-children { display: grid; gap: 9px; margin-top: 10px; padding-left: 9px; border-left: 3px solid #c7d2fe; }
+  .cc-children .client-card { padding: 11px; box-shadow: none; }
+
   /* 알림 토스트 */
   #toastBox { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 2000; pointer-events: none; width: min(92vw, 420px); }
   .toast { background: #0f172a; color: #fff; font-size: 13px; font-weight: 700; padding: 11px 14px; border-radius: 10px; box-shadow: 0 8px 20px rgba(15,23,42,0.25); text-align: center; line-height: 1.4; }
@@ -206,6 +226,7 @@
     .stat-card { padding: 14px; border-radius: 10px; }
     .stat-card .value { font-size: 19px; }
     .stat-card .label { font-size: 11.5px; margin-bottom: 4px; }
+    .stat-card .stat-sub { font-size: 11px; }
 
     .section-card { border-radius: 12px; margin-bottom: 20px; }
     .section-header { padding: 12px 14px; gap: 10px; }
@@ -361,6 +382,7 @@
   <div class="stat-card">
     <div class="label">총 관리 거래처</div>
     <div class="value" id="statTotalCount">0 곳</div>
+    <div class="stat-sub" id="statTotalUnits"></div>
   </div>
   <div class="stat-card">
     <div class="label" id="statBillingLabel">당월 총 청구 예상액</div>
@@ -957,16 +979,147 @@ function toast(msg) {
 // ==========================================
 // 5. 화면 그리기
 // ==========================================
-function visibleClients() {
+// 필터·검색 한 줄 판정 — 묶인 거래처의 하위 행에도 그대로 쓴다
+function matchesFilters(c) {
+  if (filterMode === "unpaid" && c.status === "수납완료") return false;
+  if (filterMode === "toner" && !isTonerLow(c)) return false;
+  if (filterMode.indexOf("pay-") === 0 && payDayBand(payDayOf(c)).key !== filterMode.slice(4)) return false;
   const q = searchTerm.trim().toLowerCase();
-  return clients.filter(function (c) {
-    if (filterMode === "unpaid" && c.status === "수납완료") return false;
-    if (filterMode === "toner" && !isTonerLow(c)) return false;
-    if (filterMode.indexOf("pay-") === 0 && payDayBand(payDayOf(c)).key !== filterMode.slice(4)) return false;
-    if (!q) return true;
-    const hay = (c.name + " " + c.model + " " + (c.ip || "")).toLowerCase();
-    return hay.indexOf(q) >= 0;
+  if (!q) return true;
+  const hay = (c.name + " " + c.model + " " + (c.ip || "")).toLowerCase();
+  return hay.indexOf(q) >= 0;
+}
+
+function visibleClients() {
+  return clients.filter(matchesFilters);
+}
+
+// ---------- 거래처 묶기(접기·펼치기) ----------
+// 저장 데이터(name: "(주)한빛 · 경영지원본부")와 동기화·백업·CSV 형식은 그대로 두고,
+// 화면에서만 같은 회사의 부서 행들을 한 줄로 묶는다.
+const GROUP_SEP = " · ";
+let groupOpen = {};       // { "(주)한빛": true } — 사용자가 직접 펼친/접은 상태
+let renderedGroups = [];  // 이번에 그린 그룹(클릭 핸들러가 순번으로 찾는다)
+
+function groupPrefixOf(name) {
+  const nm = String(name == null ? "" : name);
+  const i = nm.indexOf(GROUP_SEP);
+  return i > 0 ? nm.slice(0, i).trim() : "";
+}
+
+// 하위 행에 보여 줄 이름 — 회사 접두사를 떼고 부서명만
+function groupChildLabel(name, key) {
+  const nm = String(name == null ? "" : name);
+  const pre = key + GROUP_SEP;
+  return nm.indexOf(pre) === 0 ? nm.slice(pre.length).trim() : nm;
+}
+
+// 화면에 그릴 단위 만들기: { key, label, members, shown, isGroup, partial }
+function buildGroups(list) {
+  const counts = {};
+  list.forEach(function (c) {
+    const k = groupPrefixOf(c.name);
+    if (k) counts[k] = (counts[k] || 0) + 1;
   });
+  // " · "로 나뉜 행이 2대 이상인 회사만 묶는다 — 1대뿐이면 접어도 보여 줄 것이 없다.
+  const keys = Object.keys(counts).filter(function (k) { return counts[k] >= 2; });
+  keys.sort(function (a, b) { return b.length - a.length; });
+
+  const entries = [], byKey = {};
+  list.forEach(function (c) {
+    const nm = String(c.name || "").trim();
+    let key = groupPrefixOf(c.name);
+    if (key && keys.indexOf(key) < 0) key = "";
+    if (!key) {
+      // 회사명만 적힌 본체 행(예: "(주)한빛")은 같은 회사 그룹에 함께 넣는다
+      for (let i = 0; i < keys.length; i++) {
+        const k = keys[i];
+        if (nm === k || nm.indexOf(k + " ") === 0 || nm.indexOf(k + GROUP_SEP) === 0) { key = k; break; }
+      }
+    }
+    if (!key) {
+      entries.push({ key: "", label: nm, members: [c], shown: [c], isGroup: false, partial: false });
+      return;
+    }
+    if (!byKey[key]) {
+      byKey[key] = { key: key, label: key, members: [], shown: [], isGroup: true, partial: false };
+      entries.push(byKey[key]);
+    }
+    byKey[key].members.push(c);
+  });
+  return entries;
+}
+
+// 검색·필터를 적용한 그릴 줄 목록 (그룹은 1줄, 펼치면 shown 행이 아래로 붙는다)
+function displayEntries() {
+  const q = searchTerm.trim().toLowerCase();
+  const out = [];
+  buildGroups(clients).forEach(function (g) {
+    if (!g.isGroup) {
+      if (matchesFilters(g.members[0])) out.push(g);
+      return;
+    }
+    // 회사명 자체가 검색어에 걸리면 그 회사는 통째로 보여 준다
+    const keyHit = !!q && g.key.toLowerCase().indexOf(q) >= 0;
+    const shown = keyHit ? g.members.slice() : g.members.filter(matchesFilters);
+    if (!shown.length) return;
+    g.shown = shown;
+    g.forceOpen = keyHit;
+    g.partial = shown.length < g.members.length;
+    out.push(g);
+  });
+  return out;
+}
+
+function isGroupOpen(g) {
+  if (!g || !g.isGroup) return false;
+  if (groupOpen[g.key] === true || groupOpen[g.key] === false) return groupOpen[g.key];
+  if (g.forceOpen) return true;   // 회사명으로 찾은 경우는 통째로 보여 준다
+  return !!g.partial;             // 검색·필터로 일부만 걸리면 펼쳐서 보여 준다
+}
+
+// 그룹 합계 (청구액은 부서별 부가세 설정을 그대로 반영해 더한다)
+function groupSummary(g) {
+  const s = {
+    count: g.members.length, base: 0, supply: 0, vat: 0, total: 0,
+    bPrev: 0, bCurr: 0, bUsed: 0, bOver: 0,
+    cPrev: 0, cCurr: 0, cUsed: 0, cOver: 0,
+    paid: 0, unpaid: 0, low: 0, models: [], payDays: [], vatModes: []
+  };
+  g.members.forEach(function (c) {
+    const calc = calcClient(c);
+    const bill = billing(calc.supply, clientVatMode(c));
+    s.base += num(c.baseFee);
+    s.supply += bill.supply; s.vat += bill.vat; s.total += bill.total;
+    s.bPrev += num(c.bPrev); s.bCurr += num(c.bCurr); s.bUsed += calc.bUsed; s.bOver += calc.bOverFee;
+    s.cPrev += num(c.cPrev); s.cCurr += num(c.cCurr); s.cUsed += calc.cUsed; s.cOver += calc.cOverFee;
+    if (c.status === "수납완료") s.paid++; else s.unpaid++;
+    if (isTonerLow(c)) s.low++;
+    const m = String(c.model || "").trim();
+    if (m && s.models.indexOf(m) < 0) s.models.push(m);
+    const d = payDayOf(c);
+    if (s.payDays.indexOf(d) < 0) s.payDays.push(d);
+    const v = clientVatMode(c);
+    if (s.vatModes.indexOf(v) < 0) s.vatModes.push(v);
+  });
+  return s;
+}
+
+function groupModelText(s) {
+  if (!s.models.length) return "기종 미등록";
+  if (s.models.length === 1) return s.models[0] + " × " + s.count + "대";
+  return s.models[0] + " 외 " + (s.count - 1) + "대";
+}
+
+function payBadgeOfDay(day) {
+  const band = payDayBand(day);
+  const txt = band.label + " · " + payDayText(day);
+  return '<div class="pay-badge band-' + band.key + '" title="수금일: ' + txt + '">' + txt + '</div>';
+}
+
+function groupPayHtml(s) {
+  if (s.payDays.length === 1) return payBadgeOfDay(s.payDays[0]);
+  return '<div class="pay-badge band-mid" title="부서마다 수금일이 다릅니다">수금일 ' + s.payDays.length + '종</div>';
 }
 
 function renderPeriod() {
@@ -983,36 +1136,27 @@ function renderVatButtons() {
     "당월 총 청구 예상액 (기본 " + (vatMode === "별도" ? "별도" : "포함") + " · 거래처별 설정 우선)";
 }
 
-function renderFilters() {
+function renderFilters(entries) {
   const ids = { all: "chipAll", unpaid: "chipUnpaid", toner: "chipToner", "pay-early": "chipPayEarly", "pay-mid": "chipPayMid", "pay-late": "chipPayLate" };
   Object.keys(ids).forEach(function (k) {
     const el = document.getElementById(ids[k]);
     if (el) el.classList.toggle("active", filterMode === k);
   });
-  const shown = visibleClients().length;
-  document.getElementById("filterCount").textContent =
-    "표시 " + shown + " / 전체 " + clients.length + "곳";
+  const list = entries || displayEntries();
+  const all = buildGroups(clients);
+  let txt = "표시 " + list.length + " / 전체 " + all.length + "곳";
+  if (all.length !== clients.length) txt += " · 기기 " + clients.length + "대";
+  document.getElementById("filterCount").textContent = txt;
 }
 
-function renderTable() {
-  const tbody = document.getElementById("clientTableBody");
-  tbody.innerHTML = "";
-
-  const rows = visibleClients();
-
-  if (!rows.length) {
-    const tr = document.createElement("tr");
-    tr.innerHTML = '<td class="empty-row" colspan="15">조건에 맞는 거래처가 없습니다. 검색어를 지우거나 [전체]를 눌러 주세요.</td>';
-    tbody.appendChild(tr);
-  }
-
-  rows.forEach(function (c) {
-    const calc = calcClient(c);
-    const bill = billing(calc.supply, clientVatMode(c));
-
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td class="font-bold">${escapeHtml(c.name)}${payBadgeHtml(c)}</td>
+function clientRowHtml(c, groupKey) {
+  const calc = calcClient(c);
+  const bill = billing(calc.supply, clientVatMode(c));
+  const nameCell = groupKey
+    ? '<span class="grp-branch">└</span><span class="grp-child-name">' + escapeHtml(groupChildLabel(c.name, groupKey)) + '</span>'
+    : escapeHtml(c.name);
+  return `
+      <td class="font-bold">${nameCell}${payBadgeHtml(c)}</td>
       <td style="color:#475569;">${escapeHtml(c.model)}${c.ip ? '<div class="ip-sub">' + escapeHtml(c.ip) + '</div>' : ''}</td>
       <td class="text-right">${money(c.baseFee)}원</td>
 
@@ -1067,12 +1211,117 @@ function renderTable() {
         <button class="btn-secondary" style="padding:4px 8px; font-size:12px; color:#dc2626;" onclick="deleteClient(${c.id})">✕</button>
       </td>
     `;
+}
+
+function clientRow(c, groupKey) {
+  const tr = document.createElement("tr");
+  if (groupKey) tr.className = "child-row";
+  tr.innerHTML = clientRowHtml(c, groupKey);
+  return tr;
+}
+
+// 묶인 거래처 요약 행 — 누르면 하위 부서 행이 아래로 펼쳐진다
+function groupRow(g, idx) {
+  const s = groupSummary(g);
+  const open = isGroupOpen(g);
+  const paidTxt = s.unpaid === 0 ? "✓ 전부 수납완료" : "● 미수 " + s.unpaid + "대";
+  const vatTxt = s.vatModes.length === 1 ? vatLabel(s.vatModes[0]) + " (" + s.count + "대 동일)" : "부서별 설정";
+  const tr = document.createElement("tr");
+  tr.className = "group-row";
+  tr.innerHTML = `
+      <td class="font-bold">
+        <button class="grp-btn" onclick="toggleGroupAt(${idx})" title="${open ? "접기" : "펼치기"}">${open ? "▼" : "▶"}</button><span class="grp-name">${escapeHtml(g.key)}</span><span class="grp-count">${s.count}대</span>
+        ${groupPayHtml(s)}
+        <div class="grp-sub">${g.partial ? "표시 " + g.shown.length + "대 / 전체 " + s.count + "대" : "부서별 " + s.count + "대"} · ${s.unpaid === 0 ? "전부 수납완료" : "미수 " + s.unpaid + "대"}</div>
+      </td>
+      <td style="color:#475569;">${escapeHtml(groupModelText(s))}<div class="ip-sub">${s.models.length > 1 ? s.models.length + "종 · " : ""}${s.count}대 합산</div></td>
+      <td class="text-right">${money(s.base)}원</td>
+
+      <!-- Mono -->
+      <td class="text-right">${money(s.bPrev)}</td>
+      <td class="text-center" style="color:#64748b; font-weight:700;">${money(s.bCurr)}</td>
+      <td class="text-right" style="font-weight:600;">${money(s.bUsed)}매</td>
+      <td class="text-right" style="color:${s.bOver > 0 ? '#1e3a8a' : '#94a3b8'}; font-weight:600;">${s.bOver > 0 ? '+' + money(s.bOver) + '원' : '-'}</td>
+
+      <!-- Color -->
+      <td class="text-right">${money(s.cPrev)}</td>
+      <td class="text-center" style="color:#64748b; font-weight:700;">${money(s.cCurr)}</td>
+      <td class="text-right" style="font-weight:600;">${money(s.cUsed)}매</td>
+      <td class="text-right" style="color:${s.cOver > 0 ? '#b91c1c' : '#94a3b8'}; font-weight:600;">${s.cOver > 0 ? '+' + money(s.cOver) + '원' : '-'}</td>
+
+      <!-- Toner -->
+      <td class="text-center">${s.low ? '<span style="color:#dc2626; font-weight:800;">부족 ' + s.low + '대</span>' : '<span style="color:#16a34a; font-weight:700;">정상</span>'}</td>
+
+      <!-- Total -->
+      <td class="text-right font-bold" style="background:#dbeafe; font-size:15px; color:#1e3a8a;">
+        ${money(s.total)}원
+        <div class="cell-sub">공급 ${money(s.supply)} · VAT ${money(s.vat)}</div>
+        <div class="cell-sub" style="color:#475569;">부가세 ${vatTxt}</div>
+      </td>
+
+      <!-- Status -->
+      <td class="text-center">
+        <span class="badge ${s.unpaid === 0 ? 'badge-paid' : 'badge-unpaid'}" onclick="toggleGroupStatusAt(${idx})" title="묶인 ${s.count}대 전체의 수납 상태를 바꿉니다">
+          ${paidTxt}
+        </span>
+      </td>
+
+      <!-- Actions -->
+      <td class="text-center">
+        <button class="btn-secondary" style="padding:4px 8px; font-size:12px;" onclick="showGroupInvoiceAt(${idx})">📄 청구서</button>
+        <button class="btn-secondary" style="padding:4px 8px; font-size:12px;" onclick="toggleGroupAt(${idx})">${open ? "▲ 접기" : "▼ 펼치기"}</button>
+      </td>
+    `;
+  return tr;
+}
+
+function renderTable() {
+  const tbody = document.getElementById("clientTableBody");
+  tbody.innerHTML = "";
+
+  const entries = displayEntries();
+  renderedGroups = entries.filter(function (e) { return e.isGroup; });
+
+  if (!entries.length) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = '<td class="empty-row" colspan="15">조건에 맞는 거래처가 없습니다. 검색어를 지우거나 [전체]를 눌러 주세요.</td>';
     tbody.appendChild(tr);
+  }
+
+  entries.forEach(function (e) {
+    if (!e.isGroup) {
+      tbody.appendChild(clientRow(e.members[0], ""));
+      return;
+    }
+    tbody.appendChild(groupRow(e, renderedGroups.indexOf(e)));
+    if (isGroupOpen(e)) {
+      e.shown.forEach(function (c) { tbody.appendChild(clientRow(c, e.key)); });
+    }
   });
 
-  renderCards();
+  renderCards(entries);
   renderStats();
-  renderFilters();
+  renderFilters(entries);
+}
+
+function toggleGroupAt(idx) {
+  const g = renderedGroups[idx];
+  if (!g) return;
+  groupOpen[g.key] = !isGroupOpen(g);
+  renderTable();
+}
+
+function toggleGroupStatusAt(idx) {
+  const g = renderedGroups[idx];
+  if (!g) return;
+  const s = groupSummary(g);
+  const allPaid = s.unpaid === 0;
+  const ask = allPaid
+    ? "[묶인 거래처 수납 취소]\n\n" + g.key + " " + s.count + "대를 모두 '미수'로 바꿀까요?"
+    : "[묶인 거래처 일괄 수납]\n\n" + g.key + " " + s.count + "대 중 미수 " + s.unpaid + "대가 있습니다.\n" + s.count + "대를 모두 '수납완료'로 바꿀까요?";
+  if (!confirm(ask)) return;
+  g.members.forEach(function (c) { c.status = allPaid ? "미수" : "수납완료"; });
+  saveData();
 }
 
 function tonerGridHtml(c) {
@@ -1088,56 +1337,95 @@ function tonerGridHtml(c) {
   }).join("") + '</div>';
 }
 
-function renderCards() {
+function clientCardHtml(c, label) {
+  const calc = calcClient(c);
+  const bill = billing(calc.supply, clientVatMode(c));
+  const paid = c.status === "수납완료";
+  return '' +
+    '<div class="client-card' + (isTonerLow(c) ? ' cc-low' : '') + '">' +
+      '<div class="cc-head">' +
+        '<div>' +
+          '<div class="cc-name">' + escapeHtml(label == null ? c.name : label) + '</div>' +
+          payBadgeHtml(c) +
+          '<div class="cc-model">' + escapeHtml(c.model || '기종 미등록') + (c.ip ? ' · ' + escapeHtml(c.ip) : '') + '</div>' +
+        '</div>' +
+        '<button class="badge ' + (paid ? 'badge-paid' : 'badge-unpaid') + '" onclick="toggleStatus(' + c.id + ')">' +
+          (paid ? '✓ 수납완료' : '● 미수') +
+        '</button>' +
+      '</div>' +
+      '<div class="cc-bill">' +
+        '<div>' +
+          '<div class="cc-bill-label">당월 청구액 (VAT ' + vatLabel(bill.mode) + (c.vatMode ? ' · 개별' : '') + ')</div>' +
+          '<div class="cc-bill-sub">공급 ' + money(bill.supply) + ' · VAT ' + money(bill.vat) + '</div>' +
+        '</div>' +
+        '<div class="cc-bill-value">' + money(bill.total) + '원</div>' +
+      '</div>' +
+      '<div class="cc-counters">' +
+        '<label class="cc-field"><span>흑백 당월 카운터</span>' +
+          '<input type="number" inputmode="numeric" value="' + c.bCurr + '" onchange="updateCounter(' + c.id + ', \'bCurr\', this.value)">' +
+          '<em>' + money(calc.bUsed) + '매 사용' + (calc.bOverFee > 0 ? ' · 초과 ' + money(calc.bOverFee) + '원' : '') + '</em>' +
+        '</label>' +
+        '<label class="cc-field"><span>컬러 당월 카운터</span>' +
+          '<input type="number" inputmode="numeric" value="' + c.cCurr + '" onchange="updateCounter(' + c.id + ', \'cCurr\', this.value)">' +
+          '<em>' + money(calc.cUsed) + '매 사용' + (calc.cOverFee > 0 ? ' · 초과 ' + money(calc.cOverFee) + '원' : '') + '</em>' +
+        '</label>' +
+      '</div>' +
+      tonerGridHtml(c) +
+      '<div class="cc-actions">' +
+        '<button class="btn-secondary" onclick="showInvoice(' + c.id + ')">📄 청구서</button>' +
+        '<button class="btn-secondary" onclick="openEditModal(' + c.id + ')">✏️ 수정</button>' +
+        '<button class="btn-secondary cc-del" onclick="deleteClient(' + c.id + ')">🗑 삭제</button>' +
+      '</div>' +
+    '</div>';
+}
+
+// 묶인 거래처 카드 — 탭하면 하위 부서 카드가 아래로 펼쳐진다
+function groupCardHtml(g, idx) {
+  const s = groupSummary(g);
+  const open = isGroupOpen(g);
+  const paidTxt = s.unpaid === 0 ? "✓ 전부 수납완료" : "● 미수 " + s.unpaid + "대";
+  return '' +
+    '<div class="client-card group-card' + (s.low ? ' cc-low' : '') + '">' +
+      '<div class="cc-head" onclick="toggleGroupAt(' + idx + ')">' +
+        '<div>' +
+          '<div class="cc-name">' + escapeHtml(g.key) + ' <span class="grp-count">' + s.count + '대</span></div>' +
+          groupPayHtml(s) +
+          '<div class="cc-model">' + escapeHtml(groupModelText(s)) + (s.low ? ' · 토너 부족 ' + s.low + '대' : '') + '</div>' +
+        '</div>' +
+        '<div style="font-size:17px; font-weight:800; color:#1e3a8a; white-space:nowrap;">' + (open ? '▲' : '▼') + '</div>' +
+      '</div>' +
+      '<div class="cc-bill">' +
+        '<div>' +
+          '<div class="cc-bill-label">' + s.count + '대 합계 청구액</div>' +
+          '<div class="cc-bill-sub">공급 ' + money(s.supply) + ' · VAT ' + money(s.vat) + '</div>' +
+          '<div class="cc-bill-sub">' + paidTxt + (g.partial ? ' · 표시 ' + g.shown.length + '대' : '') + '</div>' +
+        '</div>' +
+        '<div class="cc-bill-value">' + money(s.total) + '원</div>' +
+      '</div>' +
+      '<div class="cc-actions">' +
+        '<button class="btn-secondary" onclick="showGroupInvoiceAt(' + idx + ')">📄 청구서</button>' +
+        '<button class="btn-secondary" onclick="toggleGroupStatusAt(' + idx + ')">' + (s.unpaid === 0 ? "↩ 미수로" : "✓ 일괄수납") + '</button>' +
+        '<button class="btn-secondary" onclick="toggleGroupAt(' + idx + ')">' + (open ? "▲ 접기" : "▼ 펼치기") + '</button>' +
+      '</div>' +
+      (open
+        ? '<div class="cc-children">' + g.shown.map(function (c) { return clientCardHtml(c, groupChildLabel(c.name, g.key)); }).join("") + '</div>'
+        : '') +
+    '</div>';
+}
+
+function renderCards(entries) {
   const wrap = document.getElementById("clientCards");
   if (!wrap) return;
-  const rows = visibleClients();
+  const list = entries || displayEntries();
 
-  if (!rows.length) {
+  if (!list.length) {
     wrap.innerHTML = '<div class="cc-empty">조건에 맞는 거래처가 없습니다.<br>검색어를 지우거나 [전체]를 눌러 주세요.</div>';
     return;
   }
 
-  wrap.innerHTML = rows.map(function (c) {
-    const calc = calcClient(c);
-    const bill = billing(calc.supply, clientVatMode(c));
-    const paid = c.status === "수납완료";
-    return '' +
-      '<div class="client-card' + (isTonerLow(c) ? ' cc-low' : '') + '">' +
-        '<div class="cc-head">' +
-          '<div>' +
-            '<div class="cc-name">' + escapeHtml(c.name) + '</div>' +
-            payBadgeHtml(c) +
-            '<div class="cc-model">' + escapeHtml(c.model || '기종 미등록') + (c.ip ? ' · ' + escapeHtml(c.ip) : '') + '</div>' +
-          '</div>' +
-          '<button class="badge ' + (paid ? 'badge-paid' : 'badge-unpaid') + '" onclick="toggleStatus(' + c.id + ')">' +
-            (paid ? '✓ 수납완료' : '● 미수') +
-          '</button>' +
-        '</div>' +
-        '<div class="cc-bill">' +
-          '<div>' +
-            '<div class="cc-bill-label">당월 청구액 (VAT ' + vatLabel(bill.mode) + (c.vatMode ? ' · 개별' : '') + ')</div>' +
-            '<div class="cc-bill-sub">공급 ' + money(bill.supply) + ' · VAT ' + money(bill.vat) + '</div>' +
-          '</div>' +
-          '<div class="cc-bill-value">' + money(bill.total) + '원</div>' +
-        '</div>' +
-        '<div class="cc-counters">' +
-          '<label class="cc-field"><span>흑백 당월 카운터</span>' +
-            '<input type="number" inputmode="numeric" value="' + c.bCurr + '" onchange="updateCounter(' + c.id + ', \'bCurr\', this.value)">' +
-            '<em>' + money(calc.bUsed) + '매 사용' + (calc.bOverFee > 0 ? ' · 초과 ' + money(calc.bOverFee) + '원' : '') + '</em>' +
-          '</label>' +
-          '<label class="cc-field"><span>컬러 당월 카운터</span>' +
-            '<input type="number" inputmode="numeric" value="' + c.cCurr + '" onchange="updateCounter(' + c.id + ', \'cCurr\', this.value)">' +
-            '<em>' + money(calc.cUsed) + '매 사용' + (calc.cOverFee > 0 ? ' · 초과 ' + money(calc.cOverFee) + '원' : '') + '</em>' +
-          '</label>' +
-        '</div>' +
-        tonerGridHtml(c) +
-        '<div class="cc-actions">' +
-          '<button class="btn-secondary" onclick="showInvoice(' + c.id + ')">📄 청구서</button>' +
-          '<button class="btn-secondary" onclick="openEditModal(' + c.id + ')">✏️ 수정</button>' +
-          '<button class="btn-secondary cc-del" onclick="deleteClient(' + c.id + ')">🗑 삭제</button>' +
-        '</div>' +
-      '</div>';
+  wrap.innerHTML = list.map(function (e) {
+    if (!e.isGroup) return clientCardHtml(e.members[0]);
+    return groupCardHtml(e, renderedGroups.indexOf(e));
   }).join("");
 }
 
@@ -1150,7 +1438,16 @@ function renderStats() {
     else unpaidTotal += bill.total;
   });
 
-  document.getElementById("statTotalCount").textContent = clients.length + " 곳";
+  // 거래처 수는 화면에 보이는 단위(묶인 거래처 = 1곳)로 센다
+  const entries = buildGroups(clients);
+  const grouped = entries.filter(function (e) { return e.isGroup; }).length;
+  document.getElementById("statTotalCount").textContent = entries.length + " 곳";
+  const sub = document.getElementById("statTotalUnits");
+  if (sub) {
+    sub.textContent = grouped
+      ? "기기 " + clients.length + "대 · " + grouped + "곳은 묶어서 표시"
+      : "기기 " + clients.length + "대";
+  }
   document.getElementById("statTotalBilling").textContent = money(totalBilling) + " 원";
   document.getElementById("statPaidAmount").textContent = money(paidTotal) + " 원";
   document.getElementById("statUnpaidAmount").textContent = money(unpaidTotal) + " 원";
@@ -1190,16 +1487,19 @@ function deleteClient(id) {
 
 function setFilter(mode) {
   filterMode = mode;
+  groupOpen = {};   // 필터를 바꾸면 접기 상태를 기본으로 돌린다(걸린 하위 행이 보이게)
   renderTable();
 }
 
 function onSearch(value) {
   searchTerm = value || "";
+  groupOpen = {};   // 새로 찾을 때는 기본 상태(걸린 하위 행 펼침)로
   renderTable();
 }
 
 function clearSearch() {
   searchTerm = "";
+  groupOpen = {};
   const input = document.getElementById("searchInput");
   if (input) input.value = "";
   renderTable();
@@ -1834,6 +2134,123 @@ function showInvoice(id) {
   document.getElementById("printModal").classList.add("active");
 }
 function closePrintModal() { document.getElementById("printModal").classList.remove("active"); }
+
+// 묶인 거래처 합산 청구서 — 부서별 내역 + 합계를 한 장에
+function showGroupInvoiceAt(idx) {
+  const g = renderedGroups[idx];
+  if (!g) return;
+  showGroupInvoice(g);
+}
+
+function showGroupInvoice(g) {
+  const s = groupSummary(g);
+  const d = new Date();
+  const issue = d.getFullYear() + ". " + (d.getMonth() + 1) + ". " + d.getDate() + ".";
+  const payTxt = s.payDays.length === 1
+    ? payDayText(s.payDays[0]) + " (" + payDayBand(s.payDays[0]).label + ")"
+    : "부서별 상이";
+  const vatTxt = s.vatModes.length === 1
+    ? (s.vatModes[0] === "별도" ? "별도 (10% 가산)" : "포함 (청구액에 포함)")
+    : "부서별 설정";
+
+  const rows = g.members.map(function (c, i) {
+    const calc = calcClient(c);
+    const bill = billing(calc.supply, clientVatMode(c));
+    const sub = clientVatMode(c);
+    return '<tr>' +
+      '<td style="text-align:center;">' + (i + 1) + '</td>' +
+      '<td style="text-align:left; font-weight:700;">' + escapeHtml(groupChildLabel(c.name, g.key)) + '</td>' +
+      '<td style="text-align:left;">' + escapeHtml(c.model || "-") + '</td>' +
+      '<td>' + money(c.baseFee) + '</td>' +
+      '<td>' + money(calc.bUsed) + '매</td>' +
+      '<td>' + money(calc.bOverFee) + '</td>' +
+      '<td>' + money(calc.cUsed) + '매</td>' +
+      '<td>' + money(calc.cOverFee) + '</td>' +
+      '<td style="font-weight:800; color:#1e3a8a;">' + money(bill.total) + '</td>' +
+      '<td style="white-space:nowrap;">' + (c.status === "수납완료" ? "수납완료" : "미수") + '</td>' +
+      '</tr>';
+  }).join("");
+
+  const sumRow = function (label, val, last) {
+    const bg = last ? "background:#dbeafe; font-weight:800; font-size:15px; color:#1e3a8a;" : "background:#f8fafc; font-weight:700;";
+    return '<tr style="' + bg + '">' +
+      '<td colspan="8" style="text-align:center;">' + label + '</td>' +
+      '<td style="text-align:right;">' + money(val) + '원</td>' +
+      '<td></td>' +
+      '</tr>';
+  };
+
+  const html = `
+    <div class="invoice-box">
+      <div class="invoice-header">
+        <h2>복합기 렌탈료 청구서</h2>
+        <p style="color:#64748b; font-size:13px; margin-top:4px;">청구월: ${periodText()}분 | 발행일: ${issue} | 기기 ${s.count}대 합산</p>
+      </div>
+
+      <div class="inv-mobile-sum">
+        <div><span>공급가액</span><strong>${money(s.supply)}원</strong></div>
+        <div><span>부가세</span><strong>${money(s.vat)}원</strong></div>
+        <div class="total"><span>총 청구</span><strong>${money(s.total)}원</strong></div>
+      </div>
+
+      <table class="party-table">
+        <tr>
+          <td style="background:#f1f5f9; font-weight:700; width:18%;">거래처명</td>
+          <td style="font-weight:700; font-size:15px;">${escapeHtml(g.key)} 귀하 <span style="color:#64748b; font-size:12.5px;">(기기 ${s.count}대)</span></td>
+          <td style="background:#f1f5f9; font-weight:700; width:18%;">공급자 상호</td>
+          <td>${SUPPLIER.name} (대표: ${SUPPLIER.ceo})</td>
+        </tr>
+        <tr>
+          <td style="background:#f1f5f9; font-weight:700;">설치 기종</td>
+          <td>${escapeHtml(groupModelText(s))}</td>
+          <td style="background:#f1f5f9; font-weight:700;">연락처</td>
+          <td>${SUPPLIER.phone}</td>
+        </tr>
+        <tr>
+          <td style="background:#f1f5f9; font-weight:700;">수금일</td>
+          <td>${payTxt}</td>
+          <td style="background:#f1f5f9; font-weight:700;">부가세</td>
+          <td>${vatTxt}</td>
+        </tr>
+      </table>
+
+      <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; margin-bottom:14px; font-size:12px;">
+          <thead>
+            <tr style="background:#1e3a8a; color:white;">
+              <th style="padding:7px 4px; border:1px solid #cbd5e1;">No</th>
+              <th style="padding:7px 4px; border:1px solid #cbd5e1;">부서</th>
+              <th style="padding:7px 4px; border:1px solid #cbd5e1;">기종</th>
+              <th style="padding:7px 4px; border:1px solid #cbd5e1;">기본료</th>
+              <th style="padding:7px 4px; border:1px solid #cbd5e1;">흑백사용</th>
+              <th style="padding:7px 4px; border:1px solid #cbd5e1;">흑백초과</th>
+              <th style="padding:7px 4px; border:1px solid #cbd5e1;">컬러사용</th>
+              <th style="padding:7px 4px; border:1px solid #cbd5e1;">컬러초과</th>
+              <th style="padding:7px 4px; border:1px solid #cbd5e1;">청구액</th>
+              <th style="padding:7px 4px; border:1px solid #cbd5e1;">수납</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows}
+            ${sumRow("공급가액 합계", s.supply, false)}
+            ${sumRow("부가가치세 (VAT 10%)", s.vat, false)}
+            ${sumRow("총 청구 금액 (VAT 포함)", s.total, true)}
+          </tbody>
+        </table>
+      </div>
+
+      <div style="text-align:center; font-size:12px; color:#64748b; font-weight:700; margin-bottom:10px;">
+        ${vatTxt === "부서별 설정" ? "부가세는 부서(거래처)별 설정을 각각 적용해 합산했습니다." : vatTxt + " 기준으로 합산했습니다."}
+      </div>
+
+      <div style="background:#fffbeb; border:1px solid #fde68a; padding:12px; border-radius:6px; font-size:13px; text-align:center; font-weight:700;">
+        입금 계좌: ${SUPPLIER.bank} | ${s.payDays.length === 1 ? payDayText(s.payDays[0]) : "부서별 수금일"}까지 입금 부탁드립니다.
+      </div>
+    </div>
+  `;
+  document.getElementById("invoicePrintArea").innerHTML = html;
+  document.getElementById("printModal").classList.add("active");
+}
 
 // ==========================================
 // 11. 엑셀(CSV) 저장 — 기존 형식 유지, 파일명만 기준 월 반영
