@@ -128,6 +128,8 @@
   .form-group { margin-bottom: 14px; }
   .form-group label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 4px; }
   .form-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; }
+  .form-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; background: #fff; }
+  .field-hint { display: block; font-size: 11.5px; color: #94a3b8; font-weight: 600; margin-top: 3px; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .hint { font-size: 11.5px; color: #94a3b8; margin-top: 5px; line-height: 1.5; }
 
@@ -284,6 +286,40 @@
   .stmt-extras { margin-top: 8px; font-size: 12px; color: #334155; font-weight: 700; line-height: 1.55; }
   .stmt-check { display: inline-flex; align-items: center; gap: 5px; margin-top: 7px; font-size: 12.5px; font-weight: 700; color: #334155; }
   .stmt-summary { margin-top: 12px; font-size: 13px; font-weight: 800; color: #1e3a8a; }
+  /* 부서별 기기(여러 대) 표 */
+  .stmt-units { margin-top: 12px; border-top: 1px solid #e2e8f0; padding-top: 10px; }
+  .stmt-units-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12.5px; color: #334155; font-weight: 700; margin-bottom: 7px; }
+  .stmt-mini { font-size: 11.5px; font-weight: 700; padding: 3px 8px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; color: #334155; cursor: pointer; }
+  .stmt-mini:hover { background: #eef2ff; border-color: var(--primary-light); }
+  .stmt-units-scroll { max-height: 300px; overflow: auto; border: 1px solid #e2e8f0; border-radius: 8px; }
+  .stmt-units-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .stmt-units-table th { position: sticky; top: 0; background: #f1f5f9; color: #334155; font-weight: 800; padding: 6px 6px; text-align: right; white-space: nowrap; border-bottom: 1px solid #cbd5e1; }
+  .stmt-units-table th:nth-child(1), .stmt-units-table th:nth-child(2), .stmt-units-table th:nth-child(3) { text-align: left; }
+  .stmt-units-table td { padding: 5px 6px; text-align: right; border-bottom: 1px solid #f1f5f9; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .stmt-units-table td:nth-child(2), .stmt-units-table td:nth-child(3) { text-align: left; white-space: normal; }
+  .stmt-units-table tr.stmt-unit-off { opacity: .45; }
+  .stmt-unit-pick { width: 26px; text-align: center !important; }
+  .stmt-unit-calc { color: #1e3a8a; font-weight: 800; }
+  .stmt-unit-warn { font-size: 11px; color: #b45309; font-weight: 700; line-height: 1.45; margin-top: 2px; }
+  .stmt-units-total { margin-top: 8px; font-size: 12.5px; font-weight: 700; color: #334155; }
+  .stmt-units-note { margin-top: 4px; font-size: 11.5px; color: #64748b; font-weight: 600; line-height: 1.5; }
+  .stmt-vat { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; font-size: 12.5px; font-weight: 700; color: #334155; }
+  .stmt-vat select { padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; max-width: 100%; background: #fff; }
+  .stmt-vat-hint { font-size: 11.5px; color: #94a3b8; font-weight: 600; }
+  /* 수금일(결제일) */
+  .pay-badge { display: inline-block; margin-top: 3px; font-size: 11px; font-weight: 800; padding: 1px 7px; border-radius: 999px; line-height: 1.6; }
+  .pay-badge.band-early { background: #dcfce7; color: #166534; }
+  .pay-badge.band-mid { background: #e0f2fe; color: #075985; }
+  .pay-badge.band-late { background: #fef3c7; color: #92400e; }
+  .payday-grid { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; margin-bottom: 6px; }
+  .pay-day-btn { padding: 7px 0; border: 1px solid #cbd5e1; border-radius: 7px; background: #fff; font-size: 12.5px; font-weight: 700; color: #334155; cursor: pointer; }
+  .pay-day-btn.band-early { border-color: #bbf7d0; }
+  .pay-day-btn.band-mid { border-color: #bae6fd; }
+  .pay-day-btn.band-late { border-color: #fde68a; }
+  .pay-day-btn.on { background: #1e3a8a; border-color: #1e3a8a; color: #fff; }
+  .pay-day-btn.end { grid-column: span 2; }
+  .payday-quick { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
+  .payday-quick button { font-size: 11.5px; font-weight: 700; padding: 4px 9px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; color: #334155; cursor: pointer; }
 </style>
   <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="./icon-192.png">
@@ -338,7 +374,7 @@
   <div class="section-header">
     <h2>📋 거래처별 검침 및 렌탈료 정산표</h2>
     <div class="vat-wrap">
-      <span>부가세</span>
+      <span>부가세 <em style="font-style:normal; font-size:11.5px; color:#94a3b8; font-weight:700;">기본값</em></span>
       <button class="vat-btn" id="vatBtnExcl" onclick="setVatMode('별도')">별도 (10% 가산)</button>
       <button class="vat-btn" id="vatBtnIncl" onclick="setVatMode('포함')">포함 (청구액에 포함)</button>
     </div>
@@ -348,6 +384,9 @@
     <button class="chip" id="chipAll" onclick="setFilter('all')">전체</button>
     <button class="chip" id="chipUnpaid" onclick="setFilter('unpaid')">미납 거래처</button>
     <button class="chip" id="chipToner" onclick="setFilter('toner')">토너 부족 (20% 이하)</button>
+    <button class="chip" id="chipPayEarly" onclick="setFilter('pay-early')">월초 수금</button>
+    <button class="chip" id="chipPayMid" onclick="setFilter('pay-mid')">월중 수금</button>
+    <button class="chip" id="chipPayLate" onclick="setFilter('pay-late')">월말 수금</button>
     <span class="count-badge" id="filterCount">표시 0 / 전체 0곳</span>
     <div class="search-box">
       <input type="text" id="searchInput" placeholder="거래처명 또는 기종 검색" oninput="onSearch(this.value)">
@@ -439,6 +478,25 @@
         <input type="number" id="newCInit" value="0">
       </div>
     </div>
+    <div class="form-group">
+      <label>수금일 (매월 며칠에 받는지 — 달력에서 골라 주세요)</label>
+      <div class="payday-quick">
+        <button type="button" onclick="setPayDayValue('new', 1)">월초 (1일)</button>
+        <button type="button" onclick="setPayDayValue('new', 10)">매월 10일</button>
+        <button type="button" onclick="setPayDayValue('new', 0)">말일</button>
+      </div>
+      <div class="payday-grid" id="newPayDayGrid"></div>
+      <span class="field-hint" id="newPayDayHint">매월 말일 (월말)</span>
+    </div>
+    <div class="form-group">
+      <label>부가세</label>
+      <select id="newVatMode">
+        <option value="">전체 설정 따름</option>
+        <option value="별도">별도 (10% 가산)</option>
+        <option value="포함">포함 (청구액에 포함)</option>
+      </select>
+      <span class="field-hint">이 거래처만 다른 부가세 기준을 쓸 때만 고르세요. 그대로 두면 위의 전체 버튼을 따릅니다.</span>
+    </div>
     <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
       <button class="btn-secondary" onclick="closeAddModal()">취소</button>
       <button class="btn-primary" onclick="saveNewClient()">거래처 등록</button>
@@ -498,6 +556,25 @@
         <label>전월 컬러 카운터</label>
         <input type="number" id="editCPrev">
       </div>
+    </div>
+    <div class="form-group">
+      <label>수금일 (매월 며칠에 받는지 — 달력에서 골라 주세요)</label>
+      <div class="payday-quick">
+        <button type="button" onclick="setPayDayValue('edit', 1)">월초 (1일)</button>
+        <button type="button" onclick="setPayDayValue('edit', 10)">매월 10일</button>
+        <button type="button" onclick="setPayDayValue('edit', 0)">말일</button>
+      </div>
+      <div class="payday-grid" id="editPayDayGrid"></div>
+      <span class="field-hint" id="editPayDayHint">매월 말일 (월말)</span>
+    </div>
+    <div class="form-group">
+      <label>부가세</label>
+      <select id="editVatMode">
+        <option value="">전체 설정 따름</option>
+        <option value="별도">별도 (10% 가산)</option>
+        <option value="포함">포함 (청구액에 포함)</option>
+      </select>
+      <span class="field-hint">이 거래처만 다른 부가세 기준을 쓸 때만 고르세요. 청구액·청구서·대장 합계에 바로 반영됩니다.</span>
     </div>
     <div class="form-group">
       <label>토너 잔량 (%) — K / C / M / Y</label>
@@ -665,6 +742,10 @@ function normalizeClient(c) {
     baseFee: num(src.baseFee),
     bPrev: num(src.bPrev), bCurr: num(src.bCurr), bBase: num(src.bBase), bRate: num(src.bRate),
     cPrev: num(src.cPrev), cCurr: num(src.cCurr), cBase: num(src.cBase), cRate: num(src.cRate),
+    // 거래처별 부가세: "" 이면 전체 설정을 따른다(기존 데이터 호환)
+    vatMode: (src.vatMode === "별도" || src.vatMode === "포함") ? src.vatMode : "",
+    // 수금일(결제일): 1~31, 0은 말일, null은 미지정(말일로 본다 — 기존 데이터 호환)
+    payDay: (src.payDay === 0 || (num(src.payDay) >= 1 && num(src.payDay) <= 31)) ? num(src.payDay) : null,
     toner: {
       k: num(toner.k, 100), c: num(toner.c, 100),
       m: num(toner.m, 100), y: num(toner.y, 100)
@@ -770,14 +851,54 @@ function calcClient(c) {
 }
 
 // 부가세 방식에 따른 공급가액 / 부가세 / 청구 합계
-function billing(supply) {
-  if (vatMode === "포함") {
+function billing(supply, mode) {
+  const m = (mode === "별도" || mode === "포함") ? mode : vatMode;
+  if (m === "포함") {
     const total = supply;
     const vat = Math.round(total - total / 1.1);
-    return { supply: total - vat, vat: vat, total: total };
+    return { supply: total - vat, vat: vat, total: total, mode: m };
   }
   const vat = Math.round(supply * 0.1);
-  return { supply: supply, vat: vat, total: supply + vat };
+  return { supply: supply, vat: vat, total: supply + vat, mode: m };
+}
+
+// 이 거래처에 실제로 적용되는 부가세 방식 (거래처 설정 → 전체 설정)
+function clientVatMode(c) {
+  return (c && (c.vatMode === "별도" || c.vatMode === "포함")) ? c.vatMode : vatMode;
+}
+
+function vatLabel(mode) {
+  return mode === "포함" ? "포함" : "별도";
+}
+
+// 수금일: null/미지정 → 말일, 1~31 → 그 날, 0 → 말일
+function payDayOf(c) {
+  const v = c ? c.payDay : null;
+  if (v == null) return 0;
+  const n = num(v, 0);
+  return (n >= 1 && n <= 31) ? n : 0;
+}
+
+function payDayText(day) {
+  const d = (day == null) ? 0 : num(day, 0);
+  if (!d || d >= 31) return "매월 말일";
+  return "매월 " + d + "일";
+}
+
+// 1~10일 월초 / 11~19일 월중 / 20일 이후·말일 월말
+function payDayBand(day) {
+  const d = (day == null) ? 0 : num(day, 0);
+  if (!d || d >= 31) return { key: "late", label: "월말", short: "말일" };
+  if (d <= 10) return { key: "early", label: "월초", short: d + "일" };
+  if (d <= 19) return { key: "mid", label: "월중", short: d + "일" };
+  return { key: "late", label: "월말", short: d + "일" };
+}
+
+function payBadgeHtml(c, compact) {
+  const d = payDayOf(c);
+  const band = payDayBand(d);
+  const txt = band.label + " · " + payDayText(d);
+  return '<div class="pay-badge band-' + band.key + '" title="수금일: ' + txt + '">' + (compact ? band.label + " · " + band.short : txt) + '</div>';
 }
 
 function isTonerLow(c) {
@@ -826,6 +947,7 @@ function visibleClients() {
   return clients.filter(function (c) {
     if (filterMode === "unpaid" && c.status === "수납완료") return false;
     if (filterMode === "toner" && !isTonerLow(c)) return false;
+    if (filterMode.indexOf("pay-") === 0 && payDayBand(payDayOf(c)).key !== filterMode.slice(4)) return false;
     if (!q) return true;
     const hay = (c.name + " " + c.model + " " + (c.ip || "")).toLowerCase();
     return hay.indexOf(q) >= 0;
@@ -843,11 +965,11 @@ function renderVatButtons() {
   excl.classList.toggle("active", vatMode === "별도");
   incl.classList.toggle("active", vatMode === "포함");
   document.getElementById("statBillingLabel").textContent =
-    "당월 총 청구 예상액 (" + (vatMode === "별도" ? "부가세 별도" : "부가세 포함") + ")";
+    "당월 총 청구 예상액 (기본 " + (vatMode === "별도" ? "별도" : "포함") + " · 거래처별 설정 우선)";
 }
 
 function renderFilters() {
-  const ids = { all: "chipAll", unpaid: "chipUnpaid", toner: "chipToner" };
+  const ids = { all: "chipAll", unpaid: "chipUnpaid", toner: "chipToner", "pay-early": "chipPayEarly", "pay-mid": "chipPayMid", "pay-late": "chipPayLate" };
   Object.keys(ids).forEach(function (k) {
     const el = document.getElementById(ids[k]);
     if (el) el.classList.toggle("active", filterMode === k);
@@ -871,11 +993,11 @@ function renderTable() {
 
   rows.forEach(function (c) {
     const calc = calcClient(c);
-    const bill = billing(calc.supply);
+    const bill = billing(calc.supply, clientVatMode(c));
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td class="font-bold">${escapeHtml(c.name)}</td>
+      <td class="font-bold">${escapeHtml(c.name)}${payBadgeHtml(c)}</td>
       <td style="color:#475569;">${escapeHtml(c.model)}${c.ip ? '<div class="ip-sub">' + escapeHtml(c.ip) + '</div>' : ''}</td>
       <td class="text-right">${money(c.baseFee)}원</td>
 
@@ -913,6 +1035,7 @@ function renderTable() {
       <td class="text-right font-bold" style="background:#f1f5f9; font-size:15px; color:#1e3a8a;">
         ${money(bill.total)}원
         <div class="cell-sub">공급 ${money(bill.supply)} · VAT ${money(bill.vat)}</div>
+        ${c.vatMode ? '<div class="cell-sub" style="color:#b45309; font-weight:800;">부가세 ' + vatLabel(bill.mode) + ' (개별)</div>' : ''}
       </td>
 
       <!-- Status -->
@@ -962,13 +1085,14 @@ function renderCards() {
 
   wrap.innerHTML = rows.map(function (c) {
     const calc = calcClient(c);
-    const bill = billing(calc.supply);
+    const bill = billing(calc.supply, clientVatMode(c));
     const paid = c.status === "수납완료";
     return '' +
       '<div class="client-card' + (isTonerLow(c) ? ' cc-low' : '') + '">' +
         '<div class="cc-head">' +
           '<div>' +
             '<div class="cc-name">' + escapeHtml(c.name) + '</div>' +
+            payBadgeHtml(c) +
             '<div class="cc-model">' + escapeHtml(c.model || '기종 미등록') + (c.ip ? ' · ' + escapeHtml(c.ip) : '') + '</div>' +
           '</div>' +
           '<button class="badge ' + (paid ? 'badge-paid' : 'badge-unpaid') + '" onclick="toggleStatus(' + c.id + ')">' +
@@ -977,7 +1101,7 @@ function renderCards() {
         '</div>' +
         '<div class="cc-bill">' +
           '<div>' +
-            '<div class="cc-bill-label">당월 청구액' + (vatMode === "포함" ? " (VAT 포함)" : " (VAT 별도)") + '</div>' +
+            '<div class="cc-bill-label">당월 청구액 (VAT ' + vatLabel(bill.mode) + (c.vatMode ? ' · 개별' : '') + ')</div>' +
             '<div class="cc-bill-sub">공급 ' + money(bill.supply) + ' · VAT ' + money(bill.vat) + '</div>' +
           '</div>' +
           '<div class="cc-bill-value">' + money(bill.total) + '원</div>' +
@@ -1005,7 +1129,7 @@ function renderCards() {
 function renderStats() {
   let totalBilling = 0, paidTotal = 0, unpaidTotal = 0;
   clients.forEach(function (c) {
-    const bill = billing(calcClient(c).supply);
+    const bill = billing(calcClient(c).supply, clientVatMode(c));
     totalBilling += bill.total;
     if (c.status === "수납완료") paidTotal += bill.total;
     else unpaidTotal += bill.total;
@@ -1074,8 +1198,39 @@ function setVatMode(mode) {
 }
 
 // Modal Controls
-function openAddModal() { document.getElementById("addModal").classList.add("active"); }
+function openAddModal() {
+  newPayDayValue = null;
+  renderPayDayGrid("new");
+  document.getElementById("addModal").classList.add("active");
+}
 function closeAddModal() { document.getElementById("addModal").classList.remove("active"); }
+
+// 수금일 달력 선택 (1~31일 + 말일)
+let newPayDayValue = null;
+let editPayDayValue = null;
+
+function renderPayDayGrid(which) {
+  const grid = document.getElementById(which === "new" ? "newPayDayGrid" : "editPayDayGrid");
+  const hint = document.getElementById(which === "new" ? "newPayDayHint" : "editPayDayHint");
+  if (!grid) return;
+  const cur = (which === "new") ? newPayDayValue : editPayDayValue;
+  const curDay = (cur == null) ? 0 : num(cur, 0);
+  let html = "";
+  for (let d = 1; d <= 31; d++) {
+    const band = payDayBand(d);
+    html += '<button type="button" class="pay-day-btn band-' + band.key + (curDay === d ? " on" : "") + '" ' +
+      'title="매월 ' + d + '일 (' + band.label + ')" onclick="setPayDayValue(\'' + which + '\', ' + d + ')">' + d + '</button>';
+  }
+  html += '<button type="button" class="pay-day-btn band-late end' + (!curDay || curDay >= 31 ? " on" : "") + '" ' +
+    'onclick="setPayDayValue(\'' + which + '\', 0)">말일</button>';
+  grid.innerHTML = html;
+  if (hint) hint.textContent = payDayText(curDay) + " (" + payDayBand(curDay).label + ") 수금";
+}
+
+function setPayDayValue(which, v) {
+  if (which === "new") newPayDayValue = v; else editPayDayValue = v;
+  renderPayDayGrid(which);
+}
 
 function saveNewClient() {
   const name = document.getElementById("newName").value.trim();
@@ -1087,6 +1242,8 @@ function saveNewClient() {
   const cRate = num(document.getElementById("newCRate").value);
   const bInit = num(document.getElementById("newBInit").value);
   const cInit = num(document.getElementById("newCInit").value);
+  const vatSel = document.getElementById("newVatMode");
+  const vatPick = vatSel ? String(vatSel.value || "") : "";
 
   if (!name) { alert("거래처명을 입력해주세요."); return; }
 
@@ -1095,6 +1252,8 @@ function saveNewClient() {
     id: newId, name: name, model: model, baseFee: baseFee,
     bPrev: bInit, bCurr: bInit, bBase: bBase, bRate: bRate,
     cPrev: cInit, cCurr: cInit, cBase: cBase, cRate: cRate,
+    vatMode: vatPick,
+    payDay: newPayDayValue,
     toner: { k: 100, c: 100, m: 100, y: 100 },
     status: "미수"
   }));
@@ -1103,6 +1262,9 @@ function saveNewClient() {
   closeAddModal();
   document.getElementById("newName").value = "";
   document.getElementById("newModel").value = "";
+  if (vatSel) vatSel.value = "";
+  newPayDayValue = null;
+  renderPayDayGrid("new");
 }
 
 // 거래처 정보 수정
@@ -1131,6 +1293,9 @@ function openEditModal(id) {
   setFieldValue("editTc", c.toner.c);
   setFieldValue("editTm", c.toner.m);
   setFieldValue("editTy", c.toner.y);
+  setFieldValue("editVatMode", c.vatMode || "");
+  editPayDayValue = (c.payDay == null) ? null : num(c.payDay, 0);
+  renderPayDayGrid("edit");
   document.getElementById("editModal").classList.add("active");
 }
 
@@ -1164,10 +1329,14 @@ function saveEditClient() {
   c.toner.c = clampPercent(document.getElementById("editTc").value);
   c.toner.m = clampPercent(document.getElementById("editTm").value);
   c.toner.y = clampPercent(document.getElementById("editTy").value);
+  const vatEl = document.getElementById("editVatMode");
+  const vatPick = vatEl ? String(vatEl.value || "") : "";
+  c.vatMode = (vatPick === "별도" || vatPick === "포함") ? vatPick : "";
+  c.payDay = (editPayDayValue == null) ? null : num(editPayDayValue, 0);
 
   saveData();
   closeEditModal();
-  toast("거래처 정보를 저장했습니다.");
+  toast("거래처 정보를 저장했습니다." + (c.vatMode ? " (부가세 " + c.vatMode + ")" : ""));
 }
 
 // ==========================================
@@ -1541,12 +1710,12 @@ function showInvoice(id) {
   if (!c) return;
 
   const calc = calcClient(c);
-  const bill = billing(calc.supply);
+  const bill = billing(calc.supply, clientVatMode(c));
   const d = new Date();
   const issue = d.getFullYear() + ". " + (d.getMonth() + 1) + ". " + d.getDate() + ".";
 
   // 별도: 공급가액 → 부가세 → 총액 / 포함: 청구 합계 → 부가세 → 공급가액
-  const sumRows = vatMode === "별도"
+  const sumRows = bill.mode === "별도"
     ? [["공급가액 합계", bill.supply], ["부가가치세 (VAT 10%)", bill.vat], ["총 청구 금액 (VAT 포함)", bill.total]]
     : [["청구 합계 (VAT 포함)", bill.total], ["부가가치세 (청구액에 포함)", bill.vat], ["공급가액 (VAT 제외)", bill.supply]];
 
@@ -1575,6 +1744,12 @@ function showInvoice(id) {
           <td>${escapeHtml(c.model)}</td>
           <td style="background:#f1f5f9; font-weight:700;">연락처</td>
           <td>${SUPPLIER.phone}</td>
+        </tr>
+        <tr>
+          <td style="background:#f1f5f9; font-weight:700;">수금일</td>
+          <td>${payDayText(payDayOf(c))} <span style="color:#64748b; font-size:12.5px;">(${payDayBand(payDayOf(c)).label})</span></td>
+          <td style="background:#f1f5f9; font-weight:700;">부가세</td>
+          <td>${bill.mode === "별도" ? "별도 (10% 가산)" : "포함 (청구액에 포함)"}</td>
         </tr>
       </table>
 
@@ -1632,11 +1807,11 @@ function showInvoice(id) {
       </table>
 
       <div style="text-align:center; font-size:12px; color:#64748b; font-weight:700; margin-bottom:10px;">
-        ${vatMode === "별도" ? "부가세 별도 청구 (공급가액 + 부가세 10%)" : "부가세 포함 청구 (표시 금액에 부가세 포함)"}
+        ${bill.mode === "별도" ? "부가세 별도 청구 (공급가액 + 부가세 10%)" : "부가세 포함 청구 (표시 금액에 부가세 포함)"}${c.vatMode ? " · 이 거래처 개별 설정" : ""}
       </div>
 
       <div style="background:#fffbeb; border:1px solid #fde68a; padding:12px; border-radius:6px; font-size:13px; text-align:center; font-weight:700;">
-        입금 계좌: ${SUPPLIER.bank} | 매월 10일까지 입금 부탁드립니다.
+        입금 계좌: ${SUPPLIER.bank} | ${payDayText(payDayOf(c))}까지 입금 부탁드립니다.
       </div>
     </div>
   `;
@@ -1649,14 +1824,16 @@ function closePrintModal() { document.getElementById("printModal").classList.rem
 // 11. 엑셀(CSV) 저장 — 기존 형식 유지, 파일명만 기준 월 반영
 // ==========================================
 function exportToCSV() {
-  let csv = "\uFEFF거래처명,설치기종,기본료,흑백전월,흑백당월,흑백사용량,흑백기본,흑백단가,흑백초과금,컬러전월,컬러당월,컬러사용량,컬러기본,컬러단가,컬러초과금,당월총청구액,수납상태\n";
+  let csv = "\uFEFF거래처명,설치기종,기본료,흑백전월,흑백당월,흑백사용량,흑백기본,흑백단가,흑백초과금,컬러전월,컬러당월,컬러사용량,컬러기본,컬러단가,컬러초과금,당월총청구액,수납상태,부가세,수금일\n";
   clients.forEach(function (c) {
     const calc = calcClient(c);
     const total = c.baseFee + calc.bOverFee + calc.cOverFee;
+    const vatText = c.vatMode ? c.vatMode + "(개별)" : "전체(" + vatLabel(vatMode) + ")";
+    const payText = payDayText(payDayOf(c)) + "(" + payDayBand(payDayOf(c)).label + ")";
     csv += "\"" + c.name + "\",\"" + c.model + "\"," + c.baseFee + "," + c.bPrev + "," + c.bCurr + "," +
       calc.bUsed + "," + c.bBase + "," + c.bRate + "," + calc.bOverFee + "," +
       c.cPrev + "," + c.cCurr + "," + calc.cUsed + "," + c.cBase + "," + c.cRate + "," + calc.cOverFee + "," +
-      total + ",\"" + c.status + "\"\n";
+      total + ",\"" + c.status + "\",\"" + vatText + "\",\"" + payText + "\"\n";
   });
   downloadText("복사기_렌탈_정산대장_" + periodCode() + ".csv", csv, "text/csv;charset=utf-8;");
 }
@@ -1873,6 +2050,7 @@ function contentFingerprint(d) {
       const t = c.toner || {};
       return [c.id, c.name, c.model, round(c.baseFee), round(c.bPrev), round(c.bCurr), round(c.bBase), round(c.bRate),
         round(c.cPrev), round(c.cCurr), round(c.cBase), round(c.cRate), c.status, c.ip || "", c.lastCheck || "",
+        c.vatMode || "", round(c.payDay != null ? c.payDay : -1),
         round(t.k), round(t.c), round(t.m), round(t.y)];
     })
   });
@@ -2254,13 +2432,157 @@ var StatementParser = (function () {
     catch (e) { return new TextDecoder("utf-8").decode(bytes); }
   }
 
+  // 브라우저 내장 해제(DecompressionStream)는 빠르지만, 압축 스트림 끝에 덧붙은 바이트가 있으면
+  // (한컴오피스 2018이 저장한 .hwp 등) 크롬에서 실패한다. 그래서 내장 해제가 실패하면 자체 인플레이트로 다시 푼다.
   async function inflateRaw(bytes) {
     const b = u8(bytes);
-    if (typeof DecompressionStream === "undefined") {
-      throw new Error("이 브라우저에서는 압축 풀기를 지원하지 않습니다. 크롬 최신 버전이나 사파리 16.4 이상에서 열어 주세요.");
+    let nativeErr = null;
+    if (typeof DecompressionStream !== "undefined" && typeof Blob !== "undefined") {
+      try {
+        const stream = new Blob([b]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
+        return new Uint8Array(await new Response(stream).arrayBuffer());
+      } catch (e) { nativeErr = e; }
     }
-    const stream = new Blob([b]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
-    return new Uint8Array(await new Response(stream).arrayBuffer());
+    try {
+      return inflateRawJS(b);
+    } catch (e) {
+      throw new Error("압축을 풀지 못했습니다(" + (e && e.message ? e.message : String(e)) + ")" +
+        (nativeErr ? " [브라우저: " + (nativeErr.message || nativeErr.name) + "]" : ""));
+    }
+  }
+
+  // 순수 JS raw deflate 해제 — 스트림 끝의 덧붙은 바이트는 무시한다(끝 블록에서 멈춤).
+  // 브라우저 내장 해제가 없거나 실패해도 .hwp/.xlsx를 읽을 수 있게 하는 최후 수단.
+  var INFL_LEN_BASE = [3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258];
+  var INFL_LEN_EXTRA = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0];
+  var INFL_DIST_BASE = [1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193, 257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577];
+  var INFL_DIST_EXTRA = [0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13];
+  var INFL_CL_ORDER = [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15];
+
+  function inflateRawJS(input) {
+    const src = u8(input);
+    let inPos = 0, bitBuf = 0, bitCnt = 0;
+    let out = new Uint8Array(Math.max(1024, src.length * 4));
+    let outPos = 0;
+
+    function ensure(n) {
+      if (outPos + n <= out.length) return;
+      let size = out.length;
+      while (size < outPos + n) size *= 2;
+      const nb = new Uint8Array(size);
+      nb.set(out.subarray(0, outPos));
+      out = nb;
+    }
+    function bits(n) {
+      while (bitCnt < n) {
+        if (inPos >= src.length) throw new Error("압축 데이터가 중간에 끝났습니다");
+        bitBuf |= src[inPos++] << bitCnt;
+        bitCnt += 8;
+      }
+      const v = bitBuf & ((1 << n) - 1);
+      bitBuf >>>= n;
+      bitCnt -= n;
+      return v;
+    }
+    function buildTree(lengths) {
+      const counts = new Uint16Array(16);
+      for (let i = 0; i < lengths.length; i++) if (lengths[i]) counts[lengths[i]]++;
+      const offs = new Uint16Array(16);
+      let sum = 0;
+      for (let len = 1; len < 16; len++) { offs[len] = sum; sum += counts[len]; }
+      const symbol = new Uint16Array(sum);
+      const cur = offs.slice();
+      for (let s = 0; s < lengths.length; s++) if (lengths[s]) symbol[cur[lengths[s]]++] = s;
+      return { counts: counts, symbol: symbol };
+    }
+    function decode(tree) {
+      let code = 0, first = 0, index = 0;
+      for (let len = 1; len < 16; len++) {
+        code |= bits(1);
+        const count = tree.counts[len];
+        if (code - first < count) return tree.symbol[index + (code - first)];
+        index += count;
+        first = (first + count) << 1;
+        code <<= 1;
+      }
+      throw new Error("압축 데이터를 해석하지 못했습니다");
+    }
+    const fixedLit = (function () {
+      const l = new Uint8Array(288);
+      for (let i = 0; i < 144; i++) l[i] = 8;
+      for (let i = 144; i < 256; i++) l[i] = 9;
+      for (let i = 256; i < 280; i++) l[i] = 7;
+      for (let i = 280; i < 288; i++) l[i] = 8;
+      return l;
+    })();
+    const fixedDist = (function () { const d = new Uint8Array(30); for (let i = 0; i < 30; i++) d[i] = 5; return d; })();
+    const fixedLitTree = buildTree(fixedLit);
+    const fixedDistTree = buildTree(fixedDist);
+
+    let last = 0, guard = 0;
+    do {
+      if (guard++ > 100000) throw new Error("압축 블록이 너무 많습니다");
+      last = bits(1);
+      const type = bits(2);
+      if (type === 0) {
+        bitBuf = 0; bitCnt = 0;
+        if (inPos + 4 > src.length) throw new Error("압축 데이터가 중간에 끝났습니다");
+        const len = src[inPos] | (src[inPos + 1] << 8);
+        const nlen = src[inPos + 2] | (src[inPos + 3] << 8);
+        inPos += 4;
+        if ((len ^ 0xFFFF) !== nlen) throw new Error("압축 데이터가 손상되었습니다");
+        if (inPos + len > src.length) throw new Error("압축 데이터가 중간에 끝났습니다");
+        ensure(len);
+        out.set(src.subarray(inPos, inPos + len), outPos);
+        outPos += len; inPos += len;
+      } else if (type === 1 || type === 2) {
+        let litTree = fixedLitTree, distTree = fixedDistTree;
+        if (type === 2) {
+          const hlit = bits(5) + 257, hdist = bits(5) + 1, hclen = bits(4) + 4;
+          const clens = new Uint8Array(19);
+          for (let i = 0; i < hclen; i++) clens[INFL_CL_ORDER[i]] = bits(3);
+          const clTree = buildTree(clens);
+          const lens = new Uint8Array(hlit + hdist);
+          let i = 0;
+          while (i < lens.length) {
+            const sym = decode(clTree);
+            if (sym < 16) { lens[i++] = sym; }
+            else if (sym === 16) {
+              const prev = i ? lens[i - 1] : 0;
+              let n = 3 + bits(2);
+              while (n-- && i < lens.length) lens[i++] = prev;
+            } else if (sym === 17) {
+              let n = 3 + bits(3);
+              while (n-- && i < lens.length) lens[i++] = 0;
+            } else {
+              let n = 11 + bits(7);
+              while (n-- && i < lens.length) lens[i++] = 0;
+            }
+          }
+          litTree = buildTree(lens.subarray(0, hlit));
+          distTree = buildTree(lens.subarray(hlit));
+        }
+        for (;;) {
+          const sym = decode(litTree);
+          if (sym < 256) { ensure(1); out[outPos++] = sym; }
+          else if (sym === 256) break;
+          else {
+            const li = sym - 257;
+            if (li < 0 || li >= INFL_LEN_BASE.length) throw new Error("압축 데이터를 해석하지 못했습니다");
+            const length = INFL_LEN_BASE[li] + (INFL_LEN_EXTRA[li] ? bits(INFL_LEN_EXTRA[li]) : 0);
+            const ds = decode(distTree);
+            if (ds >= INFL_DIST_BASE.length) throw new Error("압축 데이터를 해석하지 못했습니다");
+            const dist = INFL_DIST_BASE[ds] + (INFL_DIST_EXTRA[ds] ? bits(INFL_DIST_EXTRA[ds]) : 0);
+            if (dist > outPos) throw new Error("압축 데이터가 손상되었습니다");
+            ensure(length);
+            for (let k = 0; k < length; k++) { out[outPos] = out[outPos - dist]; outPos++; }
+          }
+        }
+      } else {
+        throw new Error("지원하지 않는 압축 블록입니다");
+      }
+    } while (!last);
+    return out.subarray(0, outPos);
   }
 
   // ============ ZIP ============
@@ -2856,6 +3178,11 @@ var StatementParser = (function () {
   }
 
   // ============ HWP 5.0 ============
+  var HWP_TAG_PARA_TEXT = 0x43;
+  var HWP_TAG_CTRL_HEADER = 0x47;
+  var HWP_TAG_LIST_HEADER = 0x48;
+  var HWP_TAG_TABLE = 0x4D;
+
   async function readHwp(buf) {
     const cfb = cfbOpen(buf);
     const header = cfb.get("FileHeader");
@@ -2872,44 +3199,113 @@ var StatementParser = (function () {
 
     const rows = [];
     const rows16 = [];
+    const tables14 = [];
+    const tables16 = [];
     for (const n of names) {
       let data = cfb.get(n);
       if (!data || !data.length) continue;
       if (compressed) {
         try { data = await inflateRaw(data); }
         catch (e) {
-          throw new Error("한글 문서의 압축을 풀지 못했습니다. 이 브라우저에서 열 수 없는 형식입니다.");
+          throw new Error("한글 문서의 압축을 풀지 못했습니다. " + (e && e.message ? e.message : "") +
+            "\n한글에서 [다른 이름으로 저장]으로 .hwpx를 골라 저장한 뒤 그 파일을 올리면 열립니다.");
         }
       }
-      hwpParaTexts(data, 14).forEach(function (t) { if (t && t.trim()) rows.push([t.trim()]); });
-      hwpParaTexts(data, 16).forEach(function (t) { if (t && t.trim()) rows16.push([t.trim()]); });
+      const a = hwpSectionData(data, 14);
+      const b = hwpSectionData(data, 16);
+      a.paras.forEach(function (t) { if (t && t.trim()) rows.push([t.trim()]); });
+      b.paras.forEach(function (t) { if (t && t.trim()) rows16.push([t.trim()]); });
+      a.tables.forEach(function (t) { tables14.push(t); });
+      b.tables.forEach(function (t) { tables16.push(t); });
     }
     if (!rows.length) throw new Error("한글 문서에서 글자를 찾지 못했습니다. 그림만 있는 문서가 아닌지 확인해 주세요.");
+    const text14 = rows.map(function (r) { return r[0]; }).join("\n");
+    const text16 = rows16.map(function (r) { return r[0]; }).join("\n");
     const sheets = [{ name: "본문", rows: rows }];
     // 문서 작성기마다 문자 컨트롤 뒤 데이터 길이가 달라(14/16바이트) 두 가지로 읽고 더 잘 맞는 쪽을 쓴다
-    const t14 = rows.map(function (r) { return r[0]; }).join("\n");
-    const t16 = rows16.map(function (r) { return r[0]; }).join("\n");
-    if (t14 !== t16) sheets.push({ name: "본문(보정)", rows: rows16 });
+    if (text14 !== text16) sheets.push({ name: "본문(보정)", rows: rows16 });
+    // 표는 셀의 행·열 좌표까지 읽어 2차원 표로 따로 넣는다(부서별 기기 목록 인식용)
+    hwpTableSheets(tables14, "").forEach(function (sh) { sheets.push(sh); });
+    if (text14 !== text16) hwpTableSheets(tables16, "(보정)").forEach(function (sh) { sheets.push(sh); });
     return { kind: "한글", sheets: sheets };
   }
 
-  function hwpParaTexts(data, skipBytes) {
+  function hwpTableSheets(tables, suffix) {
+    const out = [];
+    (tables || []).forEach(function (t, i) {
+      if (!t || !t.rows || !t.cols) return;
+      const grid = hwpTableGrid(t);
+      if (!grid.length) return;
+      out.push({ name: "표" + (i + 1) + (suffix || ""), rows: grid });
+    });
+    return out;
+  }
+
+  function hwpTableGrid(t) {
+    const grid = [];
+    for (let r = 0; r < t.rows; r++) {
+      const row = [];
+      for (let c = 0; c < t.cols; c++) row.push("");
+      grid.push(row);
+    }
+    (t.cells || []).forEach(function (cell) {
+      if (cell.row >= t.rows || cell.col >= t.cols) return;
+      if (!grid[cell.row][cell.col]) grid[cell.row][cell.col] = cell.text;
+    });
+    return pruneRows(grid);
+  }
+
+  // 본문 레코드를 순서대로 읽어 ① 문단 글자 ② 표(셀의 행·열·병합 포함)를 뽑는다
+  function hwpSectionData(data, skipBytes) {
     const skip = skipBytes == null ? 14 : skipBytes;
     const dv = new DataView(data.buffer, data.byteOffset, data.byteLength);
-    let pos = 0;
-    const out = [];
-    let guard = 0;
-    while (pos + 4 <= data.length && guard++ < 500000) {
+    const paras = [];
+    const tables = [];
+    let pos = 0, guard = 0;
+    let curTable = null, curCell = null, tableLevel = 99;
+    while (pos + 4 <= data.length && guard++ < 1000000) {
       const h = dv.getUint32(pos, true);
       pos += 4;
       const tag = h & 0x3FF;
+      const level = (h >>> 10) & 0x3FF;
       let size = (h >>> 20) & 0xFFF;
       if (size === 0xFFF) { if (pos + 4 > data.length) break; size = dv.getUint32(pos, true); pos += 4; }
       if (pos + size > data.length) break;
-      if (tag === 0x43) out.push(hwpText(data.subarray(pos, pos + size), skip));
+      const body = data.subarray(pos, pos + size);
       pos += size;
+      // 표 밖으로 나오면(상위 레벨) 표·셀 수집을 끝낸다
+      if (curTable && (level < tableLevel || (tag === HWP_TAG_CTRL_HEADER && level <= tableLevel))) {
+        curTable = null; curCell = null;
+      }
+      if (tag === HWP_TAG_TABLE) {
+        const bdv = new DataView(body.buffer, body.byteOffset, body.byteLength);
+        const tr = body.length >= 8 ? bdv.getUint16(4, true) : 0;
+        const tc = body.length >= 8 ? bdv.getUint16(6, true) : 0;
+        curTable = { rows: tr, cols: tc, cells: [] };
+        tables.push(curTable);
+        curCell = null;
+        tableLevel = level;
+      } else if (tag === HWP_TAG_LIST_HEADER) {
+        if (curTable && level === tableLevel && size >= 26) {
+          const bdv = new DataView(body.buffer, body.byteOffset, body.byteLength);
+          const col = bdv.getUint16(8, true);
+          const row = bdv.getUint16(10, true);
+          const colspan = bdv.getUint16(12, true) || 1;
+          const rowspan = bdv.getUint16(14, true) || 1;
+          if (row < curTable.rows && col < curTable.cols) {
+            curCell = { row: row, col: col, colspan: colspan, rowspan: rowspan, text: "" };
+            curTable.cells.push(curCell);
+          } else curCell = null;
+        } else curCell = null;
+      } else if (tag === HWP_TAG_PARA_TEXT) {
+        const t = hwpText(body, skip);
+        if (t) {
+          paras.push(t);
+          if (curCell) curCell.text = curCell.text ? (curCell.text + " " + t) : t;
+        }
+      }
     }
-    return out;
+    return { paras: paras, tables: tables };
   }
 
   function hwpText(payload, skipBytes) {
@@ -3083,9 +3479,13 @@ var StatementParser = (function () {
   }
 
   function findTerms(text) {
-    const out = { baseFee: null, bBase: null, cBase: null, bRate: null, cRate: null };
+    const out = { baseFee: null, bBase: null, cBase: null, bRate: null, cRate: null, monoUnlimited: false };
     const COLOR = "(?:칼라|컬러|color|Color|COLOR)";
     let m;
+
+    // 흑백 무제한 / 칼라 1,500매 기본 130,000원 (예: <칼라복합기랜탈:흑백 무제한/칼라1,500매 기본130,000원 추가사용금액:칼라1장당90원>)
+    m = text.match(new RegExp("흑백\\s*무제한[^\\n]{0,10}?" + COLOR + "\\s*" + NUMPAT + "\\s*매[^\\n]{0,12}?기본\\s*" + NUMPAT + "\\s*원"));
+    if (m) { out.monoUnlimited = true; out.cBase = toNum(m[1]); out.baseFee = toNum(m[2]); }
 
     m = text.match(new RegExp("흑백[^\\n]{0,6}?" + NUMPAT + "\\s*매\\s*/\\s*" + COLOR + "\\s*" + NUMPAT + "\\s*매[^\\n]{0,20}?기본\\s*" + NUMPAT + "\\s*원"));
     if (m) { out.bBase = toNum(m[1]); out.cBase = toNum(m[2]); out.baseFee = toNum(m[3]); }
@@ -3110,7 +3510,99 @@ var StatementParser = (function () {
       const mm = text.match(new RegExp("흑백\\s*" + NUMPAT + "\\s*원\\s*/\\s*" + COLOR + "\\s*" + NUMPAT + "\\s*원"));
       if (mm) { out.bRate = toNum(mm[1]); out.cRate = toNum(mm[2]); }
     }
+    // 칼라만 적힌 단가 (예: 추가사용금액:칼라1장당90원)
+    if (out.cRate == null) {
+      const mm = text.match(new RegExp("(?:추가|초과)\\s*(?:사용)?\\s*(?:금액|요금|단가)[^\\n]{0,20}?" + COLOR + "\\s*(?:1\\s*)?(?:장|매)\\s*당\\s*" + NUMPAT + "\\s*원")) ||
+        text.match(new RegExp(COLOR + "\\s*(?:1\\s*)?(?:장|매)\\s*당\\s*" + NUMPAT + "\\s*원"));
+      if (mm) out.cRate = toNum(mm[1]);
+    }
+    if (out.monoUnlimited) { out.bBase = null; out.bRate = 0; }
     return out;
+  }
+
+  // 부서별 기기 표(예: 사용부서 | 기종 | 칼라사용량 | 사용배수 | 추가배수 | 추가금액 | 합계금액)
+  function findUnits(rows) {
+    if (!rows || rows.length < 2) return null;
+    const norm = function (v) { return String(v == null ? "" : v).replace(/\s+/g, ""); };
+    for (let r = 0; r < rows.length; r++) {
+      const cells = rows[r].map(norm);
+      const iP = cells.findIndex(function (v) { return /^(사용부서|부서|부서명|사용처|설치처)$/.test(v); });
+      const iM = cells.findIndex(function (v) { return /^(기종|모델|모델명|기기|기기명)$/.test(v); });
+      const iC = cells.findIndex(function (v) { return /^(칼라사용량|컬러사용량|칼라카운터|컬러카운터|칼라전월|컬러전월)$/.test(v); });
+      const iU = cells.findIndex(function (v) { return /^(사용배수|사용량|사용장수|사용매수)$/.test(v); });
+      const iEQ = cells.findIndex(function (v) { return /^(추가배수|초과배수|추가장수|추가매수|초과매수)$/.test(v); });
+      const iEA = cells.findIndex(function (v) { return /^(추가금액|초과금액)$/.test(v); });
+      const iQ = cells.findIndex(function (v) { return /^(수량|대수|설치대수)$/.test(v); });
+      const iA = cells.findIndex(function (v) { return /^(합계금액|합계|청구금액|금액)$/.test(v); });
+      if (iP < 0 || iA < 0 || (iC < 0 && iU < 0)) continue;
+
+      const units = [];
+      for (let rr = r + 1; rr < rows.length; rr++) {
+        const row = rows[rr] || [];
+        const rawDept = String(row[iP] == null ? "" : row[iP]).trim();
+        if (!rawDept) break;
+        if (/공급|부가세|합계|V\.?A\.?T|총액/i.test(norm(rawDept))) break;
+        const amount = toNum(row[iA]);
+        const counter = parseUnitCounter(row[iC]);
+        const used = toNum(iU >= 0 ? row[iU] : "");
+        if (amount == null && counter.prev == null && used == null) break;
+        const unit = {
+          rawLabel: rawDept,
+          label: rawDept.replace(/^\s*\d+\s*[.,)\]]\s*/, "").trim() || rawDept,
+          model: iM >= 0 ? cleanModel(row[iM]) : "",
+          qty: iQ >= 0 ? toNum(row[iQ]) : null,
+          cPrev: counter.prev, cCurr: counter.curr,
+          cUsed: used != null ? used : (counter.prev != null && counter.curr != null ? Math.max(0, counter.curr - counter.prev) : null),
+          extraQty: toNum(iEQ >= 0 ? row[iEQ] : ""),
+          extraAmount: toNum(iEA >= 0 ? row[iEA] : ""),
+          amount: amount,
+          picked: true,
+          warnings: []
+        };
+        units.push(unit);
+      }
+      if (units.length < 2) continue;
+
+      // 같은 표에서 공급가액·VAT·합계금액 행을 찾는다
+      let supplyTotal = null, vat = null, lineTotal = null;
+      for (let rr = 0; rr < rows.length; rr++) {
+        const row = rows[rr] || [];
+        for (let c = 0; c < row.length; c++) {
+          const t = norm(row[c]);
+          const pick = function () {
+            for (let k = c + 1; k < row.length; k++) { const v = toNum(row[k]); if (v != null) return v; }
+            return null;
+          };
+          if (supplyTotal == null && /^공급가액$/.test(t)) supplyTotal = pick();
+          else if (vat == null && /^(V\.?A\.?T|부가세|부가가치세)$/.test(t)) vat = pick();
+          else if (lineTotal == null && /^(합계|총합계|총액)$/.test(t)) lineTotal = pick();
+        }
+      }
+      let grand = null;
+      if (supplyTotal != null && vat != null) grand = supplyTotal + vat;
+      else if (supplyTotal != null) grand = lineTotal;
+      return { units: units, supplyTotal: supplyTotal, vat: vat, grandTotal: grand };
+    }
+    return null;
+  }
+
+  function cleanModel(v) {
+    const s = String(v == null ? "" : v).trim();
+    if (!s) return "";
+    if (/^[\d,.\s]+$/.test(s)) return "";
+    if (/수량|단가|금액|합계/.test(s)) return "";
+    return s;
+  }
+
+  // "94,950-96,430" / "(전)94,950-(현)96,430" / "94,950 ~ 96,430" → {prev, curr}
+  function parseUnitCounter(v) {
+    const s = String(v == null ? "" : v);
+    if (!s.trim()) return { prev: null, curr: null };
+    let m = s.match(/\(?\s*전\s*\)?\s*([0-9][0-9,]*)\s*[-~\u2013]\s*\(?\s*현\s*\)?\s*([0-9][0-9,]*)/);
+    if (!m) m = s.match(/([0-9][0-9,]*)\s*[-~\u2013]\s*([0-9][0-9,]*)/);
+    if (m) return { prev: toNum(m[1]), curr: toNum(m[2]) };
+    const one = toNum(s);
+    return { prev: null, curr: one };
   }
 
   // 표의 라벨-값 쌍 (예: 기본료 | 80,000원 / 이전 카운터 흑백 | 31000)
@@ -3283,7 +3775,8 @@ var StatementParser = (function () {
       baseFee: null, bBase: null, cBase: null, bRate: null, cRate: null,
       bPrev: null, bCurr: null, cPrev: null, cCurr: null,
       bUsed: null, cUsed: null,
-      extras: [], total: null, month: null, warnings: []
+      extras: [], total: null, month: null, warnings: [],
+      units: [], monoUnlimited: false
     };
     const nm = findName(rows, lines, fileName);
     res.name = nm.value; res.nameHow = nm.how;
@@ -3291,7 +3784,7 @@ var StatementParser = (function () {
     res.model = md.value; res.modelHow = md.how;
     const terms = findTerms(text);
     res.baseFee = terms.baseFee; res.bBase = terms.bBase; res.cBase = terms.cBase;
-    res.bRate = terms.bRate; res.cRate = terms.cRate;
+    res.bRate = terms.bRate; res.cRate = terms.cRate; res.monoUnlimited = !!terms.monoUnlimited;
     // 표의 라벨-값 (예: 기본료 | 80,000원 / 초과단가 흑백 | 10원)
     const lab = {};
     extractLabelValues(rows, lab);
@@ -3340,12 +3833,47 @@ var StatementParser = (function () {
     if (!best) throw new Error("문서에서 내용을 읽지 못했습니다.");
     best.kind = doc.kind || "";
     best.sheetCount = sheets.length;
+    // 부서별 기기(여러 대) 표: 표 시트를 훑어 가장 많이 읽힌 것을 쓴다
+    let bestUnits = null;
+    sheets.forEach(function (sh) {
+      const u = findUnits(sh.rows || []);
+      if (u && (!bestUnits || u.units.length > bestUnits.units.length)) bestUnits = u;
+    });
+    if (bestUnits) {
+      best.units = bestUnits.units;
+      best.unitsSupply = bestUnits.supplyTotal;
+      best.vat = bestUnits.vat;
+      best.grandTotal = bestUnits.grandTotal;
+      if (bestUnits.supplyTotal != null) best.total = bestUnits.supplyTotal;
+      if (!best.model) best.model = bestUnits.units[0].model || "";
+      // 부서별 합계금액과 대장 계산(기본료+초과)을 견줘 본다
+      let docSum = 0, calcSum = 0;
+      bestUnits.units.forEach(function (u) {
+        if (u.amount != null) docSum += u.amount;
+        const calc = unitAmount(best, u);
+        calcSum += calc;
+        if (u.amount != null && calc !== u.amount) {
+          const d = calc - u.amount;
+          u.warnings.push("합계금액 " + money0(u.amount) + "원 · 대장 계산(기본료+추가금액) " + money0(calc) + "원 (차액 " + money0(d) + "원)");
+        }
+      });
+      best.unitsDocSum = docSum;
+      best.unitsCalcSum = calcSum;
+      const off = bestUnits.units.filter(function (u) { return u.warnings.length; });
+      if (off.length) {
+        best.warnings.push("부서별 합계금액과 계산이 다른 줄이 " + off.length + "개 있습니다: " +
+          off.map(function (u) { return u.label; }).join(", ") + " — 내역서 금액을 그대로 두고 등록합니다.");
+      }
+      if (bestUnits.supplyTotal != null && docSum && bestUnits.supplyTotal !== docSum) {
+        best.warnings.push("부서별 합계금액의 합 " + money0(docSum) + "원이 공급가액 " + money0(bestUnits.supplyTotal) + "원과 다릅니다.");
+      }
+    }
     // 경고
     if (!best.name) best.warnings.push("거래처명을 찾지 못했습니다. 미리보기에서 직접 입력해 주세요.");
     if (best.bPrev != null && best.bCurr != null && best.bCurr < best.bPrev) best.warnings.push("흑백 당월 카운터가 전월보다 작습니다(카운터 초기화·기기 교체 여부 확인).");
     if (best.cPrev != null && best.cCurr != null && best.cCurr < best.cPrev) best.warnings.push("컬러 당월 카운터가 전월보다 작습니다(카운터 초기화·기기 교체 여부 확인).");
     if (best.baseFee == null) best.warnings.push("기본료를 찾지 못했습니다. 미리보기에서 입력해 주세요.");
-    if ((best.bPrev == null || best.bCurr == null) && (best.cPrev == null || best.cCurr == null)) {
+    if (!best.units.length && (best.bPrev == null || best.bCurr == null) && (best.cPrev == null || best.cCurr == null)) {
       best.warnings.push("카운터(전월/당월)를 찾지 못했습니다. 미리보기에서 입력해 주세요.");
     }
     // 내역서 총액과 대장 계산액 비교
@@ -3359,11 +3887,32 @@ var StatementParser = (function () {
   }
 
   function supplyOf(r) {
+    if (r && r.units && r.units.length) {
+      let sum = 0;
+      r.units.forEach(function (u) {
+        if (u.picked === false) return;
+        sum += unitAmount(r, u);
+      });
+      return sum;
+    }
     const bUsed = (r.bPrev != null && r.bCurr != null) ? Math.max(0, r.bCurr - r.bPrev) : 0;
     const cUsed = (r.cPrev != null && r.cCurr != null) ? Math.max(0, r.cCurr - r.cPrev) : 0;
     const bOver = Math.max(0, bUsed - (r.bBase || 0));
     const cOver = Math.max(0, cUsed - (r.cBase || 0));
     return (r.baseFee || 0) + bOver * (r.bRate || 0) + cOver * (r.cRate || 0);
+  }
+
+  // 부서(기기) 한 대의 대장 계산액 = 기본료 + max(0, 사용 - 기본매수) × 초과단가
+  function unitAmount(r, u) {
+    const used = (u.cUsed != null) ? u.cUsed
+      : ((u.cPrev != null && u.cCurr != null) ? Math.max(0, u.cCurr - u.cPrev) : 0);
+    const over = Math.max(0, used - (r.cBase || 0));
+    return (r.baseFee || 0) + over * (r.cRate || 0);
+  }
+
+  function money0(n) {
+    const v = Number(n) || 0;
+    return String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   return {
@@ -3378,7 +3927,12 @@ var StatementParser = (function () {
     _readXlsx: readXlsx,
     _readHwpx: readHwpx,
     _readHwp: readHwp,
-    _hwpText: hwpText
+    _hwpText: hwpText,
+    _inflateRaw: inflateRaw,
+    _inflateRawJS: inflateRawJS,
+    _hwpSectionData: hwpSectionData,
+    _findUnits: findUnits,
+    _unitAmount: unitAmount
   };
 })();
 
@@ -3498,6 +4052,14 @@ function stmtNum(v) {
 function makeStmtRow(file, parsed) {
   const matched = matchStatementClient(parsed.name);
   const paid = (parsed.extras || []).filter(function (e) { return !e.free && e.amount > 0; });
+  const units = (parsed.units || []).map(function (u) {
+    return {
+      rawLabel: u.rawLabel, label: u.label, model: u.model, qty: u.qty,
+      cPrev: u.cPrev, cCurr: u.cCurr, cUsed: u.cUsed,
+      extraQty: u.extraQty, extraAmount: u.extraAmount, amount: u.amount,
+      picked: u.picked !== false, warnings: (u.warnings || []).slice()
+    };
+  });
   return {
     fileName: file.name,
     kind: parsed.kind || "",
@@ -3510,8 +4072,14 @@ function makeStmtRow(file, parsed) {
     bPrev: parsed.bPrev, bCurr: parsed.bCurr, cPrev: parsed.cPrev, cCurr: parsed.cCurr,
     extras: parsed.extras || [],
     includeExtras: paid.length > 0,
-    mode: matched ? "update" : "new",
-    matchId: matched ? matched.id : null,
+    units: units,
+    monoUnlimited: !!parsed.monoUnlimited,
+    vatMode: "",
+    payDay: "",
+    vat: parsed.vat != null ? parsed.vat : null,
+    grandTotal: parsed.grandTotal != null ? parsed.grandTotal : null,
+    mode: units.length ? "new" : (matched ? "update" : "new"),
+    matchId: units.length ? null : (matched ? matched.id : null),
     total: parsed.total, month: parsed.month || null,
     warnings: (parsed.warnings || []).slice()
   };
@@ -3576,19 +4144,83 @@ function stmtFieldHtml(i, field, label, isText, wide) {
     ' oninput="setStmtField(' + i + ', \'' + field + '\', this.value)"></label>';
 }
 
+function stmtUnitsHtml(i) {
+  const r = stmtRows[i];
+  if (!r || !r.units || !r.units.length) return "";
+  const picked = r.units.filter(function (u) { return u.picked !== false; });
+  const rowsHtml = r.units.map(function (u, k) {
+    const calc = StatementParser._unitAmount(r, u);
+    const warn = (u.warnings && u.warnings.length)
+      ? '<div class="stmt-unit-warn">' + escapeHtml(u.warnings.join(" ")) + "</div>" : "";
+    return '<tr' + (u.picked === false ? ' class="stmt-unit-off"' : "") + ">" +
+      '<td class="stmt-unit-pick"><input type="checkbox"' + (u.picked !== false ? " checked" : "") +
+      ' onchange="toggleStmtUnit(' + i + "," + k + ')"></td>' +
+      "<td><strong>" + escapeHtml(u.label) + "</strong>" + warn + "</td>" +
+      "<td>" + escapeHtml(u.model || "-") + "</td>" +
+      "<td>" + (u.cPrev != null ? money(u.cPrev) : "-") + "</td>" +
+      "<td>" + (u.cCurr != null ? money(u.cCurr) : "-") + "</td>" +
+      "<td>" + (u.cUsed != null ? money(u.cUsed) : "-") + "</td>" +
+      "<td>" + (u.extraQty ? money(u.extraQty) : "") + "</td>" +
+      "<td>" + (u.extraAmount ? money(u.extraAmount) : "") + "</td>" +
+      "<td>" + (u.amount != null ? money(u.amount) : "-") + "</td>" +
+      '<td class="stmt-unit-calc">' + money(calc) + "</td></tr>";
+  }).join("");
+  let docSum = 0;
+  picked.forEach(function (u) { if (u.amount != null) docSum += u.amount; });
+  const calcSum = StatementParser.supplyOf(r);
+  const diff = calcSum - docSum;
+  let total = "<div class=\"stmt-units-total\">선택 <strong>" + picked.length + "</strong>/" + r.units.length + "대" +
+    " · 내역서 부서별 합계 <strong>" + money(docSum) + "원</strong>" +
+    " · 대장 계산 <strong>" + money(calcSum) + "원</strong>" +
+    (docSum && diff ? ' <span style="color:#b45309;">(차액 ' + money(diff) + "원)</span>" : "") + "</div>";
+  if (r.total != null) {
+    total += "<div class=\"stmt-units-total\">내역서 공급가액 <strong>" + money(r.total) + "원</strong>" +
+      (r.vat != null ? " · VAT <strong>" + money(r.vat) + "원</strong>" : "") +
+      (r.grandTotal != null ? " · 합계 <strong>" + money(r.grandTotal) + "원</strong>" : "") + "</div>";
+  }
+  total += '<div class="stmt-units-note">등록하면 부서마다 한 줄로 저장됩니다: 「' +
+    escapeHtml(String(r.name || "거래처").trim() + " · " + (r.units[0] ? r.units[0].label : "부서")) +
+    "」 식으로 이름을 붙입니다. 흑백은 무제한으로 두고 칼라 사용량만 계산합니다.</div>";
+  return '<div class="stmt-units">' +
+    '<div class="stmt-units-head"><strong>부서별 기기</strong> — 등록할 기기를 골라 주세요 ' +
+    '<button type="button" class="stmt-mini" onclick="toggleAllStmtUnits(' + i + ',true)">전체 선택</button>' +
+    '<button type="button" class="stmt-mini" onclick="toggleAllStmtUnits(' + i + ',false)">전체 해제</button></div>' +
+    '<div class="stmt-units-scroll"><table class="stmt-units-table"><thead><tr>' +
+    "<th></th><th>부서</th><th>기종</th><th>칼라 전월</th><th>칼라 당월</th><th>사용</th><th>추가매수</th><th>추가금액</th><th>합계금액</th><th>대장 계산</th>" +
+    "</tr></thead><tbody>" + rowsHtml + "</tbody></table></div>" + total + "</div>";
+}
+
+function toggleStmtUnit(i, k) {
+  const r = stmtRows[i];
+  if (!r || !r.units || !r.units[k]) return;
+  r.units[k].picked = r.units[k].picked === false;
+  renderStatementModal();
+}
+
+function toggleAllStmtUnits(i, on) {
+  const r = stmtRows[i];
+  if (!r || !r.units) return;
+  r.units.forEach(function (u) { u.picked = !!on; });
+  renderStatementModal();
+}
+
 function renderStatementModal() {
   const list = document.getElementById("stmtList");
   if (!list) return;
   const parts = [];
   stmtRows.forEach(function (r, i) {
-    const modes = [["update", "기존 업체 업데이트"], ["new", "신규 업체 추가"], ["skip", "제외"]]
+    const isUnits = !!(r.units && r.units.length);
+    const modeList = isUnits
+      ? [["new", "부서별 기기 등록"], ["skip", "제외"]]
+      : [["update", "기존 업체 업데이트"], ["new", "신규 업체 추가"], ["skip", "제외"]];
+    const modes = modeList
       .map(function (m) {
         return '<label><input type="radio" name="stmtMode' + i + '" value="' + m[0] + '"' +
           (r.mode === m[0] ? " checked" : "") + ' onchange="setStmtMode(' + i + ', \'' + m[0] + '\')">' + m[1] + '</label>';
       }).join("");
 
     let matchHtml = "";
-    if (r.mode === "update") {
+    if (r.mode === "update" && !isUnits) {
       const opts = clients.map(function (c) {
         return '<option value="' + c.id + '"' + (c.id === r.matchId ? " selected" : "") + '>' + escapeHtml(c.name) + "</option>";
       }).join("");
@@ -3597,18 +4229,40 @@ function renderStatementModal() {
         '<span style="color:#94a3b8;">이름은 기존 그대로 두고 수치만 바꿉니다</span></div>';
     }
 
-    const fields =
-      stmtFieldHtml(i, "name", "거래처명", true, true) +
-      stmtFieldHtml(i, "model", "기종", true, true) +
-      stmtFieldHtml(i, "baseFee", "기본료(원)", false) +
-      stmtFieldHtml(i, "bBase", "흑백 기본매수", false) +
-      stmtFieldHtml(i, "bRate", "흑백 초과단가(원)", false) +
-      stmtFieldHtml(i, "bPrev", "흑백 전월", false) +
-      stmtFieldHtml(i, "bCurr", "흑백 당월", false) +
-      stmtFieldHtml(i, "cBase", "칼라 기본매수", false) +
-      stmtFieldHtml(i, "cRate", "칼라 초과단가(원)", false) +
-      stmtFieldHtml(i, "cPrev", "칼라 전월", false) +
-      stmtFieldHtml(i, "cCurr", "칼라 당월", false);
+    const fields = isUnits
+      ? (stmtFieldHtml(i, "name", "거래처명", true, true) +
+        stmtFieldHtml(i, "baseFee", "기기당 기본료(원)", false) +
+        stmtFieldHtml(i, "cBase", "칼라 기본매수", false) +
+        stmtFieldHtml(i, "cRate", "칼라 초과단가(원)", false) +
+        '<label class="stmt-field stmt-wide"><span>흑백</span><input type="text" value="' +
+        escapeHtml(r.monoUnlimited ? "무제한 (기본료에 포함)" : "") + '" readonly></label>')
+      : (stmtFieldHtml(i, "name", "거래처명", true, true) +
+        stmtFieldHtml(i, "model", "기종", true, true) +
+        stmtFieldHtml(i, "baseFee", "기본료(원)", false) +
+        stmtFieldHtml(i, "bBase", "흑백 기본매수", false) +
+        stmtFieldHtml(i, "bRate", "흑백 초과단가(원)", false) +
+        stmtFieldHtml(i, "bPrev", "흑백 전월", false) +
+        stmtFieldHtml(i, "bCurr", "흑백 당월", false) +
+        stmtFieldHtml(i, "cBase", "칼라 기본매수", false) +
+        stmtFieldHtml(i, "cRate", "칼라 초과단가(원)", false) +
+        stmtFieldHtml(i, "cPrev", "칼라 전월", false) +
+        stmtFieldHtml(i, "cCurr", "칼라 당월", false));
+
+    const unitsHtml = isUnits ? stmtUnitsHtml(i) : "";
+    const vatHtml = '<div class="stmt-vat"><span>부가세</span>' +
+      '<select onchange="setStmtVat(' + i + ', this.value)">' +
+      '<option value=""' + (!r.vatMode ? " selected" : "") + '>전체 설정 따름 (' + vatLabel(vatMode) + ')</option>' +
+      '<option value="별도"' + (r.vatMode === "별도" ? " selected" : "") + '>별도 (10% 가산)</option>' +
+      '<option value="포함"' + (r.vatMode === "포함" ? " selected" : "") + '>포함 (청구액에 포함)</option>' +
+      '</select><span class="stmt-vat-hint">이 내역서로 등록·갱신되는 거래처에 적용됩니다.</span></div>';
+    const payHtml = '<div class="stmt-vat"><span>수금일</span>' +
+      '<select onchange="setStmtPayDay(' + i + ', this.value)">' +
+      '<option value=""' + (r.payDay === "" ? " selected" : "") + '>기본값 (건너뜀)</option>' +
+      '<option value="0"' + (String(r.payDay) === "0" ? " selected" : "") + '>매월 말일 (월말)</option>' +
+      [1, 5, 10, 15, 20, 25, 31].map(function (d) {
+        return '<option value="' + d + '"' + (String(r.payDay) === String(d) ? " selected" : "") + '>매월 ' + d + '일 (' + payDayBand(d).label + ')</option>';
+      }).join("") +
+      '</select><span class="stmt-vat-hint">등록할 거래처의 수금일을 정합니다.</span></div>';
 
     const paid = (r.extras || []).filter(function (e) { return !e.free && e.amount > 0; });
     let extrasHtml = "";
@@ -3639,6 +4293,9 @@ function renderStatementModal() {
       '<div class="stmt-modes">' + modes + "</div></div>" +
       matchHtml +
       '<div class="stmt-grid">' + fields + "</div>" +
+      vatHtml +
+      payHtml +
+      unitsHtml +
       '<div class="stmt-calc" id="stmtCalc' + i + '"></div>' +
       extrasHtml + warnHtml +
       "</div>");
@@ -3657,6 +4314,20 @@ function updateStmtCalc(i) {
   const el = document.getElementById("stmtCalc" + i);
   const r = stmtRows[i];
   if (!el || !r) return;
+  if (r.units && r.units.length) {
+    const calc = StatementParser.supplyOf(r);
+    const picked = r.units.filter(function (u) { return u.picked !== false; }).length;
+    let html = "선택 " + picked + "대 · 대장 계산 공급가 <strong>" + money(calc) + "원</strong> (기본료 " +
+      money(r.baseFee) + "원 × " + picked + "대 + 칼라 초과)";
+    if (r.total != null) {
+      const diff = r.total - calc;
+      html += " · 내역서 공급가액 " + money(r.total) + "원" +
+        (diff === 0 ? ' <span style="color:#15803d;">(일치)</span>'
+          : ' <span style="color:#b45309;">(차액 ' + money(diff) + "원)</span>");
+    }
+    el.innerHTML = html;
+    return;
+  }
   const calc = StatementParser.supplyOf(r);
   const bUsed = (r.bPrev != null && r.bCurr != null) ? Math.max(0, r.bCurr - r.bPrev) : null;
   const cUsed = (r.cPrev != null && r.cCurr != null) ? Math.max(0, r.cCurr - r.cPrev) : null;
@@ -3676,14 +4347,23 @@ function renderStatementSummary() {
   const el = document.getElementById("stmtSummary");
   if (!el) return;
   const use = stmtRows.filter(function (r) { return r.mode !== "skip"; });
-  const upd = use.filter(function (r) { return r.mode === "update" && r.matchId != null; }).length;
-  const neu = use.length - upd;
+  let upd = 0, neu = 0;
+  use.forEach(function (r) {
+    if (r.units && r.units.length) {
+      r.units.forEach(function (u) { if (u.picked !== false) neu++; });
+    } else if (r.mode === "update" && r.matchId != null) upd++;
+    else neu++;
+  });
   const extra = use.reduce(function (n, r) {
     if (!r.includeExtras) return n;
     return n + (r.extras || []).filter(function (e) { return !e.free && e.amount > 0; }).length;
   }, 0);
   const missName = use.filter(function (r) { return !String(r.name || "").trim(); }).length;
   let txt = "반영 예정 — 기존 거래처 갱신 " + upd + "곳 · 신규 추가 " + neu + "곳";
+  const unitCount = use.reduce(function (n, r) {
+    return n + ((r.units || []).filter(function (u) { return u.picked !== false; }).length);
+  }, 0);
+  if (unitCount) txt += " (부서별 기기 " + unitCount + "대 포함)";
   if (extra) txt += " · 추가 기기 " + extra + "대";
   if (missName) txt += ' <span style="color:#b91c1c;">· 거래처명이 빈 파일 ' + missName + "개</span>";
   el.innerHTML = txt;
@@ -3695,6 +4375,20 @@ function setStmtField(i, field, value) {
   if (field === "name" || field === "model") r[field] = String(value);
   else r[field] = stmtNum(value);
   updateStmtCalc(i);
+  renderStatementSummary();
+}
+
+function setStmtVat(i, v) {
+  const r = stmtRows[i];
+  if (!r) return;
+  r.vatMode = (v === "별도" || v === "포함") ? v : "";
+  renderStatementSummary();
+}
+
+function setStmtPayDay(i, v) {
+  const r = stmtRows[i];
+  if (!r) return;
+  r.payDay = (v === "" || v == null) ? "" : num(v, 0);
   renderStatementSummary();
 }
 
@@ -3737,8 +4431,15 @@ function applyStatement() {
     return;
   }
 
-  let upd = 0, neu = 0, extraCount = 0;
+  let upd = 0, neu = 0, extraCount = 0, unitCount = 0;
   const lines = items.map(function (r) {
+    if (r.units && r.units.length) {
+      const picked = r.units.filter(function (u) { return u.picked !== false; });
+      neu += picked.length;
+      unitCount += picked.length;
+      return "· " + r.name + " — 부서별 기기 " + picked.length + "대 (기기당 기본 " + money(r.baseFee) +
+        "원, 칼라 " + money(r.cBase) + "매 / 초과 " + money(r.cRate) + "원)";
+    }
     const target = (r.mode === "update" && r.matchId != null)
       ? (clients.filter(function (c) { return c.id === r.matchId; })[0] || null)
       : null;
@@ -3751,10 +4452,45 @@ function applyStatement() {
   const ask = "[사용내역서 반영]\n\n" + lines.join("\n") +
     "\n\n· 기존 거래처 갱신: " + upd + "곳\n· 신규 거래처 추가: " + neu + "곳" +
     (items.some(function (r) { return r.includeExtras; }) ? "\n· 추가 기기도 별도 거래처로 등록" : "") +
+    (items.some(function (r) { return r.vatMode; })
+      ? "\n· 부가세: " + items.filter(function (r) { return r.vatMode; })
+        .map(function (r) { return r.name + " " + r.vatMode; }).join(", ")
+      : "") +
     "\n\n반영하면 저장되고(동기화 설정 시 서버에도 올라갑니다) 되돌리려면 [복원(JSON)] 백업이 필요합니다. 진행할까요?";
   if (!confirm(ask)) return;
 
   items.forEach(function (r) {
+    // 부서별 기기: 부서마다 한 줄(거래처)로 등록한다
+    if (r.units && r.units.length) {
+      r.units.forEach(function (u) {
+        if (u.picked === false) return;
+        const nm = (String(r.name).trim() + " · " + u.label).slice(0, 80);
+        const cPrev = u.cPrev != null ? u.cPrev : 0;
+        const cCurr = u.cCurr != null ? u.cCurr : cPrev;
+        const found = clients.filter(function (c) { return normName(c.name) === normName(nm); })[0];
+        if (found) {
+          found.model = u.model || found.model;
+          found.baseFee = r.baseFee || found.baseFee;
+          found.bPrev = 0; found.bCurr = 0; found.bBase = 0; found.bRate = 0;
+          found.cPrev = cPrev; found.cCurr = cCurr;
+          found.cBase = r.cBase || 0; found.cRate = r.cRate || 0;
+          if (r.vatMode) found.vatMode = r.vatMode;
+          if (r.payDay !== "" && r.payDay != null) found.payDay = num(r.payDay, 0);
+        } else {
+          clients.push(normalizeClient({
+            id: nextClientId(), name: nm, model: u.model || "",
+            baseFee: r.baseFee || 0,
+            bPrev: 0, bCurr: 0, bBase: 0, bRate: 0,
+            cPrev: cPrev, cCurr: cCurr, cBase: r.cBase || 0, cRate: r.cRate || 0,
+            vatMode: r.vatMode || "",
+            payDay: (r.payDay === "" || r.payDay == null) ? null : num(r.payDay, 0),
+            toner: { k: 100, c: 100, m: 100, y: 100 }, status: "미수"
+          }));
+        }
+      });
+      return;
+    }
+
     const target = (r.mode === "update" && r.matchId != null)
       ? (clients.filter(function (c) { return c.id === r.matchId; })[0] || null)
       : null;
@@ -3770,6 +4506,8 @@ function applyStatement() {
       if (r.bCurr != null) target.bCurr = r.bCurr;
       if (r.cPrev != null) target.cPrev = r.cPrev;
       if (r.cCurr != null) target.cCurr = r.cCurr;
+      if (r.vatMode) target.vatMode = r.vatMode;
+      if (r.payDay !== "" && r.payDay != null) target.payDay = num(r.payDay, 0);
     } else {
       let bPrev = r.bPrev, bCurr = r.bCurr, cPrev = r.cPrev, cCurr = r.cCurr;
       // 당월만 읽힌 경우: 사용량을 0으로 두어 엉뚱한 초과금이 붙지 않게 한다
@@ -3782,6 +4520,8 @@ function applyStatement() {
         baseFee: r.baseFee || 0,
         bPrev: bPrev || 0, bCurr: bCurr || 0, bBase: r.bBase || 0, bRate: r.bRate || 0,
         cPrev: cPrev || 0, cCurr: cCurr || 0, cBase: r.cBase || 0, cRate: r.cRate || 0,
+        vatMode: r.vatMode || "",
+        payDay: (r.payDay === "" || r.payDay == null) ? null : num(r.payDay, 0),
         toner: { k: 100, c: 100, m: 100, y: 100 },
         status: "미수"
       }));
@@ -3810,6 +4550,7 @@ function applyStatement() {
   closeStatementModal();
 
   let msg = "사용내역서 반영 완료\n\n· 거래처 갱신 " + upd + "곳\n· 신규 추가 " + neu + "곳";
+  if (unitCount) msg += "\n· 부서별 기기 " + unitCount + "대";
   if (extraCount) msg += "\n· 추가 기기 " + extraCount + "대";
   msg += "\n\n" + (syncConfigured() ? "서버에도 곧 올라갑니다." : "이 기기에 저장했습니다.");
   alert(msg);
