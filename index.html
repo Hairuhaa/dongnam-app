@@ -214,15 +214,6 @@
     * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 
-  /* 아이폰 7일 삭제 안내 */
-  #iosInstallBanner { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0 0 14px; padding: 11px 14px; border: 1px solid #bfdbfe; border-radius: 10px; background: #eff6ff; color: #1e3a8a; font-size: 13px; font-weight: 700; line-height: 1.55; }
-  #iosInstallBanner[hidden] { display: none !important; }
-  #iosInstallBanner .ios-text { flex: 1 1 320px; }
-  #iosInstallBanner .ios-text b { font-weight: 800; }
-  #iosInstallBanner .ios-actions { display: flex; gap: 6px; flex-wrap: wrap; }
-  #iosInstallBanner button { padding: 6px 10px; border-radius: 7px; border: 1px solid #93c5fd; background: #fff; color: #1e3a8a; font-size: 12px; font-weight: 800; cursor: pointer; }
-  #iosInstallBanner button.ios-never { border-color: transparent; background: transparent; color: #64748b; font-weight: 700; }
-
   /* JSON 백업 권장 배지 */
   #backupBadge { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 14px; padding: 8px 12px; border: 1px solid #fed7aa; border-radius: 999px; background: #fff7ed; color: #9a3412; font-size: 12.5px; font-weight: 800; cursor: pointer; }
   #backupBadge[hidden] { display: none !important; }
@@ -396,14 +387,6 @@
     <button class="btn-primary" onclick="openAddModal()">➕ 신규 거래처 추가</button>
   </div>
 </header>
-
-<div id="iosInstallBanner" hidden>
-  <div class="ios-text">📱 아이폰은 이 앱을 <b>7일 동안 열지 않으면</b> 저장한 대장을 지웁니다. 사파리 아래 <b>[공유] → [홈 화면에 추가]</b>로 설치해 두면 그대로 남습니다.</div>
-  <div class="ios-actions">
-    <button type="button" onclick="closeIosBanner(false)">닫기</button>
-    <button type="button" class="ios-never" onclick="closeIosBanner(true)">다시 보지 않기</button>
-  </div>
-</div>
 
 <button type="button" id="backupBadge" hidden onclick="exportJson()"></button>
 
@@ -744,7 +727,6 @@ const STORE_PERIOD  = "copier_rental_period";    // Phase 02 키 (기준 연·�
 const STORE_VAT     = "copier_rental_vat_mode";  // Phase 02 키 (부가세 방식)
 const STORE_SYNC    = "copier_rental_sync";      // Phase 03 키 (동기화 설정·마지막 시각·미전송 표시)
 const STORE_BACKUP  = "copier_rental_last_backup"; // 마지막 JSON 백업 시각(ISO) — 이번에 추가
-const STORE_IOS_GUIDE = "copier_rental_ios_guide"; // 아이폰 홈 화면 안내 다시 보지 않기
 const BACKUP_REMIND_DAYS = 14;
 
 const APP_ID = "dongnam-copier-ledger";
@@ -1788,42 +1770,6 @@ function renderBackupBadge() {
     el.hidden = true;
     el.textContent = "";
   }
-}
-
-// ---------- 아이폰 Safari 7일 삭제 안내 ----------
-function isIosDevice() {
-  const ua = String((typeof navigator !== "undefined" && navigator.userAgent) || "");
-  if (/iPad|iPhone|iPod/.test(ua)) return true;
-  return /Macintosh/.test(ua) && (navigator.maxTouchPoints || 0) > 1;
-}
-
-function isStandaloneApp() {
-  if (typeof navigator !== "undefined" && navigator.standalone === true) return true;
-  try {
-    return typeof window.matchMedia === "function" && window.matchMedia("(display-mode: standalone)").matches;
-  } catch (e) { return false; }
-}
-
-function iosGuideDismissed() {
-  try { return localStorage.getItem(STORE_IOS_GUIDE) === "never"; } catch (e) { return false; }
-}
-
-function shouldShowIosBanner() {
-  return isIosDevice() && !isStandaloneApp() && !iosGuideDismissed();
-}
-
-function initIosBanner() {
-  const el = document.getElementById("iosInstallBanner");
-  if (!el) return;
-  el.hidden = !shouldShowIosBanner();
-}
-
-function closeIosBanner(never) {
-  if (never) {
-    try { localStorage.setItem(STORE_IOS_GUIDE, "never"); } catch (e) { /* 무시 */ }
-  }
-  const el = document.getElementById("iosInstallBanner");
-  if (el) el.hidden = true;
 }
 
 function pickJson() { document.getElementById("jsonFileInput").click(); }
@@ -5148,7 +5094,6 @@ function applyStatement() {
 // 14. 시작
 // ==========================================
 renderAll();
-initIosBanner();
 renderBackupBadge();
 renderSyncBadge();
 startAutoSync();
