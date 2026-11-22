@@ -320,6 +320,13 @@
   .pay-day-btn.end { grid-column: span 2; }
   .payday-quick { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
   .payday-quick button { font-size: 11.5px; font-weight: 700; padding: 4px 9px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; color: #334155; cursor: pointer; }
+  @media (max-width: 520px) {
+    .payday-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+    .pay-day-btn { padding: 9px 0; font-size: 13px; }
+    .pay-day-btn.end { grid-column: span 3; }
+    .stmt-vat select { min-width: 0; width: 100%; }
+    .stmt-vat { gap: 4px; }
+  }
 </style>
   <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="./icon-192.png">
