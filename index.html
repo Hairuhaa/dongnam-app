@@ -196,13 +196,37 @@
   #toastBox { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 2000; pointer-events: none; width: min(92vw, 420px); }
   .toast { background: #0f172a; color: #fff; font-size: 13px; font-weight: 700; padding: 11px 14px; border-radius: 10px; box-shadow: 0 8px 20px rgba(15,23,42,0.25); text-align: center; line-height: 1.4; }
 
-  /* Invoice Print View */
+  /* Invoice Print View — A4 전용 인쇄 영역만 남기고 나머지는 자리까지 없앤다 */
   @media print {
-    body * { visibility: hidden; }
-    #invoicePrintArea, #invoicePrintArea * { visibility: visible; }
-    #invoicePrintArea { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 20px; }
+    @page { size: A4; margin: 12mm 10mm; }
+    html, body { background: #fff !important; }
+    body > *:not(#printModal) { display: none !important; }
+    #printModal { position: static !important; display: block !important; background: none !important; padding: 0 !important; inset: auto !important; }
+    #printModal .modal { position: static !important; display: block !important; width: auto !important; max-width: none !important; max-height: none !important; box-shadow: none !important; border-radius: 0 !important; padding: 0 !important; overflow: visible !important; }
+    #printModal .modal-header,
+    #printModal .print-actions { display: none !important; }
+    #invoicePrintArea { display: block !important; position: static !important; width: auto !important; margin: 0 !important; padding: 0 !important; }
+    .invoice-box { border-width: 1.2pt; overflow: visible !important; break-inside: auto; }
+    .invoice-header, .party-table, .inv-total, tr, .inv-mobile-sum { break-inside: avoid; }
+    #invoicePrintArea table thead { display: table-header-group; }
+    #invoicePrintArea table { width: 100%; }
     .inv-mobile-sum { display: none !important; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
+
+  /* 아이폰 7일 삭제 안내 */
+  #iosInstallBanner { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0 0 14px; padding: 11px 14px; border: 1px solid #bfdbfe; border-radius: 10px; background: #eff6ff; color: #1e3a8a; font-size: 13px; font-weight: 700; line-height: 1.55; }
+  #iosInstallBanner[hidden] { display: none !important; }
+  #iosInstallBanner .ios-text { flex: 1 1 320px; }
+  #iosInstallBanner .ios-text b { font-weight: 800; }
+  #iosInstallBanner .ios-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+  #iosInstallBanner button { padding: 6px 10px; border-radius: 7px; border: 1px solid #93c5fd; background: #fff; color: #1e3a8a; font-size: 12px; font-weight: 800; cursor: pointer; }
+  #iosInstallBanner button.ios-never { border-color: transparent; background: transparent; color: #64748b; font-weight: 700; }
+
+  /* JSON 백업 권장 배지 */
+  #backupBadge { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 14px; padding: 8px 12px; border: 1px solid #fed7aa; border-radius: 999px; background: #fff7ed; color: #9a3412; font-size: 12.5px; font-weight: 800; cursor: pointer; }
+  #backupBadge[hidden] { display: none !important; }
+  #backupBadge:hover { background: #ffedd5; }
   .invoice-box { border: 2px solid #1e3a8a; padding: 24px; border-radius: 8px; background: white; margin-top: 20px; overflow-x: auto; }
   .invoice-header { text-align: center; margin-bottom: 20px; }
   .invoice-header h2 { font-size: 24px; color: #1e3a8a; letter-spacing: 2px; }
@@ -372,6 +396,16 @@
     <button class="btn-primary" onclick="openAddModal()">➕ 신규 거래처 추가</button>
   </div>
 </header>
+
+<div id="iosInstallBanner" hidden>
+  <div class="ios-text">📱 아이폰은 이 앱을 <b>7일 동안 열지 않으면</b> 저장한 대장을 지웁니다. 사파리 아래 <b>[공유] → [홈 화면에 추가]</b>로 설치해 두면 그대로 남습니다.</div>
+  <div class="ios-actions">
+    <button type="button" onclick="closeIosBanner(false)">닫기</button>
+    <button type="button" class="ios-never" onclick="closeIosBanner(true)">다시 보지 않기</button>
+  </div>
+</div>
+
+<button type="button" id="backupBadge" hidden onclick="exportJson()"></button>
 
 <input type="file" id="csvFileInput" accept=".csv,text/csv,text/plain" style="display:none" onchange="handleCsvPick(this)">
 <input type="file" id="jsonFileInput" accept=".json,application/json" style="display:none" onchange="handleJsonPick(this)">
@@ -631,7 +665,7 @@
     <div id="invoicePrintArea">
       <!-- Invoice template -->
     </div>
-    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+    <div class="print-actions" style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
       <button class="btn-secondary" onclick="closePrintModal()">닫기</button>
       <button class="btn-primary" onclick="window.print()">인쇄하기 (A4 출력)</button>
     </div>
@@ -709,6 +743,9 @@ const STORE_CLIENTS = "copier_rental_clients";   // 기존 키 (거래처 배열
 const STORE_PERIOD  = "copier_rental_period";    // Phase 02 키 (기준 연·월)
 const STORE_VAT     = "copier_rental_vat_mode";  // Phase 02 키 (부가세 방식)
 const STORE_SYNC    = "copier_rental_sync";      // Phase 03 키 (동기화 설정·마지막 시각·미전송 표시)
+const STORE_BACKUP  = "copier_rental_last_backup"; // 마지막 JSON 백업 시각(ISO) — 이번에 추가
+const STORE_IOS_GUIDE = "copier_rental_ios_guide"; // 아이폰 홈 화면 안내 다시 보지 않기
+const BACKUP_REMIND_DAYS = 14;
 
 const APP_ID = "dongnam-copier-ledger";
 
@@ -1716,6 +1753,77 @@ function exportJson() {
     clients: clients
   };
   downloadText("복사기_렌탈_백업_" + stamp() + ".json", JSON.stringify(payload, null, 2), "application/json;charset=utf-8");
+  markBackupDone();
+}
+
+// ---------- JSON 백업 경과일 ----------
+function backupTimestamp() {
+  try { return localStorage.getItem(STORE_BACKUP) || ""; } catch (e) { return ""; }
+}
+
+function markBackupDone() {
+  try { localStorage.setItem(STORE_BACKUP, new Date().toISOString()); } catch (e) { /* 무시 */ }
+  renderBackupBadge();
+}
+
+function backupAgeDays() {
+  const raw = backupTimestamp();
+  if (!raw) return null;
+  const t = Date.parse(raw);
+  if (isNaN(t)) return null;
+  return Math.floor((Date.now() - t) / 86400000);
+}
+
+function renderBackupBadge() {
+  const el = document.getElementById("backupBadge");
+  if (!el) return;
+  const days = backupAgeDays();
+  if (days === null) {
+    el.hidden = false;
+    el.textContent = "💾 아직 JSON 백업을 받은 적이 없습니다 · 눌러서 백업";
+  } else if (days >= BACKUP_REMIND_DAYS) {
+    el.hidden = false;
+    el.textContent = "💾 마지막 백업 " + days + "일 지남 · 눌러서 백업";
+  } else {
+    el.hidden = true;
+    el.textContent = "";
+  }
+}
+
+// ---------- 아이폰 Safari 7일 삭제 안내 ----------
+function isIosDevice() {
+  const ua = String((typeof navigator !== "undefined" && navigator.userAgent) || "");
+  if (/iPad|iPhone|iPod/.test(ua)) return true;
+  return /Macintosh/.test(ua) && (navigator.maxTouchPoints || 0) > 1;
+}
+
+function isStandaloneApp() {
+  if (typeof navigator !== "undefined" && navigator.standalone === true) return true;
+  try {
+    return typeof window.matchMedia === "function" && window.matchMedia("(display-mode: standalone)").matches;
+  } catch (e) { return false; }
+}
+
+function iosGuideDismissed() {
+  try { return localStorage.getItem(STORE_IOS_GUIDE) === "never"; } catch (e) { return false; }
+}
+
+function shouldShowIosBanner() {
+  return isIosDevice() && !isStandaloneApp() && !iosGuideDismissed();
+}
+
+function initIosBanner() {
+  const el = document.getElementById("iosInstallBanner");
+  if (!el) return;
+  el.hidden = !shouldShowIosBanner();
+}
+
+function closeIosBanner(never) {
+  if (never) {
+    try { localStorage.setItem(STORE_IOS_GUIDE, "never"); } catch (e) { /* 무시 */ }
+  }
+  const el = document.getElementById("iosInstallBanner");
+  if (el) el.hidden = true;
 }
 
 function pickJson() { document.getElementById("jsonFileInput").click(); }
@@ -3586,8 +3694,10 @@ var StatementParser = (function () {
       }
     };
     collect(tbl);
+
+    const parsed = [];
+    let maxCols = 0;
     trs.forEach(function (tr) {
-      const row = [];
       const tcs = [];
       const walk = function (el) {
         const kids = el.children || [];
@@ -3598,15 +3708,47 @@ var StatementParser = (function () {
         }
       };
       walk(tr);
+
+      const items = [];
+      let seq = 0;
       tcs.forEach(function (tc) {
-        row.push(nodeText(tc, true));
+        const addr = hwpxChild(tc, "cellAddr");
+        const span = hwpxChild(tc, "cellSpan");
+        let col = addr ? parseInt(addr.getAttribute("colAddr"), 10) : seq;
+        if (!(col >= 0)) col = seq;
+        let colspan = span ? parseInt(span.getAttribute("colSpan"), 10) : 1;
+        let rowspan = span ? parseInt(span.getAttribute("rowSpan"), 10) : 1;
+        if (!(colspan >= 1)) colspan = 1;
+        if (!(rowspan >= 1)) rowspan = 1;
+        items.push({ col: col, colspan: colspan, rowspan: rowspan, text: nodeText(tc, true), el: tc });
+        seq = col + colspan;
+        if (col + colspan > maxCols) maxCols = col + colspan;
+
+        // 표 안의 표 — 바깥 표 행을 넣기 전에 별도 표로 펼친다(기존 동작 유지)
         const inner = [];
-        const tbls = tc.getElementsByTagName ? tc.getElementsByTagName("*") : [];
-        for (let i = 0; i < tbls.length; i++) if (tbls[i].localName === "tbl") inner.push(tbls[i]);
+        const all = tc.getElementsByTagName ? tc.getElementsByTagName("*") : [];
+        for (let i = 0; i < all.length; i++) if (all[i].localName === "tbl") inner.push(all[i]);
         inner.forEach(function (t2) { hwpxTable(t2, out); });
+      });
+      parsed.push(items);
+    });
+
+    // 셀 주소(cellAddr)를 기준으로 열을 맞춰 놓는다 — 병합 셀이 있어도 다음 열이 밀리지 않는다
+    parsed.forEach(function (items) {
+      const row = [];
+      for (let c = 0; c < maxCols; c++) row.push("");
+      items.forEach(function (it) {
+        if (it.col >= maxCols) return;
+        if (!row[it.col]) row[it.col] = it.text;
       });
       if (row.some(function (v) { return v !== ""; })) out.push(row);
     });
+  }
+
+  function hwpxChild(el, local) {
+    const kids = el.children || [];
+    for (let i = 0; i < kids.length; i++) if (kids[i].localName === local) return kids[i];
+    return null;
   }
 
   // ============ HWP 5.0 ============
@@ -3615,6 +3757,14 @@ var StatementParser = (function () {
   var HWP_TAG_LIST_HEADER = 0x48;
   var HWP_TAG_TABLE = 0x4D;
 
+  // 한글 파일헤더 플래그(36바이트 위치) — 왜 안 열리는지 정확히 말해 준다
+  function hwpFlagError(flags) {
+    if (flags & 0x04) return "배포용(복사 방지) 문서입니다. 본문이 다른 방식으로 암호화되어 있어 글자가 깨질 수 있습니다.\n한글에서 [파일] → [배포용 문서 해제]로 저장한 뒤 다시 올려 주세요.";
+    if (flags & 0x10) return "DRM(저작권 보호)이 걸린 한글 문서는 읽을 수 없습니다.\n한글에서 DRM을 해제하거나 [다른 이름으로 저장] 후 다시 올려 주세요.";
+    if (flags & 0x02) return "암호가 걸린 한글 문서입니다. 한글에서 암호를 풀고 다시 저장한 뒤 올려 주세요.";
+    return "";
+  }
+
   async function readHwp(buf) {
     const cfb = cfbOpen(buf);
     const header = cfb.get("FileHeader");
@@ -3622,7 +3772,9 @@ var StatementParser = (function () {
     if (header && header.length >= 40) {
       const dv = new DataView(header.buffer, header.byteOffset, header.byteLength);
       const flags = dv.getUint32(36, true);
-      if (flags & 0x02) throw new Error("암호가 걸린 한글 문서입니다. 한글에서 암호를 풀고 다시 저장한 뒤 올려 주세요.");
+      // 비트 0 압축 · 1 암호 · 2 배포용 문서 · 3 스크립트 · 4 DRM · 5 XML 템플릿
+      const flagError = hwpFlagError(flags);
+      if (flagError) throw new Error(flagError);
       compressed = !!(flags & 0x01);
     }
     const names = cfb.names().filter(function (n) { return /^Section\d+$/.test(n); });
@@ -4359,6 +4511,7 @@ var StatementParser = (function () {
     _readXlsx: readXlsx,
     _readHwpx: readHwpx,
     _readHwp: readHwp,
+    _hwpFlagError: hwpFlagError,
     _hwpText: hwpText,
     _inflateRaw: inflateRaw,
     _inflateRawJS: inflateRawJS,
@@ -4995,6 +5148,8 @@ function applyStatement() {
 // 14. 시작
 // ==========================================
 renderAll();
+initIosBanner();
+renderBackupBadge();
 renderSyncBadge();
 startAutoSync();
 if (syncConfigured()) {
