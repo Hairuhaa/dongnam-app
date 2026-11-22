@@ -304,7 +304,7 @@
   .stmt-units-total { margin-top: 8px; font-size: 12.5px; font-weight: 700; color: #334155; }
   .stmt-units-note { margin-top: 4px; font-size: 11.5px; color: #64748b; font-weight: 600; line-height: 1.5; }
   .stmt-vat { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; font-size: 12.5px; font-weight: 700; color: #334155; }
-  .stmt-vat select { padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; max-width: 100%; background: #fff; }
+  .stmt-vat select { padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; min-width: 220px; max-width: 100%; background: #fff; }
   .stmt-vat-hint { font-size: 11.5px; color: #94a3b8; font-weight: 600; }
   /* 수금일(결제일) */
   .pay-badge { display: inline-block; margin-top: 3px; font-size: 11px; font-weight: 800; padding: 1px 7px; border-radius: 999px; line-height: 1.6; }
@@ -4257,11 +4257,15 @@ function renderStatementModal() {
       '</select><span class="stmt-vat-hint">이 내역서로 등록·갱신되는 거래처에 적용됩니다.</span></div>';
     const payHtml = '<div class="stmt-vat"><span>수금일</span>' +
       '<select onchange="setStmtPayDay(' + i + ', this.value)">' +
-      '<option value=""' + (r.payDay === "" ? " selected" : "") + '>기본값 (건너뜀)</option>' +
+      '<option value=""' + (r.payDay === "" ? " selected" : "") + '>전체 설정 따름 (건너뜀)</option>' +
       '<option value="0"' + (String(r.payDay) === "0" ? " selected" : "") + '>매월 말일 (월말)</option>' +
-      [1, 5, 10, 15, 20, 25, 31].map(function (d) {
-        return '<option value="' + d + '"' + (String(r.payDay) === String(d) ? " selected" : "") + '>매월 ' + d + '일 (' + payDayBand(d).label + ')</option>';
-      }).join("") +
+      (function () {
+        const out = [];
+        for (let d = 1; d <= 31; d++) {
+          out.push('<option value="' + d + '"' + (String(r.payDay) === String(d) ? " selected" : "") + '>매월 ' + d + '일 (' + payDayBand(d).label + ')</option>');
+        }
+        return out.join("");
+      })() +
       '</select><span class="stmt-vat-hint">등록할 거래처의 수금일을 정합니다.</span></div>';
 
     const paid = (r.extras || []).filter(function (e) { return !e.free && e.amount > 0; });
