@@ -879,6 +879,14 @@ function vatLabel(mode) {
 }
 
 // 수금일: null/미지정 → 말일, 1~31 → 그 날, 0 → 말일
+// 내역서 금액과 대장 계산이 얼마나 다른지 사람 말로
+function diffText(docSum, calcSum) {
+  const d = calcSum - docSum;
+  if (!d) return "일치";
+  const who = d > 0 ? "대장 계산이 " : "내역서가 ";
+  return who + money(Math.abs(d)) + "원 많음";
+}
+
 function payDayOf(c) {
   const v = c ? c.payDay : null;
   if (v == null) return 0;
@@ -4179,7 +4187,7 @@ function stmtUnitsHtml(i) {
   let total = "<div class=\"stmt-units-total\">선택 <strong>" + picked.length + "</strong>/" + r.units.length + "대" +
     " · 내역서 부서별 합계 <strong>" + money(docSum) + "원</strong>" +
     " · 대장 계산 <strong>" + money(calcSum) + "원</strong>" +
-    (docSum && diff ? ' <span style="color:#b45309;">(차액 ' + money(diff) + "원)</span>" : "") + "</div>";
+    (docSum && diff ? ' <span style="color:#b45309;">(' + diffText(docSum, calcSum) + ")</span>" : "") + "</div>";
   if (r.total != null) {
     total += "<div class=\"stmt-units-total\">내역서 공급가액 <strong>" + money(r.total) + "원</strong>" +
       (r.vat != null ? " · VAT <strong>" + money(r.vat) + "원</strong>" : "") +
@@ -4331,10 +4339,9 @@ function updateStmtCalc(i) {
     let html = "선택 " + picked + "대 · 대장 계산 공급가 <strong>" + money(calc) + "원</strong> (기본료 " +
       money(r.baseFee) + "원 × " + picked + "대 + 칼라 초과)";
     if (r.total != null) {
-      const diff = r.total - calc;
       html += " · 내역서 공급가액 " + money(r.total) + "원" +
-        (diff === 0 ? ' <span style="color:#15803d;">(일치)</span>'
-          : ' <span style="color:#b45309;">(차액 ' + money(diff) + "원)</span>");
+        (calc === r.total ? ' <span style="color:#15803d;">(일치)</span>'
+          : ' <span style="color:#b45309;">(' + diffText(r.total, calc) + ")</span>");
     }
     el.innerHTML = html;
     return;
