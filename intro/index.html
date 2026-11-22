@@ -246,11 +246,11 @@
   .msgbox{margin-top:16px}
   .msgbox label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px}
   .msgbox label .hint{font-weight:600;font-size:11.5px;color:var(--muted)}
-  textarea#msg{
+  textarea#msg, textarea#bindmsg{
     width:100%;min-height:196px;resize:vertical;font-family:var(--mono);font-size:12.5px;line-height:1.75;
     color:#0f172a;background:#fff;border:1px solid var(--line-strong);border-radius:10px;padding:14px 15px;
   }
-  textarea#msg:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:var(--blue)}
+  textarea#msg:focus, textarea#bindmsg:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:var(--blue)}
   .msg-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
   .msg-actions .btn{font-size:13.5px;padding:11px 12px}
   .msg-actions .btn-block{grid-column:1 / -1}
