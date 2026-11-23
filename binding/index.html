@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>스프링 제본·단체 출력 간편 견적 | 동남시스템</title>
+<meta name="description" content="학원 기말고사 워크북, 수험서 분권, 10권 이상 단체 교재·보고서 스프링 제본. A4 양면 흑백 80원·컬러 140원, 스프링 권당 2,000원, 인근 지역 무료 배송. 페이지 수와 권수만 넣으면 바로 견적이 나옵니다.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0b2545">
+<meta name="format-detection" content="telephone=no">
+<link rel="canonical" href="https://hairuhaa.github.io/dongnam-app/binding/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="동남시스템">
+<meta property="og:title" content="스프링 제본·단체 출력 간편 견적 | 동남시스템">
+<meta property="og:description" content="A4 양면 흑백 80원·컬러 140원, 스프링 권당 2,000원. 10권 이상 학원 워크북·수험서 분권·소량 교재 전문. 페이지 수와 권수만 넣으면 바로 견적.">
+<meta property="og:url" content="https://hairuhaa.github.io/dongnam-app/binding/">
+<meta property="og:image" content="https://hairuhaa.github.io/dongnam-app/binding/assets/hero-spring-binding.jpg">
+<meta property="og:image:width" content="1100">
+<meta property="og:image:height" content="1100">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230b2545'/%3E%3Cpath d='M18 20h26M18 26h26M18 38h26M18 44h26' stroke='%237fd0ff' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 20v6M30 20v6M36 20v6M24 38v6M30 38v6M36 38v6' stroke='%23ffffff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --navy:#0b2545;
+    --navy-800:#0e2a4d;
+    --navy-700:#12315c;
+    --navy-600:#1b4173;
+    --blue:#2563eb;
+    --blue-600:#1d4ed8;
+    --sky:#7fd0ff;
+    --kakao:#fee500;
+    --kakao-ink:#3c1e1e;
+    --ink:#0f172a;
+    --body:#334155;
+    --muted:#64748b;
+    --line:#e2e8f0;
+    --line-strong:#cbd5e1;
+    --bg:#ffffff;
+    --bg-alt:#f6f8fb;
+    --amber:#b45309;
+    --green:#15803d;
+    --radius:16px;
+    --shadow-sm:0 1px 2px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.04);
+    --shadow-md:0 14px 38px -18px rgba(11,37,69,.30);
+    --shadow-lg:0 30px 60px -30px rgba(11,37,69,.45);
+    --max:1160px;
+    --font:-apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Noto Sans KR", "Segoe UI", Roboto, sans-serif;
+    --mono:ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Roboto Mono", monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{
+    margin:0;font-family:var(--font);color:var(--body);background:var(--bg);
+    line-height:1.65;-webkit-font-smoothing:antialiased;font-size:16px;
+    word-break:keep-all;overflow-wrap:break-word;
+  }
+  img{max-width:100%;display:block;height:auto}
+  a{color:var(--blue-600);text-decoration:none}
+  a:hover{text-decoration:underline}
+  h1,h2,h3,h4{color:var(--ink);margin:0;line-height:1.28;letter-spacing:-.025em}
+  p{margin:0}
+  ul{margin:0;padding:0;list-style:none}
+  dl,dd,dt{margin:0}
+  button{font-family:inherit}
+  :focus-visible{outline:3px solid var(--sky);outline-offset:3px;border-radius:6px}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+  .skip{position:absolute;left:-9999px;top:0;background:var(--navy);color:#fff;padding:10px 16px;z-index:300}
+  .skip:focus{left:12px;top:12px}
+  .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+
+  /* ── top strip ─────────────────────────── */
+  .topbar{background:#08192e;color:#b9cbe0;font-size:12.5px;letter-spacing:.01em}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:38px;padding-top:6px;padding-bottom:6px}
+  .topbar .tb-left{display:flex;align-items:center;gap:9px;min-width:0}
+  .topbar .dot{width:6px;height:6px;border-radius:50%;background:#4ade80;flex:none;box-shadow:0 0 0 3px rgba(74,222,128,.18)}
+  .topbar span.tb-txt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .topbar b{color:#fff;font-weight:700}
+  .topbar a{color:#fff;font-weight:700;white-space:nowrap;border-bottom:1px solid rgba(127,208,255,.5)}
+  .topbar a:hover{text-decoration:none;color:var(--sky);border-bottom-color:var(--sky)}
+
+  /* ── header ────────────────────────────── */
+  .site-header{
+    position:sticky;top:0;z-index:120;background:rgba(255,255,255,.95);
+    backdrop-filter:saturate(160%) blur(10px);-webkit-backdrop-filter:saturate(160%) blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .site-header .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:68px;padding-top:8px;padding-bottom:8px}
+  .brand{display:flex;align-items:center;gap:10px;color:var(--navy);flex:none;min-width:0}
+  .brand:hover{text-decoration:none}
+  .brand .mark{width:38px;height:38px;border-radius:10px;background:var(--navy);display:grid;place-items:center;flex:none}
+  .brand .mark svg{width:22px;height:22px}
+  .brand .bname{font-size:18px;font-weight:800;letter-spacing:-.03em;line-height:1.1;color:var(--navy)}
+  .brand .bsub{display:block;font-size:10.5px;font-weight:700;letter-spacing:.1em;color:var(--muted);margin-top:3px;white-space:nowrap}
+  .nav{display:flex;align-items:center;gap:24px}
+  .nav a{color:#334155;font-size:14.5px;font-weight:600}
+  .nav a:hover{color:var(--blue-600);text-decoration:none}
+  .head-cta{display:flex;align-items:center;gap:10px;flex:none}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-family:inherit;font-size:15px;font-weight:700;line-height:1.25;
+    padding:13px 20px;border-radius:11px;border:1px solid transparent;cursor:pointer;
+    transition:transform .12s ease, background-color .15s ease, box-shadow .15s ease, border-color .15s ease;
+    text-decoration:none;white-space:nowrap;text-align:center;
+  }
+  .btn:hover{text-decoration:none}
+  .btn:active{transform:translateY(1px)}
+  .btn svg{width:18px;height:18px;flex:none}
+  .btn-kakao{background:var(--kakao);color:var(--kakao-ink);box-shadow:0 8px 22px -12px rgba(200,170,0,.9)}
+  .btn-kakao:hover{background:#ffdf1a}
+  .btn-primary{background:var(--blue-600);color:#fff;box-shadow:0 8px 20px -10px rgba(29,78,216,.85)}
+  .btn-primary:hover{background:#1a44c2}
+  .btn-navy{background:var(--navy);color:#fff}
+  .btn-navy:hover{background:var(--navy-700)}
+  .btn-outline{background:#fff;color:var(--navy);border-color:var(--line-strong)}
+  .btn-outline:hover{border-color:var(--navy-600);background:#f8fafc}
+  .btn-ghost{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.34)}
+  .btn-ghost:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.6)}
+  .btn-sm{padding:10px 15px;font-size:13.5px;border-radius:9px}
+  .btn-block{width:100%}
+  .head-cta .btn{padding:11px 15px;font-size:14px}
+  .navtoggle{display:none;background:#fff;border:1px solid var(--line-strong);border-radius:9px;padding:9px;color:var(--navy);cursor:pointer}
+  .navtoggle svg{display:block;width:20px;height:20px}
+
+  /* ── hero ──────────────────────────────── */
+  .hero{position:relative;background:linear-gradient(165deg,#08192e 0%,#0b2545 46%,#12315c 100%);color:#dbe7f4;overflow:hidden}
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(127,208,255,.075) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(127,208,255,.075) 1px, transparent 1px);
+    background-size:54px 54px;
+    -webkit-mask-image:radial-gradient(ellipse 95% 85% at 65% 0%, #000 20%, transparent 78%);
+            mask-image:radial-gradient(ellipse 95% 85% at 65% 0%, #000 20%, transparent 78%);
+    pointer-events:none;
+  }
+  .hero::after{
+    content:"";position:absolute;width:640px;height:640px;right:-180px;top:-260px;border-radius:50%;
+    background:radial-gradient(circle,rgba(37,99,235,.42),transparent 62%);pointer-events:none;
+  }
+  .hero .wrap{position:relative;z-index:1;padding-top:62px;padding-bottom:70px;display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);gap:52px;align-items:center}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.08);
+    border:1px solid rgba(127,208,255,.28);color:#d9ecff;
+    font-size:12.5px;font-weight:700;letter-spacing:.02em;
+    padding:7px 13px;border-radius:999px;margin-bottom:22px;
+  }
+  .eyebrow .sq{width:7px;height:7px;background:var(--sky);border-radius:2px;flex:none}
+  .hero h1{color:#fff;font-size:clamp(30px,4.4vw,44px);font-weight:800;letter-spacing:-.04em;line-height:1.24}
+  .hero h1 .accent{color:var(--sky)}
+  .hero .lead{margin-top:20px;font-size:16.5px;color:#c3d5e8;max-width:32em;line-height:1.78}
+  .hero .lead b{color:#fff;font-weight:700}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .hero-actions .btn{padding:15px 22px;font-size:15.5px}
+  .hero-actions .btn-ghost{background:rgba(255,255,255,.04)}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:26px;font-size:13.5px;color:#9db5ce}
+  .hero-meta span{display:inline-flex;align-items:center;gap:7px}
+  .hero-meta svg{width:15px;height:15px;color:#6fa8d6;flex:none}
+
+  .hero-visual{position:relative;min-width:0}
+  .hero-shot{position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.16);box-shadow:var(--shadow-lg);background:#0e2a4d}
+  .hero-shot img{width:100%;aspect-ratio:1/1;object-fit:cover}
+  .hero-shot::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,25,46,0) 55%,rgba(8,25,46,.55) 100%);pointer-events:none}
+  .price-float{
+    position:absolute;left:16px;right:16px;bottom:16px;z-index:2;
+    background:rgba(255,255,255,.96);border-radius:14px;padding:13px 16px;
+    box-shadow:0 18px 36px -18px rgba(0,0,0,.6);display:flex;align-items:center;justify-content:space-between;gap:12px;
+    color:var(--navy);backdrop-filter:blur(6px);
+  }
+  .price-float .pf-k{font-size:11.5px;font-weight:800;letter-spacing:.06em;color:var(--muted)}
+  .price-float .pf-v{font-size:20px;font-weight:800;letter-spacing:-.03em;line-height:1.2}
+  .price-float .pf-v small{font-size:12.5px;font-weight:700;color:var(--muted);letter-spacing:0}
+  .price-float .pf-badge{background:#ecfdf5;color:var(--green);font-size:11.5px;font-weight:800;padding:5px 9px;border-radius:999px;white-space:nowrap;border:1px solid #bbf7d0}
+
+  /* ── trust strip ───────────────────────── */
+  .trust{background:#fff;border-bottom:1px solid var(--line)}
+  .trust .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;padding:0}
+  .trust .ti{display:flex;align-items:flex-start;gap:11px;padding:22px 20px;border-left:1px solid var(--line);min-width:0}
+  .trust .ti:first-child{border-left:0;padding-left:0}
+  .trust .ti:last-child{padding-right:0}
+  .trust svg{width:20px;height:20px;color:var(--blue);flex:none;margin-top:2px}
+  .trust .t-k{font-size:14px;font-weight:800;color:var(--ink);line-height:1.35}
+  .trust .t-v{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.5}
+
+  /* ── sections ──────────────────────────── */
+  .sec{padding:76px 0}
+  section[id],#top{scroll-margin-top:88px}
+  .sec.alt{background:var(--bg-alt);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{max-width:44em;margin-bottom:38px}
+  .sec-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--blue-600);text-transform:uppercase;margin-bottom:12px}
+  .sec-eyebrow::before{content:"";width:18px;height:2px;background:var(--blue);border-radius:2px}
+  .sec h2{font-size:clamp(24px,3.1vw,32px);font-weight:800;letter-spacing:-.035em}
+  .sec-head p{margin-top:12px;font-size:15.5px;color:#52637a;line-height:1.75}
+
+  /* ── price cards ───────────────────────── */
+  .prices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+  .pcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;box-shadow:var(--shadow-sm);position:relative;display:flex;flex-direction:column;min-width:0}
+  .pcard.hl{border-color:#bfdbfe;box-shadow:0 18px 40px -24px rgba(37,99,235,.5)}
+  .pcard .pc-tag{display:inline-flex;align-self:flex-start;font-size:11.5px;font-weight:800;letter-spacing:.04em;color:var(--navy-600);background:#eff6ff;border:1px solid #dbeafe;padding:4px 9px;border-radius:999px;margin-bottom:14px}
+  .pcard.hl .pc-tag{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .pcard h3{font-size:15.5px;font-weight:800;color:var(--navy)}
+  .pcard .pv{display:flex;align-items:baseline;gap:5px;margin-top:14px;flex-wrap:wrap}
+  .pcard .pv .n{font-size:40px;font-weight:800;letter-spacing:-.045em;color:var(--ink);line-height:1}
+  .pcard .pv .u{font-size:15px;font-weight:700;color:var(--muted)}
+  .pcard .pnote{margin-top:13px;font-size:13.5px;color:#52637a;line-height:1.65}
+  .pcard .pfoot{margin-top:auto;padding-top:14px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--muted);line-height:1.55}
+  .prices-note{display:flex;gap:10px;align-items:flex-start;margin-top:18px;background:#fff;border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:10px;padding:14px 16px;font-size:13.5px;color:#475569;line-height:1.7}
+  .prices-note svg{width:17px;height:17px;color:var(--blue);flex:none;margin-top:2px}
+
+  /* ── calculator ────────────────────────── */
+  .calc-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.86fr);gap:22px;align-items:start}
+  .calc{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-md);overflow:hidden}
+  .calc-body{padding:26px}
+  .field{padding:18px 0;border-top:1px solid #eef2f7}
+  .field:first-child{padding-top:0;border-top:0}
+  .field:last-child{padding-bottom:0}
+  .f-label{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px;flex-wrap:wrap}
+  .f-label span.l{font-size:14px;font-weight:800;color:var(--navy)}
+  .f-label span.h{font-size:12px;color:var(--muted);font-weight:600}
+  .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#f1f5f9;padding:5px;border-radius:12px}
+  .seg button{
+    appearance:none;border:0;background:transparent;border-radius:9px;padding:12px 10px;cursor:pointer;
+    font-size:14.5px;font-weight:700;color:#55657a;line-height:1.3;transition:background .15s,color .15s,box-shadow .15s;
+  }
+  .seg button small{display:block;font-size:11.5px;font-weight:700;color:#8194a9;margin-top:2px;letter-spacing:0}
+  .seg button[aria-pressed="true"]{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(15,23,42,.14)}
+  .seg button[aria-pressed="true"] small{color:var(--blue-600)}
+  .seg.small{grid-template-columns:1fr 1fr;max-width:260px;font-size:13px}
+
+  .inputrow{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap}
+  .numwrap{position:relative;flex:1 1 160px;min-width:0}
+  .numwrap input{
+    width:100%;-moz-appearance:textfield;appearance:textfield;
+    font-family:inherit;font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-.02em;
+    padding:13px 52px 13px 15px;border:1.5px solid var(--line-strong);border-radius:11px;background:#fff;
+    font-variant-numeric:tabular-nums;transition:border-color .15s, box-shadow .15s;
+  }
+  .numwrap input::-webkit-outer-spin-button,.numwrap input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .numwrap input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,.13)}
+  .numwrap .unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13.5px;font-weight:800;color:var(--muted);pointer-events:none}
+  .quick{display:flex;gap:7px;flex-wrap:wrap}
+  .quick button{
+    appearance:none;background:#fff;border:1.5px solid var(--line-strong);color:#44546a;border-radius:9px;
+    padding:9px 13px;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .13s;min-width:0;
+  }
+  .quick button:hover{border-color:var(--navy-600);color:var(--navy)}
+  .quick button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+  .conv{display:flex;align-items:center;gap:7px;margin-top:9px;font-size:13px;font-weight:700;color:var(--blue-600);min-height:20px}
+  .conv svg{width:14px;height:14px;flex:none}
+  .conv.warn{color:var(--amber)}
+
+  .check{display:flex;align-items:flex-start;gap:12px;background:#f8fafc;border:1.5px solid var(--line);border-radius:12px;padding:14px 15px;cursor:pointer;transition:border-color .15s, background .15s}
+  .check:hover{border-color:var(--line-strong);background:#f4f7fb}
+  .check input{appearance:none;-webkit-appearance:none;width:22px;height:22px;border:1.5px solid var(--line-strong);border-radius:6px;background:#fff;flex:none;margin:0;cursor:pointer;position:relative;transition:all .15s;margin-top:1px}
+  .check input:checked{background:var(--blue-600);border-color:var(--blue-600)}
+  .check input:checked::after{content:"";position:absolute;left:7px;top:3px;width:6px;height:11px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+  .check .c-t{display:block;font-size:14.5px;font-weight:800;color:var(--navy);line-height:1.35}
+  .check .c-t small{display:inline;font-size:12.5px;font-weight:700;color:var(--muted);margin-left:4px}
+  .check .c-s{display:block;font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.5}
+
+  /* result panel */
+  .result{
+    background:linear-gradient(170deg,#0b2545,#12315c);color:#dbe7f4;border-radius:20px;
+    padding:26px;box-shadow:var(--shadow-lg);position:relative;min-width:0;
+    border:1px solid rgba(127,208,255,.16);
+  }
+  .result .r-head{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:11.5px;font-weight:800;letter-spacing:.09em;color:#8fb3d3;text-transform:uppercase}
+  .result .r-head .live{display:inline-flex;align-items:center;gap:6px;color:#7ee2a8;letter-spacing:.02em;text-transform:none;font-size:11.5px;background:rgba(126,226,168,.1);border:1px solid rgba(126,226,168,.28);padding:4px 9px;border-radius:999px}
+  .result .r-head .live i{width:6px;height:6px;border-radius:50%;background:#7ee2a8;animation:blink 1.8s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+  .total{margin-top:18px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.14)}
+  .total .tl{font-size:13px;font-weight:700;color:#9fbcd8}
+  .total .tv{display:flex;align-items:baseline;gap:6px;margin-top:4px;flex-wrap:wrap}
+  .total .tv .cur{font-size:22px;font-weight:800;color:#fff}
+  .total .tv .n{font-size:clamp(34px,4.6vw,46px);font-weight:800;letter-spacing:-.045em;color:#fff;line-height:1.05;font-variant-numeric:tabular-nums}
+  .total .tv .won{font-size:19px;font-weight:800;color:#fff}
+  .total .per{margin-top:8px;font-size:13.5px;color:#a8c4de}
+  .total .per b{color:#fff;font-weight:800}
+  .lines{margin-top:18px;display:grid;gap:11px}
+  .line{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;font-size:13.5px}
+  .line .lk{color:#a8c4de;min-width:0}
+  .line .lk em{display:block;font-style:normal;font-size:11.5px;color:#7f9fbe;margin-top:1px;line-height:1.45}
+  .line .lv{color:#fff;font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .line.ship .lv{color:#7ee2a8}
+  .line.muted .lv{color:#c9d9e8}
+
+  .copied{background:rgba(255,255,255,.7);color:#0b2545;border-radius:12px;padding:12px 14px;margin-top:18px;font-size:12.5px;line-height:1.6}
+  .copied b{font-weight:800}
+  details.preview{margin-top:14px;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.05)}
+  details.preview summary{cursor:pointer;padding:10px 13px;font-size:12.5px;font-weight:700;color:#bcd7ee;list-style:none}
+  details.preview summary::-webkit-details-marker{display:none}
+  details.preview summary::before{content:"▸ ";color:#7fd0ff}
+  details.preview[open] summary::before{content:"▾ "}
+  details.preview pre{
+    margin:0;padding:0 13px 13px;font-family:var(--font);font-size:12.5px;line-height:1.7;color:#e2eefa;
+    white-space:pre-wrap;word-break:break-word;
+  }
+  .result .btn{margin-top:16px}
+  .result .btn-kakao{box-shadow:0 12px 26px -14px rgba(254,229,0,.9)}
+  .result .btn-copyonly{background:transparent;color:#cfe2f3;border-color:rgba(255,255,255,.28);margin-top:9px}
+  .result .btn-copyonly:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.5)}
+  .r-foot{margin-top:13px;font-size:11.8px;color:#8aa9c6;line-height:1.6}
+
+  .minwarn{display:none;align-items:flex-start;gap:9px;margin-top:14px;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.34);border-radius:10px;padding:11px 13px;font-size:12.5px;color:#fde68a;line-height:1.6}
+  .minwarn.on{display:flex}
+  .minwarn svg{width:15px;height:15px;flex:none;margin-top:2px;color:#fbbf24}
+
+  /* ── scope ─────────────────────────────── */
+  .scope{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .scard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;box-shadow:var(--shadow-sm);min-width:0}
+  .scard h3{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:800;color:var(--navy)}
+  .scard h3 .chip{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;flex:none}
+  .scard.do h3 .chip{background:#ecfdf5;color:var(--green)}
+  .scard.dont h3 .chip{background:#f8fafc;color:#94a3b8}
+  .scard h3 .chip svg{width:16px;height:16px}
+  .scard ul{margin-top:16px;display:grid;gap:12px}
+  .scard li{display:flex;gap:10px;font-size:14px;line-height:1.65;color:#44546a;min-width:0}
+  .scard li .ic{flex:none;width:17px;height:17px;margin-top:3px;color:var(--green)}
+  .scard.dont li .ic{color:#94a3b8}
+  .scard li b{color:var(--ink);font-weight:800}
+  .scard .foot{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--muted);line-height:1.65}
+  .scope-img{margin-top:20px;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:20px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+  .scope-img img{width:100%;height:100%;max-height:320px;object-fit:cover;min-height:210px}
+  .scope-img .si-body{padding:24px 26px 24px 6px;min-width:0}
+  .scope-img h3{font-size:18px;font-weight:800;color:var(--navy)}
+  .scope-img p{margin-top:9px;font-size:14px;color:#52637a;line-height:1.72}
+
+  /* ── steps ─────────────────────────────── */
+  .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;counter-reset:st}
+  .step{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px;position:relative;box-shadow:var(--shadow-sm);min-width:0}
+  .step .sn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--navy);color:#fff;font-size:13px;font-weight:800;font-family:var(--mono);margin-bottom:14px}
+  .step h3{font-size:15px;font-weight:800;color:var(--navy)}
+  .step p{margin-top:7px;font-size:13.5px;color:#52637a;line-height:1.65}
+  .step p b{color:var(--ink);font-weight:700}
+
+  /* ── faq ───────────────────────────────── */
+  .faq{max-width:860px}
+  .fitem{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
+  .fitem summary{
+    cursor:pointer;list-style:none;padding:16px 48px 16px 18px;font-size:15px;font-weight:700;color:var(--navy);
+    position:relative;line-height:1.5;
+  }
+  .fitem summary::-webkit-details-marker{display:none}
+  .fitem summary::after{
+    content:"";position:absolute;right:18px;top:50%;width:9px;height:9px;margin-top:-6px;
+    border-right:2px solid #94a3b8;border-bottom:2px solid #94a3b8;transform:rotate(45deg);transition:transform .2s;
+  }
+  .fitem[open] summary::after{transform:rotate(-135deg);margin-top:-2px}
+  .fitem summary:hover{background:#f8fafc}
+  .fitem .a{padding:0 18px 17px;font-size:14px;color:#52637a;line-height:1.75}
+  .fitem .a b{color:var(--ink)}
+  .fitem .a a{font-weight:700}
+
+  /* ── cta band ──────────────────────────── */
+  .cta{background:linear-gradient(160deg,#08192e,#12315c);position:relative;overflow:hidden;color:#dbe7f4}
+  .cta::after{content:"";position:absolute;width:520px;height:520px;left:-160px;bottom:-300px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.4),transparent 65%)}
+  .cta .wrap{position:relative;z-index:1;padding:58px 24px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
+  .cta h2{color:#fff;font-size:clamp(22px,2.8vw,28px);font-weight:800;letter-spacing:-.03em}
+  .cta p{margin-top:9px;font-size:14.5px;color:#b9cfe4;line-height:1.7;max-width:38em}
+  .cta .ca{display:flex;gap:10px;flex-wrap:wrap}
+  .cta .btn{padding:15px 24px;font-size:15.5px}
+
+  /* ── footer ────────────────────────────── */
+  footer{background:#06121f;color:#93a8bf;font-size:13.5px}
+  footer .wrap{padding-top:46px;padding-bottom:34px}
+  .f-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+  .f-brand{max-width:26em}
+  .f-brand .brand .bname{color:#fff}
+  .f-brand .brand .bsub{color:#64809c}
+  .f-brand .brand .mark{background:#12315c}
+  .f-brand p{margin-top:14px;line-height:1.75;color:#8fa6bd;font-size:13px}
+  .f-cols{display:flex;gap:52px;flex-wrap:wrap}
+  .f-cols h4{font-size:12px;font-weight:800;letter-spacing:.09em;color:#6f8bab;text-transform:uppercase;margin-bottom:12px}
+  .f-cols ul{display:grid;gap:7px}
+  .f-cols li{line-height:1.6}
+  .f-cols a{color:#d3e3f2;border-bottom:1px solid rgba(255,255,255,.14)}
+  .f-cols a:hover{color:#fff;text-decoration:none;border-bottom-color:var(--sky)}
+  .f-cols .big a{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
+  .f-intro{display:inline-flex;align-items:center;gap:7px;margin-top:6px;font-size:12.5px;color:#9fc3e2;border:1px solid rgba(127,208,255,.28);border-radius:8px;padding:7px 11px;background:rgba(127,208,255,.05)}
+  .f-intro:hover{text-decoration:none;background:rgba(127,208,255,.12);color:#fff}
+  .f-intro svg{width:13px;height:13px}
+  .f-bottom{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:34px;padding-top:20px;border-top:1px solid rgba(255,255,255,.09);font-size:12px;color:#6d839b}
+  .f-bottom .mono{font-family:var(--mono);letter-spacing:-.01em}
+
+  /* ── toast ─────────────────────────────── */
+  .toast{
+    position:fixed;left:50%;bottom:26px;transform:translate(-50%,18px);z-index:400;
+    background:#0b2545;color:#fff;border:1px solid rgba(127,208,255,.34);border-radius:12px;
+    padding:13px 18px;font-size:13.5px;font-weight:700;box-shadow:0 20px 40px -16px rgba(0,0,0,.55);
+    display:flex;align-items:center;gap:10px;max-width:min(92vw,460px);opacity:0;pointer-events:none;
+    transition:opacity .2s, transform .2s;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+  .toast svg{width:18px;height:18px;color:#7ee2a8;flex:none}
+
+  /* ── mobile bar ────────────────────────── */
+  .mbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:150;background:rgba(255,255,255,.97);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));gap:8px;backdrop-filter:blur(8px)}
+  .mbar .btn{flex:1;padding:13px 10px;font-size:14.5px}
+
+  /* ── responsive ────────────────────────── */
+  @media (min-width:1001px) and (min-height:900px){
+    .result{position:sticky;top:86px}
+  }
+  @media (max-width:1000px){
+    .hero .wrap{grid-template-columns:1fr;gap:38px}
+    .hero-visual{max-width:520px}
+    .prices{grid-template-columns:1fr 1fr}
+    .prices .pcard:last-child{grid-column:1/-1}
+    .calc-grid{grid-template-columns:1fr}
+    .result{position:static}
+    .steps{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:860px){
+    .nav{display:none}
+    .nav.open{display:flex;position:absolute;left:0;right:0;top:100%;background:#fff;flex-direction:column;align-items:stretch;gap:0;padding:8px 20px 14px;border-bottom:1px solid var(--line);box-shadow:0 16px 24px -20px rgba(11,37,69,.6)}
+    .nav.open a{padding:12px 4px;border-bottom:1px solid #f1f5f9;font-size:15px}
+    .navtoggle{display:grid;place-items:center}
+    .head-cta .btn-outline{display:none}
+    .site-header .wrap{gap:10px}
+    .brand{min-width:0}
+    .brand > span:last-child{min-width:0;overflow:hidden}
+    .head-cta .btn-kakao{padding:10px 13px;font-size:13.5px}
+    .trust .wrap{grid-template-columns:1fr 1fr}
+    .trust .ti{border-left:0;border-top:1px solid var(--line);padding:18px 0}
+    .trust .ti:nth-child(even){padding-left:18px;border-left:1px solid var(--line)}
+    .trust .ti:nth-child(1),.trust .ti:nth-child(2){border-top:0}
+    .scope{grid-template-columns:1fr}
+    .scope-img{grid-template-columns:1fr}
+    .scope-img img{min-height:180px;max-height:240px}
+    .scope-img .si-body{padding:22px 22px 24px}
+    .mbar{display:flex}
+    body{padding-bottom:72px}
+    .toast{bottom:84px}
+    .sec{padding:60px 0}
+  }
+  @media (max-width:700px){
+    .brand .bsub{display:none}
+    .brand .bname{font-size:17px}
+  }
+  @media (max-width:620px){
+    .wrap{padding:0 18px}
+    .hero .wrap{padding-top:44px;padding-bottom:52px}
+    .prices{grid-template-columns:1fr}
+    .prices .pcard:last-child{grid-column:auto}
+    .calc-body{padding:20px}
+    .calc-head{padding:0}
+    .result{padding:22px}
+    .steps{grid-template-columns:1fr}
+    .cta .wrap{padding:44px 18px}
+    .cta .ca{width:100%}
+    .cta .ca .btn{flex:1}
+    .f-cols{gap:34px}
+    .seg button{font-size:13.5px}
+    .numwrap input{font-size:18px}
+    .quick button{padding:9px 11px;font-size:13px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문으로 바로 가기</a>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="tb-left">
+      <span class="dot" aria-hidden="true"></span>
+      <span class="tb-txt">A4 양면 기준 <b>흑백 80원</b> · <b>컬러 140원</b> / 스프링 <b>2,000원</b></span>
+    </div>
+    <a href="https://open.kakao.com/o/sfGjlnVi" target="_blank" rel="noopener noreferrer">카톡 문의 →</a>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="동남시스템 스프링 제본·단체 출력 안내">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7fd0ff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 3v18M16 3v18"/><path d="M8 8h8M8 12h8M8 16h8"/>
+        </svg>
+      </span>
+      <span>
+        <span class="bname">동남시스템</span>
+        <span class="bsub">SPRING BINDING &amp; PRINT</span>
+      </span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="주요 메뉴">
+      <a href="#price">단가</a>
+      <a href="#calc">간편 견적</a>
+      <a href="#scope">작업 범위</a>
+      <a href="#process">진행 절차</a>
+      <a href="#faq">자주 묻는 질문</a>
+    </nav>
+
+    <div class="head-cta">
+      <a class="btn btn-outline btn-sm" href="#calc">견적 계산</a>
+      <a class="btn btn-kakao btn-sm" href="https://open.kakao.com/o/sfGjlnVi" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C6.9 3 2.8 6.3 2.8 10.3c0 2.5 1.5 4.7 3.8 6.2-.2.7-.8 2.3-.9 2.6 0 0-.1.3.2.4s.6-.1.6-.1c.4-.3 2.4-1.6 2.9-1.9.8.2 1.7.3 2.6.3 5.1 0 9.2-3.3 9.2-7.4S17.1 3 12 3z"/></svg>
+        카톡 문의
+      </a>
+      <button class="navtoggle" type="button" id="navtoggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="nav">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <span id="top"></span>
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="h1">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow"><span class="sq" aria-hidden="true"></span>학원 워크북 · 수험서 분권 · 단체 교재 전문</span>
+        <h1 id="h1">10권부터,<br>스프링 제본과 단체 출력을<br><span class="accent">한 권 단가로 바로 확인</span></h1>
+        <p class="lead">기말고사 워크북, 수험서 분권, 학원 교재처럼 <b>같은 원고를 여러 권</b> 찍어야 할 때 맞는 페이지입니다. A4 양면 기준 흑백 80원·컬러 140원, 스프링 권당 2,000원으로 계산하고 서울·수도권 인근은 직접 배송합니다.</p>
+        <div class="hero-actions">
+          <a class="btn btn-kakao" href="https://open.kakao.com/o/sfGjlnVi" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C6.9 3 2.8 6.3 2.8 10.3c0 2.5 1.5 4.7 3.8 6.2-.2.7-.8 2.3-.9 2.6 0 0-.1.3.2.4s.6-.1.6-.1c.4-.3 2.4-1.6 2.9-1.9.8.2 1.7.3 2.6.3 5.1 0 9.2-3.3 9.2-7.4S17.1 3 12 3z"/></svg>
+            카톡 오픈채팅으로 문의
+          </a>
+          <a class="btn btn-ghost" href="#calc">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 12h2M12 12h2M16 12h.01M8 16h2M12 16h2M16 16h.01"/></svg>
+            간편 견적 계산하기
+          </a>
+        </div>
+        <p class="hero-meta">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>최소 10권부터</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 3h13v13H1z"/><path d="M14 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></svg>인근 지역 무료 배송</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>문의 후 바로 견적</span>
+        </p>
+      </div>
+
+      <div class="hero-visual">
+        <figure class="hero-shot" style="margin:0">
+          <img src="assets/hero-spring-binding.jpg" width="1100" height="1100" alt="사무실에서 스프링 제본기와 복합기로 만든 워크북 여러 권이 가지런히 쌓인 모습" fetchpriority="high" decoding="async">
+          <figcaption class="price-float">
+            <div>
+              <div class="pf-k">스프링 제본</div>
+              <div class="pf-v">2,000<small>원 / 권</small></div>
+            </div>
+            <span class="pf-badge">10권부터</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section class="trust" aria-label="기본 안내">
+    <div class="wrap">
+      <div class="ti">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h12l4 4v12H4z"/><path d="M8 9h6M8 13h8"/></svg>
+        <div><div class="t-k">A4 양면 80 / 140원</div><div class="t-v">1장(2페이지) 기준, 흑백·컬러</div></div>
+      </div>
+      <div class="ti">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M5 8h14M5 16h14"/><rect x="3" y="5" width="18" height="14" rx="2"/></svg>
+        <div><div class="t-k">스프링 제본 2,000원</div><div class="t-v">권당, 와이어 스프링</div></div>
+      </div>
+      <div class="ti">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 3h13v13H1z"/><path d="M14 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></svg>
+        <div><div class="t-k">인근 지역 무료 배송</div><div class="t-v">기타 지역은 택배 협의</div></div>
+      </div>
+      <div class="ti">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg>
+        <div><div class="t-k">단체·소량 교재 전문</div><div class="t-v">10권 ~ 300권 구간</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICE -->
+  <section class="sec" id="price" aria-labelledby="h-price">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-eyebrow">Price</span>
+        <h2 id="h-price">단가는 세 가지뿐입니다</h2>
+        <p>페이지 수와 권수만 알려주시면 금액이 바로 나옵니다. 숨은 기본료나 세팅비 없이, 출력한 장수와 제본한 권수로만 계산합니다.</p>
+      </div>
+
+      <div class="prices">
+        <article class="pcard">
+          <span class="pc-tag">흑백</span>
+          <h3>A4 양면 흑백 출력</h3>
+          <div class="pv"><span class="n num">80</span><span class="u">원 / 장</span></div>
+          <p class="pnote">양면 1장에 2페이지가 들어갑니다. 문제집·워크북처럼 흑백 원고에 맞는 기본 단가입니다.</p>
+          <div class="pfoot">예) 200페이지 원고 = 100장 → 1권 8,000원</div>
+        </article>
+
+        <article class="pcard hl">
+          <span class="pc-tag">컬러</span>
+          <h3>A4 양면 컬러 출력</h3>
+          <div class="pv"><span class="n num">140</span><span class="u">원 / 장</span></div>
+          <p class="pnote">표지·도표·삽화가 들어간 교재에 맞는 단가입니다. 흑백 페이지와 섞여 있으면 장수를 나눠 계산합니다.</p>
+          <div class="pfoot">예) 200페이지 원고 = 100장 → 1권 14,000원</div>
+        </article>
+
+        <article class="pcard">
+          <span class="pc-tag">제본</span>
+          <h3>스프링(와이어) 제본</h3>
+          <div class="pv"><span class="n num">2,000</span><span class="u">원 / 권</span></div>
+          <p class="pnote">출력한 원고를 와이어 스프링으로 묶어 넘김이 편한 책 형태로 만들어 드립니다. 표지 출력은 원고에 포함해서 보내주세요.</p>
+          <div class="pfoot">인쇄만 원하시면 제본 옵션을 끄고 계산하세요.</div>
+        </article>
+      </div>
+
+      <div class="prices-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <p>금액은 <b>A4 일반 복사용지 양면 출력 + 와이어 스프링 제본</b> 기준입니다. 용지 종류 변경, 별도 표지, 코팅처럼 사양이 달라지는 경우에는 카톡으로 먼저 문의해 주세요. 배송은 서울·수도권 인근 지역 직접 배송 무료, 그 외 지역은 택배로 협의합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section class="sec alt" id="calc" aria-labelledby="h-calc">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-eyebrow">Quote</span>
+        <h2 id="h-calc">간편 견적 계산기</h2>
+        <p>총 페이지 수와 권수만 넣어 보세요. 금액이 바로 나오고, 그대로 복사해 카톡으로 보내면 상담이 빨라집니다.</p>
+      </div>
+
+      <div class="calc-grid">
+        <div class="calc">
+          <div class="calc-body">
+            <div class="field">
+              <div class="f-label">
+                <span class="l">1. 인쇄 종류</span>
+                <span class="h">A4 양면 기준</span>
+              </div>
+              <div class="seg" role="group" aria-label="인쇄 종류 선택">
+                <button type="button" data-ink="bw" aria-pressed="true">흑백 양면<small>80원 / 장</small></button>
+                <button type="button" data-ink="color" aria-pressed="false">컬러 양면<small>140원 / 장</small></button>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="f-label">
+                <span class="l">2. 분량</span>
+                <span class="h">총 페이지 수 또는 장수</span>
+              </div>
+              <div class="seg small" role="group" aria-label="분량 단위 선택" style="margin-bottom:10px">
+                <button type="button" data-unit="page" aria-pressed="true">페이지(p)</button>
+                <button type="button" data-unit="sheet" aria-pressed="false">장(양면)</button>
+              </div>
+              <div class="inputrow">
+                <div class="numwrap">
+                  <input type="number" id="amount" inputmode="numeric" min="1" max="5000" step="1" value="200" aria-describedby="conv">
+                  <span class="unit" id="amountUnit">페이지</span>
+                </div>
+              </div>
+              <p class="conv" id="conv">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                <span id="convText">200페이지 = A4 양면 100장</span>
+              </p>
+            </div>
+
+            <div class="field">
+              <div class="f-label">
+                <span class="l">3. 수량</span>
+                <span class="h">최소 10권부터</span>
+              </div>
+              <div class="inputrow">
+                <div class="numwrap" style="flex:1 1 130px">
+                  <input type="number" id="copies" inputmode="numeric" min="1" max="1000" step="1" value="30" aria-label="제작 권수">
+                  <span class="unit">권</span>
+                </div>
+                <div class="quick" role="group" aria-label="권수 빠른 선택" style="flex:2 1 210px">
+                  <button type="button" data-copies="10">10권</button>
+                  <button type="button" data-copies="30" aria-pressed="true">30권</button>
+                  <button type="button" data-copies="50">50권</button>
+                  <button type="button" data-copies="100">100권</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="f-label">
+                <span class="l">4. 스프링 제본</span>
+                <span class="h">권당 2,000원</span>
+              </div>
+              <label class="check" for="bind">
+                <input type="checkbox" id="bind" checked>
+                <span>
+                  <span class="c-t">스프링 제본 포함 <small>2,000원 / 권</small></span>
+                  <span class="c-s">체크를 끄면 인쇄만 계산합니다.</span>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="result" aria-live="polite" aria-atomic="true">
+          <div class="r-head">
+            <span>예상 견적</span>
+            <span class="live"><i aria-hidden="true"></i>실시간 계산</span>
+          </div>
+
+          <div class="total">
+            <div class="tl">총 금액</div>
+            <div class="tv"><span class="n num" id="totalNum">300,000</span><span class="won">원</span></div>
+            <div class="per">권당 <b id="perCopy">10,000원</b> · <span id="summaryLine">흑백 200p × 30권</span></div>
+          </div>
+
+          <div class="lines">
+            <div class="line">
+              <span class="lk">인쇄비<em id="printDetail">100장 × 30권 × 80원</em></span>
+              <span class="lv num" id="printCost">240,000원</span>
+            </div>
+            <div class="line">
+              <span class="lk">제본비<em id="bindDetail">2,000원 × 30권</em></span>
+              <span class="lv num" id="bindCost">60,000원</span>
+            </div>
+            <div class="line ship">
+              <span class="lk">배송<em>서울·수도권 인근 직접 배송</em></span>
+              <span class="lv" id="shipCost">무료</span>
+            </div>
+          </div>
+
+          <div class="minwarn" id="minwarn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+            <span>스프링 제본은 <b>10권 이상</b>부터 진행합니다. 권수를 10권 이상으로 올려 주세요.</span>
+          </div>
+
+          <details class="preview">
+            <summary>복사될 견적 문구 미리보기</summary>
+            <pre id="previewText">견적을 계산하면 여기에 표시됩니다.</pre>
+          </details>
+
+          <button type="button" class="btn btn-kakao btn-block" id="copyOpen">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C6.9 3 2.8 6.3 2.8 10.3c0 2.5 1.5 4.7 3.8 6.2-.2.7-.8 2.3-.9 2.6 0 0-.1.3.2.4s.6-.1.6-.1c.4-.3 2.4-1.6 2.9-1.9.8.2 1.7.3 2.6.3 5.1 0 9.2-3.3 9.2-7.4S17.1 3 12 3z"/></svg>
+            견적 복사 + 오픈채팅 문의
+          </button>
+          <button type="button" class="btn btn-copyonly btn-block btn-sm" id="copyOnly">
+            견적 문구만 복사
+          </button>
+          <p class="r-foot">* 표시 금액은 위 단가 기준 예상치입니다. 원고 상태(페이지 수·컬러 장수)에 따라 최종 견적이 조금 달라질 수 있습니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCOPE -->
+  <section class="sec" id="scope" aria-labelledby="h-scope">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-eyebrow">Scope</span>
+        <h2 id="h-scope">이런 작업을 합니다</h2>
+        <p>대형 인쇄소가 맡기 어려워하는 50~300권 구간의 교재·보고서를 사무실 복합기와 스프링 제본기로 직접 처리합니다.</p>
+      </div>
+
+      <div class="scope">
+        <article class="scard do">
+          <h3><span class="chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>잘 맞는 작업</h3>
+          <ul>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>학원 기말고사 워크북</b> — 같은 원고를 반별·학생 수만큼 찍어 제본</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>수험서 분권</b> — 두꺼운 교재를 단원별로 나눠 스프링으로 묶기</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>10권 이상 단체 작업</b> — 학교·학원·동아리·행사 자료</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>50~300권 소량 교재·보고서</b> — 대형 인쇄소가 받기 애매한 수량</span></li>
+          </ul>
+          <p class="foot">권수가 많을수록 작업 일정을 넉넉히 잡는 편이 좋습니다. 마감일이 있으면 문의할 때 먼저 알려주세요.</p>
+        </article>
+
+        <article class="scard dont">
+          <h3><span class="chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"/></svg></span>어려운 작업</h3>
+          <ul>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg><span><b>1~2권 낱권</b> — 스프링 값이 나오지 않아 단가를 맞추기 어렵습니다</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg><span><b>수천 부 옵셋 인쇄 카탈로그</b> — 사무용 복합기와 스프링 제본 장비의 범위 밖입니다</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg><span><b>무선(떡) 제본·양장 제본</b> — 스프링 제본만 합니다</span></li>
+          </ul>
+          <p class="foot">애매한 수량이나 사양은 그냥 물어보셔도 됩니다. 가능한 방법이 있으면 솔직하게 안내드립니다.</p>
+        </article>
+      </div>
+
+      <div class="scope-img">
+        <img src="assets/stack-spring-books.jpg" width="820" height="580" alt="스프링 제본이 끝난 워크북이 열 권 이상 가지런히 쌓인 모습" loading="lazy" decoding="async">
+        <div class="si-body">
+          <h3>한 권씩 똑같이, 넘김이 편하게</h3>
+          <p>같은 원고를 여러 권 찍을 때 가장 중요한 건 권마다 인쇄 상태가 같은지입니다. 출력·제본을 한 곳에서 처리하기 때문에 페이지 순서와 스프링 위치가 어긋나는 일을 줄입니다. 서울 동대문구 사무실에서 직접 작업하고, 인근이면 직접 가져다 드립니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="sec alt" id="process" aria-labelledby="h-process">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-eyebrow">Process</span>
+        <h2 id="h-process">문의부터 수령까지 네 단계</h2>
+        <p>카톡 오픈채팅으로 원고 파일과 페이지 수·권수만 보내주시면 됩니다.</p>
+      </div>
+
+      <div class="steps">
+        <article class="step">
+          <span class="sn">01</span>
+          <h3>카톡으로 문의</h3>
+          <p>PDF 원고와 <b>총 페이지 수, 권수</b>를 보내주세요. 컬러 페이지가 섞여 있으면 함께 알려주세요.</p>
+        </article>
+        <article class="step">
+          <span class="sn">02</span>
+          <h3>견적 확정</h3>
+          <p>위 단가로 금액과 작업 일정을 정리해 드립니다. 수정할 부분이 있으면 이 단계에서 조정합니다.</p>
+        </article>
+        <article class="step">
+          <span class="sn">03</span>
+          <h3>출력·제본</h3>
+          <p>확정된 사양으로 출력하고 스프링으로 묶습니다. 작업이 끝나면 사진으로 먼저 확인해 드립니다.</p>
+        </article>
+        <article class="step">
+          <span class="sn">04</span>
+          <h3>수령</h3>
+          <p>인근 지역은 <b>직접 무료 배송</b>, 그 외 지역은 택배로 보내드립니다(협의). 사무실에서 직접 받으셔도 됩니다.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec" id="faq" aria-labelledby="h-faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-eyebrow">FAQ</span>
+        <h2 id="h-faq">자주 묻는 질문</h2>
+      </div>
+
+      <div class="faq">
+        <details class="fitem">
+          <summary>페이지 수는 어떻게 세나요?</summary>
+          <div class="a">A4 양면 1장에 <b>2페이지</b>가 들어갑니다. 원고의 총 페이지 수를 기준으로 장수를 계산하니, PDF 기준 페이지 수를 그대로 알려주시면 됩니다. 홀수 페이지는 1장으로 올림 처리합니다. 표지를 따로 넣으실 경우 표지 페이지도 포함해서 알려주세요.</div>
+        </details>
+        <details class="fitem">
+          <summary>흑백과 컬러가 섞여 있으면 어떻게 계산하나요?</summary>
+          <div class="a">컬러 장수와 흑백 장수를 나눠 각각 계산합니다. 예를 들어 100장 중 컬러가 20장이면 컬러 20장 × 140원, 흑백 80장 × 80원으로 합산합니다. 계산기에서는 한 가지 종류로 단순 계산한 뒤, 카톡에서 실제 장수로 다시 정리해 드립니다.</div>
+        </details>
+        <details class="fitem">
+          <summary>파일은 어떤 형식으로 보내나요?</summary>
+          <div class="a"><b>PDF</b>가 가장 정확합니다. 한글·워드·엑셀 원본만 있으신 경우에도 카톡으로 보내주시면 출력 가능한 형태인지 확인해 드립니다. 페이지 순서와 여백이 중요하면 PDF로 변환해서 보내주세요.</div>
+        </details>
+        <details class="fitem">
+          <summary>표지나 코팅도 되나요?</summary>
+          <div class="a">기본 사양은 <b>A4 일반 복사용지</b>입니다. 별도 표지, 용지 종류 변경, 코팅처럼 사양이 달라지는 작업은 카톡으로 상담해 주세요. 원고에 표지 페이지를 포함해 보내주시면 그대로 출력해 제본합니다.</div>
+        </details>
+        <details class="fitem">
+          <summary>10권 미만도 가능한가요?</summary>
+          <div class="a">스프링 제본은 <b>10권 이상</b> 단체 작업을 기준으로 단가를 잡았습니다. 1~2권 낱권은 제본 단가가 맞지 않아 어렵습니다. 인쇄 수량이 적어도 되는 경우에는 카톡으로 상황을 알려주세요.</div>
+        </details>
+        <details class="fitem">
+          <summary>배송은 어떻게 되나요?</summary>
+          <div class="a">서울·수도권 인근 지역은 <b>직접 배송 무료</b>입니다. 그 외 지역은 택배로 보내드리며 운임은 협의합니다. 사무실(서울 동대문구 답십리로48길 55 1층)에서 직접 수령하셔도 됩니다. 영업시간은 매일 10:00–18:00입니다.</div>
+        </details>
+        <details class="fitem">
+          <summary>작업 기간은 얼마나 걸리나요?</summary>
+          <div class="a">분량과 권수에 따라 달라집니다. 마감일이 정해져 있다면 문의할 때 <b>받아야 하는 날짜</b>를 먼저 알려주세요. 일정이 맞는지 확인한 뒤 견적과 함께 안내드립니다.</div>
+        </details>
+        <details class="fitem">
+          <summary>계산기 금액 그대로 결제하면 되나요?</summary>
+          <div class="a">계산기는 위 단가 기준 <b>예상 금액</b>입니다. 실제 원고의 컬러 장수, 표지 포함 여부, 배송 방법에 따라 최종 금액이 정해집니다. 확정 금액과 결제 방법은 카톡 상담에서 안내드립니다.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" aria-labelledby="h-cta">
+    <div class="wrap">
+      <div>
+        <h2 id="h-cta">원고만 있으면 견적은 1분</h2>
+        <p>페이지 수와 권수를 알려주시면 바로 금액을 계산해 드립니다. 계산기에서 나온 견적을 그대로 복사해 카톡에 붙여넣으셔도 됩니다.</p>
+      </div>
+      <div class="ca">
+        <a class="btn btn-kakao" href="https://open.kakao.com/o/sfGjlnVi" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C6.9 3 2.8 6.3 2.8 10.3c0 2.5 1.5 4.7 3.8 6.2-.2.7-.8 2.3-.9 2.6 0 0-.1.3.2.4s.6-.1.6-.1c.4-.3 2.4-1.6 2.9-1.9.8.2 1.7.3 2.6.3 5.1 0 9.2-3.3 9.2-7.4S17.1 3 12 3z"/></svg>
+          카톡 오픈채팅
+        </a>
+        <a class="btn btn-ghost" href="tel:0507-1472-3005">전화 상담</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-top">
+      <div class="f-brand">
+        <a class="brand" href="#top" aria-label="동남시스템 제본 안내 맨 위로">
+          <span class="mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#7fd0ff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 3v18M16 3v18"/><path d="M8 8h8M8 12h8M8 16h8"/></svg>
+          </span>
+          <span>
+            <span class="bname">동남시스템</span>
+            <span class="bsub">SPRING BINDING &amp; PRINT</span>
+          </span>
+        </a>
+        <p>서울 동대문구에서 복사기·복합기 렌탈과 유지보수를 하며, 사무실 복합기로 학원 워크북·수험서 분권·단체 교재의 출력과 스프링 제본을 직접 처리합니다.</p>
+        <a class="f-intro" href="../intro/">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14 21 3"/></svg>
+          복사기 렌탈·유지보수 안내 보기
+        </a>
+      </div>
+      <div class="f-cols">
+        <div>
+          <h4>문의</h4>
+          <ul>
+            <li class="big"><a href="https://open.kakao.com/o/sfGjlnVi" target="_blank" rel="noopener noreferrer">카톡 오픈채팅</a></li>
+            <li><a href="tel:0507-1472-3005">0507-1472-3005</a> (대표)</li>
+            <li><a href="tel:010-6787-3005">010-6787-3005</a> (휴대폰)</li>
+          </ul>
+        </div>
+        <div>
+          <h4>작업실 · 시간</h4>
+          <ul>
+            <li>서울 동대문구<br>답십리로48길 55 1층</li>
+            <li>매일 10:00 – 18:00</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span>© 2026 동남시스템. All rights reserved.</span>
+      <span class="mono">A4 양면 흑백 80 · 컬러 140 · 스프링 2,000</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mbar" aria-label="빠른 이동">
+  <a class="btn btn-outline" href="#calc">견적 계산</a>
+  <a class="btn btn-kakao" href="https://open.kakao.com/o/sfGjlnVi" target="_blank" rel="noopener noreferrer">카톡 문의</a>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+  <span id="toastMsg">견적을 복사했어요.</span>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "동남시스템",
+  "description": "서울·수도권 사무실 복사기·복합기 렌탈 및 유지보수, 학원 워크북·수험서 분권·단체 교재 스프링 제본과 출력",
+  "url": "https://hairuhaa.github.io/dongnam-app/binding/",
+  "image": "https://hairuhaa.github.io/dongnam-app/binding/assets/hero-spring-binding.jpg",
+  "telephone": "+82-507-1472-3005",
+  "priceRange": "₩",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "답십리로48길 55 1층",
+    "addressLocality": "동대문구, 서울",
+    "addressCountry": "KR"
+  },
+  "openingHours": "Mo-Su 10:00-18:00",
+  "makesOffer": [
+    {"@type": "Offer", "name": "A4 양면 흑백 출력", "price": "80", "priceCurrency": "KRW", "description": "A4 양면 1장(2페이지) 기준 장당"},
+    {"@type": "Offer", "name": "A4 양면 컬러 출력", "price": "140", "priceCurrency": "KRW", "description": "A4 양면 1장(2페이지) 기준 장당"},
+    {"@type": "Offer", "name": "스프링 제본", "price": "2000", "priceCurrency": "KRW", "description": "권당, 와이어 스프링"}
+  ]
+}
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  var OPENCHAT = 'https://open.kakao.com/o/sfGjlnVi';
+  var RATE = { bw: 80, color: 140 };
+  var BIND = 2000;
+  var MIN_COPIES = 10;
+
+  var state = { ink: 'bw', unit: 'page', amount: 200, copies: 30, bind: true };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var amountEl = $('amount');
+  var copiesEl = $('copies');
+  var bindEl = $('bind');
+  var amountUnitEl = $('amountUnit');
+  var convEl = $('conv');
+  var convTextEl = $('convText');
+  var totalNumEl = $('totalNum');
+  var perCopyEl = $('perCopy');
+  var summaryLineEl = $('summaryLine');
+  var printDetailEl = $('printDetail');
+  var printCostEl = $('printCost');
+  var bindDetailEl = $('bindDetail');
+  var bindCostEl = $('bindCost');
+  var shipCostEl = $('shipCost');
+  var minwarnEl = $('minwarn');
+  var previewEl = $('previewText');
+  var toastEl = $('toast');
+  var toastMsgEl = $('toastMsg');
+
+  function won(n) { return n.toLocaleString('ko-KR'); }
+
+  function clampInt(raw, min, max, fallback) {
+    var digits = String(raw == null ? '' : raw).replace(/[^\d]/g, '');
+    if (!digits) return min;
+    var n = parseInt(digits, 10);
+    if (isNaN(n)) return fallback;
+    if (n < min) return min;
+    if (n > max) return max;
+    return n;
+  }
+
+  function sheetsOf() {
+    return state.unit === 'page' ? Math.ceil(state.amount / 2) : state.amount;
+  }
+
+  function calc() {
+    var sheets = sheetsOf();
+    var copies = state.copies;
+    var rate = RATE[state.ink];
+    var printCost = sheets * copies * rate;
+    var bindCost = state.bind ? BIND * copies : 0;
+    var total = printCost + bindCost;
+    var perCopy = copies > 0 ? Math.round(total / copies) : 0;
+    return {
+      sheets: sheets, copies: copies, rate: rate,
+      printCost: printCost, bindCost: bindCost, total: total, perCopy: perCopy
+    };
+  }
+
+  function inkLabel() { return state.ink === 'color' ? '컬러' : '흑백'; }
+
+  function buildSummary(c) {
+    var lines = [];
+    var volume = state.unit === 'page'
+      ? '총 ' + won(state.amount) + '페이지 (권당 A4 양면 ' + won(c.sheets) + '장)'
+      : '총 A4 양면 ' + won(state.amount) + '장 (' + won(state.amount * 2) + '페이지)';
+    lines.push('[동남시스템 스프링 제본 견적]');
+    lines.push('· 인쇄: ' + inkLabel() + ' 양면 ' + won(c.rate) + '원/장 · ' + won(c.sheets) + '장 × ' + won(c.copies) + '권');
+    lines.push('· 분량: ' + volume);
+    lines.push('· 제본: ' + (state.bind ? '스프링 ' + won(BIND) + '원/권 × ' + won(c.copies) + '권' : '없음 (인쇄만)'));
+    lines.push('· 인쇄비 ' + won(c.printCost) + '원' + (state.bind ? ' + 제본비 ' + won(c.bindCost) + '원' : ''));
+    lines.push('· 총 ' + won(c.total) + '원 (권당 ' + won(c.perCopy) + '원)');
+    lines.push('· 배송: 서울·수도권 인근 무료 (기타 지역 협의)');
+    lines.push('');
+    lines.push('위 내용으로 견적 문의드립니다.');
+    lines.push(OPENCHAT);
+    return lines.join('\n');
+  }
+
+  function render() {
+    var c = calc();
+
+    amountUnitEl.textContent = state.unit === 'page' ? '페이지' : '장';
+
+    if (state.unit === 'page') {
+      convTextEl.textContent = won(state.amount) + '페이지 = A4 양면 ' + won(c.sheets) + '장';
+    } else {
+      convTextEl.textContent = 'A4 양면 ' + won(state.amount) + '장 = ' + won(state.amount * 2) + '페이지';
+    }
+    convEl.classList.remove('warn');
+
+    totalNumEl.textContent = won(c.total);
+    perCopyEl.textContent = won(c.perCopy) + '원';
+    summaryLineEl.textContent = inkLabel() + ' ' + won(state.amount) + (state.unit === 'page' ? 'p' : '장') + ' × ' + won(c.copies) + '권';
+
+    printDetailEl.textContent = won(c.sheets) + '장 × ' + won(c.copies) + '권 × ' + won(c.rate) + '원';
+    printCostEl.textContent = won(c.printCost) + '원';
+    if (state.bind) {
+      bindDetailEl.textContent = won(BIND) + '원 × ' + won(c.copies) + '권';
+      bindCostEl.textContent = won(c.bindCost) + '원';
+    } else {
+      bindDetailEl.textContent = '제본 옵션 없음 — 인쇄만';
+      bindCostEl.textContent = '0원';
+    }
+    shipCostEl.textContent = '무료';
+
+    if (state.bind && c.copies < MIN_COPIES) {
+      minwarnEl.classList.add('on');
+    } else {
+      minwarnEl.classList.remove('on');
+    }
+
+    previewEl.textContent = buildSummary(c);
+  }
+
+  /* 인쇄 종류 */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-ink]'), function (b) {
+    b.addEventListener('click', function () {
+      state.ink = b.getAttribute('data-ink');
+      Array.prototype.forEach.call(document.querySelectorAll('[data-ink]'), function (x) {
+        x.setAttribute('aria-pressed', String(x === b));
+      });
+      render();
+    });
+  });
+
+  /* 단위 */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-unit]'), function (b) {
+    b.addEventListener('click', function () {
+      var next = b.getAttribute('data-unit');
+      if (next === state.unit) return;
+      if (next === 'sheet') {
+        state.amount = Math.ceil(state.amount / 2);
+      } else {
+        state.amount = state.amount * 2;
+      }
+      state.unit = next;
+      amountEl.value = state.amount;
+      Array.prototype.forEach.call(document.querySelectorAll('[data-unit]'), function (x) {
+        x.setAttribute('aria-pressed', String(x === b));
+      });
+      render();
+    });
+  });
+
+  /* 분량 */
+  amountEl.addEventListener('input', function () {
+    state.amount = clampInt(amountEl.value, 1, 5000, state.amount);
+    render();
+  });
+  amountEl.addEventListener('blur', function () {
+    amountEl.value = state.amount;
+  });
+
+  /* 권수 */
+  copiesEl.addEventListener('input', function () {
+    state.copies = clampInt(copiesEl.value, 1, 1000, state.copies);
+    syncQuick();
+    render();
+  });
+  copiesEl.addEventListener('blur', function () {
+    copiesEl.value = state.copies;
+  });
+
+  function syncQuick() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-copies]'), function (b) {
+      b.setAttribute('aria-pressed', String(parseInt(b.getAttribute('data-copies'), 10) === state.copies));
+    });
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copies]'), function (b) {
+    b.addEventListener('click', function () {
+      state.copies = parseInt(b.getAttribute('data-copies'), 10);
+      copiesEl.value = state.copies;
+      syncQuick();
+      render();
+    });
+  });
+
+  /* 제본 */
+  bindEl.addEventListener('change', function () {
+    state.bind = bindEl.checked;
+    render();
+  });
+
+  /* 클립보드 */
+  function legacyCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '-1000px';
+    ta.style.left = '0';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, ta.value.length);
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).then(function () { return true; }).catch(function () {
+        return legacyCopy(text);
+      });
+    }
+    return Promise.resolve(legacyCopy(text));
+  }
+
+  var toastTimer = null;
+  function toast(msg) {
+    toastMsgEl.textContent = msg;
+    toastEl.classList.add('show');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 3600);
+  }
+
+  /* 견적 복사 + 오픈채팅 */
+  $('copyOpen').addEventListener('click', function () {
+    var text = buildSummary(calc());
+
+    // 클릭 이벤트 안에서 먼저 새 창을 열어 팝업 차단을 피하고,
+    // 복사는 비동기로 진행해 완료되면 안내한다.
+    var win = window.open(OPENCHAT, '_blank');
+    var blocked = !win;
+    if (win) { try { win.opener = null; } catch (err) {} }
+
+    copyText(text).then(function (ok) {
+      if (ok) {
+        toast(blocked
+          ? '견적은 복사했어요. 새 창이 막혀 있으면 카톡 문의 버튼을 눌러 주세요.'
+          : '견적을 복사했어요. 카톡 오픈채팅에 붙여넣어 주세요.');
+      } else {
+        toast(blocked
+          ? '새 창이 막혔어요. 아래 카톡 문의 버튼을 눌러 주세요.'
+          : '복사가 막혔어요. "미리보기"에서 직접 복사해 주세요.');
+      }
+    });
+  });
+
+  $('copyOnly').addEventListener('click', function () {
+    copyText(buildSummary(calc())).then(function (ok) {
+      toast(ok ? '견적 문구를 복사했어요.' : '복사가 막혔어요. "미리보기"에서 직접 복사해 주세요.');
+    });
+  });
+
+  /* 모바일 메뉴 */
+  var nav = $('nav');
+  var navtoggle = $('navtoggle');
+  navtoggle.addEventListener('click', function () {
+    var open = nav.classList.toggle('open');
+    navtoggle.setAttribute('aria-expanded', String(open));
+    navtoggle.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+  });
+  Array.prototype.forEach.call(nav.querySelectorAll('a'), function (a) {
+    a.addEventListener('click', function () {
+      nav.classList.remove('open');
+      navtoggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* 초기 상태 */
+  amountEl.value = state.amount;
+  copiesEl.value = state.copies;
+  syncQuick();
+  render();
+})();
+</script>
+</body>
+</html>
